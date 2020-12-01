@@ -8,13 +8,18 @@
         Loaded="OnLoadedAsync">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="800*" MinWidth="800" />
+            <ColumnDefinition Width="100*" MinWidth="100" />
+            <ColumnDefinition Width="700*" MinWidth="700" />
             <ColumnDefinition Width="100*" MinWidth="100" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Button Name="Save" Grid.Row="1" Grid.Column="1" Margin="5">_Save</Button>
+        <Label Name="FolderLabel" Grid.Row="0" Grid.Column="0" Margin="5">_Folder</Label>
+        <TextBox Name="Folder" Grid.Row="0" Grid.Column="1" Margin="5" Padding="3,3,3,0"></TextBox>
+        <Button Name="SelectFolder" Grid.Row="0" Grid.Column="2" Margin="5">_...</Button>
+        <Button Name="Save" Grid.Row="2" Grid.Column="2" Margin="5">_Save</Button>
     </Grid>
 </Window>

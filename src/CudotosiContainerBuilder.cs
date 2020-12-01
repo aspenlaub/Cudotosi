@@ -11,7 +11,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     public static class CudotosiContainerBuilder {
         public static ContainerBuilder UseCudotosiVishizhukelNetAndPegh(this ContainerBuilder builder, CudotosiWindow cudotosiWindow) {
             builder.UseVishizhukelNetAndPegh(new DummyCsArgumentPrompter());
-            builder.RegisterInstance(cudotosiWindow);
+            builder.RegisterInstance(cudotosiWindow).As<IFolderDialog>();
             builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler>().SingleInstance();
             builder.RegisterType<CudotosiApplicationModel>().As<CudotosiApplicationModel>().As<ICudotosiApplicationModel>().As<IApplicationModel>().As<IBusy>().SingleInstance();
             builder.RegisterType<CudotosiGuiAndApplicationSynchronizer>().WithParameter((p, c) => p.ParameterType == typeof(CudotosiWindow), (p, c) => cudotosiWindow).As<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>>();

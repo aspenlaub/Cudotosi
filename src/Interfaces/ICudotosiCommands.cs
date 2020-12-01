@@ -2,6 +2,7 @@
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
     public interface ICudotosiCommands {
+        ICommand SelectFolderCommand { get; set; }
         ICommand SaveCommand { get; set; }
     }
 }

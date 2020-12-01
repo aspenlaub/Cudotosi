@@ -2,8 +2,10 @@
 using System.Windows;
 using System.Windows.Automation;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 using Autofac;
+using Ookii.Dialogs.Wpf;
 using IContainer = Autofac.IContainer;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
@@ -11,7 +13,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
     /// Interaction logic for CudotosiWindow.xaml
     /// </summary>
     // ReSharper disable once UnusedMember.Global
-    public partial class CudotosiWindow {
+    public partial class CudotosiWindow : IFolderDialog {
         private static IContainer Container { get; set; }
 
         private CudotosiApplication vCudotosiApp;
@@ -43,7 +45,18 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
             var buttonNameToCommandMapper = Container.Resolve<IButtonNameToCommandMapper>();
 
             var commands = vCudotosiApp.Commands;
+            guiToAppGate.WireButtonAndCommand(SelectFolder, commands.SelectFolderCommand, buttonNameToCommandMapper);
             guiToAppGate.WireButtonAndCommand(Save, commands.SaveCommand, buttonNameToCommandMapper);
+
+            guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => vCudotosiApp.FolderTextChangedAsync(t));
+        }
+
+        public string PromptForFolder(string folder) {
+            var folderBrowserDialog = new VistaFolderBrowserDialog {
+                SelectedPath = folder,
+                ShowNewFolderButton = true
+            };
+            return folderBrowserDialog.ShowDialog() != true ? folder : folderBrowserDialog.SelectedPath;
         }
     }
 }
