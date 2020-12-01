@@ -48,7 +48,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
             guiToAppGate.WireButtonAndCommand(SelectFolder, commands.SelectFolderCommand, buttonNameToCommandMapper);
             guiToAppGate.WireButtonAndCommand(Save, commands.SaveCommand, buttonNameToCommandMapper);
 
-            guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => vCudotosiApp.FolderTextChangedAsync(t));
+            guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => vCudotosiApp.Handlers.FolderTextHandler.TextChangedAsync(t));
         }
 
         public string PromptForFolder(string folder) {

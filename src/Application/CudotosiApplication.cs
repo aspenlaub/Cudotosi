@@ -7,7 +7,7 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Application;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
-    public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>, ICudotosiApplicationModel>, ICudotosiApplication {
+    public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>, ICudotosiApplicationModel> {
         public ICudotosiHandlers Handlers { get; private set; }
         public ICudotosiCommands Commands { get; private set; }
         private readonly IFolderDialog vFolderDialog;
@@ -26,23 +26,21 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         }
 
         public override void RegisterTypes() {
-            Handlers = new CudotosiHandlers();
+            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this);
+            var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
+            Handlers = new CudotosiHandlers {
+                FolderTextHandler = folderTextHandler,
+                JpgFileSelectorHandler = jpgFileSelectorHandler
+            };
             Commands = new CudotosiCommands {
-                SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, this),
+                SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, folderTextHandler),
                 SaveCommand = new SaveCommand(Model)
             };
         }
 
         public override async Task OnLoadedAsync() {
-            await FolderTextChangedAsync(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
+            await Handlers.FolderTextHandler.TextChangedAsync(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
             await base.OnLoadedAsync();
-        }
-
-        public async Task FolderTextChangedAsync(string text) {
-            if (Model.Folder.Text == text) { return; }
-
-            Model.Folder.Text = text;
-            await EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }
     }
 }

@@ -6,12 +6,12 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
     public class SelectFolderCommand : ICommand {
         private readonly ICudotosiApplicationModel vModel;
         private readonly IFolderDialog vFolderDialog;
-        private readonly IFolderUpdater vFolderUpdater;
+        private readonly ISimpleTextHandler vFolderTextHandler;
 
-        public SelectFolderCommand(ICudotosiApplicationModel model, IFolderDialog folderDialog, IFolderUpdater folderUpdater) {
+        public SelectFolderCommand(ICudotosiApplicationModel model, IFolderDialog folderDialog, ISimpleTextHandler folderTextHandler) {
             vModel = model;
             vFolderDialog = folderDialog;
-            vFolderUpdater = folderUpdater;
+            vFolderTextHandler = folderTextHandler;
         }
 
         public async Task ExecuteAsync() {
@@ -19,7 +19,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
                 return;
             }
 
-            await vFolderUpdater.FolderTextChangedAsync(vFolderDialog.PromptForFolder(vModel.Folder.Text));
+            await vFolderTextHandler.TextChangedAsync(vFolderDialog.PromptForFolder(vModel.Folder.Text));
         }
 
         public async Task<bool> ShouldBeEnabledAsync() {
