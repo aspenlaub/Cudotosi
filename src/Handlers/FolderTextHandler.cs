@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Enums;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
@@ -18,6 +20,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             if (vModel.Folder.Text == text) { return; }
 
             vModel.Folder.Text = text;
+            vModel.Folder.Type = Directory.Exists(text) ? StatusType.None : StatusType.Error;
             await vJpgFileSelectorHandler.UpdateSelectableValuesAsync();
             await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }

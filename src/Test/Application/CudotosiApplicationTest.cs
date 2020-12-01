@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Aspenlaub.Net.GitHub.CSharp.Pegh.Components;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Extensions;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Enums;
 using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -57,6 +59,18 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
             var shortFileNames = vModel.JpgFile.Selectables.Select(s => s.Name).ToList();
             Assert.AreEqual(1, shortFileNames.Count);
             Assert.AreEqual(nameof(Properties.Resources.SamplePicture_XL) + ".jpg", shortFileNames[0]);
+        }
+
+        [TestMethod]
+        public async Task JpgFileComboContainsNoFileWhenEnteredFolderDoesNotExist() {
+            var folderDialog = vContainer.Resolve<IFolderDialog>() as FakeFolderDialog;
+            Assert.IsNotNull(folderDialog);
+            var folder = Guid.NewGuid().ToString();
+            folderDialog.FolderToReturn = folder;
+            await vApplication.Commands.SelectFolderCommand.ExecuteAsync();
+            Assert.AreEqual(folder, vModel.Folder.Text);
+            Assert.AreEqual(StatusType.Error, vModel.Folder.Type);
+            Assert.IsFalse(vModel.JpgFile.Selectables.Any());
         }
     }
 }
