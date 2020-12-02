@@ -18,7 +18,7 @@
     <VersionDays>$([System.DateTime]::UtcNow.Subtract($([System.DateTime]::Parse("2019-07-24"))).Days.ToString())</VersionDays>
     <VersionMinutes>$([System.Math]::Floor($([System.DateTime]::UtcNow.Subtract($([System.DateTime]::UtcNow.Date)).TotalMinutes)).ToString())</VersionMinutes>
     <Version>2.0.$(VersionDays).$(VersionMinutes)</Version>
-    <ApplicationIcon>GUI\cudotosi.ico</ApplicationIcon>
+    <ApplicationIcon>cudotosi.ico</ApplicationIcon>
     <StartupObject>Aspenlaub.Net.GitHub.CSharp.Cudotosi.CudotosiApp</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" />
@@ -38,6 +38,9 @@
     <Page Remove="CudotosiApp.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cudotosi.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="GUI\cudotosi.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
