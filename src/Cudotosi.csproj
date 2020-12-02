@@ -41,9 +41,6 @@
     <Content Include="cudotosi.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GUI\cudotosi.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Ookii.Dialogs.Wpf.NETCore" Version="2.2.1" />

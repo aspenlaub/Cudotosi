@@ -9,7 +9,7 @@ using Autofac;
 using Ookii.Dialogs.Wpf;
 using IContainer = Autofac.IContainer;
 
-namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
+namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     /// <summary>
     /// Interaction logic for CudotosiWindow.xaml
     /// </summary>
