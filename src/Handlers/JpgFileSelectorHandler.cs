@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Enums;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
@@ -11,10 +12,12 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class JpgFileSelectorHandler : ISimpleSelectorHandler {
         private readonly ICudotosiApplicationModel vModel;
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
+        private readonly IImageHandler vImageHandler;
 
-        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler) {
+        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IImageHandler imageHandler) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
+            vImageHandler = imageHandler;
         }
 
         public async Task UpdateSelectableValuesAsync() {
@@ -30,7 +33,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         }
 
         public async Task SelectedIndexChangedAsync(int selectedIndex) {
-            await Task.Delay(10); // TODO: replace
+            if (selectedIndex >= 0 && vModel.JpgFile.SelectedIndex == selectedIndex) { return; }
+
+            vModel.JpgFile.SelectedIndex = selectedIndex;
+            await vImageHandler.LoadFromFile(selectedIndex >= 0 ? new Folder(vModel.Folder.Text).FullName + @"\" + vModel.JpgFile.SelectedItem.Name : "");
         }
     }
 }

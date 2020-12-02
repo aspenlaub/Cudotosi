@@ -8,5 +8,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
 
         Button SelectFolder { get; }
         Button Save { get; }
+
+        IImage Picture { get; }
+        int MousePosX { get; set; }
+        int MousePosY { get; set; }
+        int PictureWidth { get; set; }
+        int PictureHeight { get; set; }
     }
 }

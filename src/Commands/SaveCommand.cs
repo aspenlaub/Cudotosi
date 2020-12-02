@@ -15,7 +15,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
                 return;
             }
 
-            await Task.Delay(10); // TODO: replace
+            await Task.Run(() => { }); // TODO: replace
         }
 
         public async Task<bool> ShouldBeEnabledAsync() {

@@ -26,11 +26,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         }
 
         public override void RegisterTypes() {
-            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this);
+            var pictureHandler = new PictureHandler(Model, this);
+            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler);
             var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
             Handlers = new CudotosiHandlers {
                 FolderTextHandler = folderTextHandler,
-                JpgFileSelectorHandler = jpgFileSelectorHandler
+                JpgFileSelectorHandler = jpgFileSelectorHandler,
+                PictureHandler = pictureHandler
             };
             Commands = new CudotosiCommands {
                 SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, folderTextHandler),

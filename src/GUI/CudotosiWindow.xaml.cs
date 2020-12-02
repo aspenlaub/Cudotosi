@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Input;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
@@ -49,6 +50,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
             guiToAppGate.WireButtonAndCommand(Save, commands.SaveCommand, buttonNameToCommandMapper);
 
             guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => vCudotosiApp.Handlers.FolderTextHandler.TextChangedAsync(t));
+            guiToAppGate.RegisterAsyncSelectorCallback(JpgFile, t => vCudotosiApp.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(t));
         }
 
         public string PromptForFolder(string folder) {
@@ -57,6 +59,15 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
                 ShowNewFolderButton = true
             };
             return folderBrowserDialog.ShowDialog() != true ? folder : folderBrowserDialog.SelectedPath;
+        }
+
+        private async void Picture_OnMouseDown(object sender, MouseButtonEventArgs e) {
+            var width = (int) Picture.ActualWidth;
+            var height = (int) Picture.ActualHeight;
+            var p = e.GetPosition(Picture);
+            var x = (int)(Picture.Source.Width * p.X / width);
+            var y = (int)(Picture.Source.Height * p.Y / height);
+            await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync(x, y, width, height);
         }
     }
 }
