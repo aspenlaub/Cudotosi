@@ -32,6 +32,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
             Handlers = new CudotosiHandlers {
                 FolderTextHandler = folderTextHandler,
                 JpgFileSelectorHandler = jpgFileSelectorHandler,
+                SourceSizeXlHandler = new SourceSizeXlHandler(Model),
+                SourceSizeLgHandler = new SourceSizeLgHandler(Model),
+                SourceSizeMdHandler = new SourceSizeMdHandler(Model),
+                SourceSizeSmHandler = new SourceSizeSmHandler(Model),
+                TargetSizeLgHandler = new TargetSizeLgHandler(Model),
+                TargetSizeMdHandler = new TargetSizeMdHandler(Model),
+                TargetSizeSmHandler = new TargetSizeSmHandler(Model),
+                TargetSizeXsHandler = new TargetSizeXsHandler(Model),
                 PictureHandler = pictureHandler
             };
             Commands = new CudotosiCommands {

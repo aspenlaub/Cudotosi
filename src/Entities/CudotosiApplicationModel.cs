@@ -9,6 +9,16 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
         public ITextBox Folder { get; } = new TextBox();
         public ISelector JpgFile { get; } = new ComboBox();
 
+        public ToggleButton SourceSizeXl { get; } = new ToggleButton("SourceSize") { IsChecked = true };
+        public ToggleButton SourceSizeLg { get; } = new ToggleButton("SourceSize");
+        public ToggleButton SourceSizeMd { get; } = new ToggleButton("SourceSize");
+        public ToggleButton SourceSizeSm { get; } = new ToggleButton("SourceSize");
+
+        public ToggleButton TargetSizeLg { get; } = new ToggleButton("SourceSize") { IsChecked = true };
+        public ToggleButton TargetSizeMd { get; } = new ToggleButton("SourceSize");
+        public ToggleButton TargetSizeSm { get; } = new ToggleButton("SourceSize");
+        public ToggleButton TargetSizeXs { get; } = new ToggleButton("SourceSize");
+
         public Button SelectFolder { get; } = new Button();
         public Button Save { get; } = new Button();
 

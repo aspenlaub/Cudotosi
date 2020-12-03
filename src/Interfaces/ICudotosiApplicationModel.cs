@@ -6,6 +6,16 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
         ITextBox Folder { get; }
         ISelector JpgFile { get; }
 
+        ToggleButton SourceSizeXl { get; }
+        ToggleButton SourceSizeLg { get; }
+        ToggleButton SourceSizeMd { get; }
+        ToggleButton SourceSizeSm { get; }
+
+        ToggleButton TargetSizeLg { get; }
+        ToggleButton TargetSizeMd { get; }
+        ToggleButton TargetSizeSm { get; }
+        ToggleButton TargetSizeXs { get; }
+
         Button SelectFolder { get; }
         Button Save { get; }
 
