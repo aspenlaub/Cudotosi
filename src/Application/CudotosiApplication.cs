@@ -29,8 +29,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         }
 
         protected override void CreateCommandsAndHandlers() {
-            var pictureHandler = new PictureHandler(Model, this);
-            var sourceSizeXlHandler = new SourceSizeXlHandler(Model);
+            var pictureHandler = new PictureHandler(Model, this, vJpgFileNameChanger);
+            var sourceSizeXlHandler = new SourceSizeXlHandler(Model, pictureHandler);
             var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, vJpgFileNameChanger);
             var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
             var targetSizeMdHandler = new TargetSizeMdHandler(Model);
@@ -40,9 +40,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 FolderTextHandler = folderTextHandler,
                 JpgFileSelectorHandler = jpgFileSelectorHandler,
                 SourceSizeXlHandler = sourceSizeXlHandler,
-                SourceSizeLgHandler = new SourceSizeLgHandler(Model, targetSizeMdHandler),
-                SourceSizeMdHandler = new SourceSizeMdHandler(Model, targetSizeSmHandler),
-                SourceSizeSmHandler = new SourceSizeSmHandler(Model, targetSizeXsHandler),
+                SourceSizeLgHandler = new SourceSizeLgHandler(Model, targetSizeMdHandler, pictureHandler),
+                SourceSizeMdHandler = new SourceSizeMdHandler(Model, targetSizeSmHandler, pictureHandler),
+                SourceSizeSmHandler = new SourceSizeSmHandler(Model, targetSizeXsHandler, pictureHandler),
                 TargetSizeLgHandler = new TargetSizeLgHandler(Model),
                 TargetSizeMdHandler = targetSizeMdHandler,
                 TargetSizeSmHandler = targetSizeSmHandler,

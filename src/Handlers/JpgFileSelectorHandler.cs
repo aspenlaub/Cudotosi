@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
-using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Enums;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
@@ -41,7 +40,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             if (selectedIndex >= 0 && vModel.JpgFile.SelectedIndex == selectedIndex) { return; }
 
             vModel.JpgFile.SelectedIndex = selectedIndex;
-            var fileName = selectedIndex >= 0 ? new Folder(vModel.Folder.Text).FullName + @"\" + vModel.JpgFile.SelectedItem.Name : "";
+            var fileName = vImageHandler.FileName();
             await vImageHandler.LoadFromFile(fileName);
             vModel.SourceSizeLg.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg));
             vModel.SourceSizeMd.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md));

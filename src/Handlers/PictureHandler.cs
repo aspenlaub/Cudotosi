@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class PictureHandler : IImageHandler {
         private readonly ICudotosiApplicationModel vModel;
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
+        private readonly IJpgFileNameChanger vJpgFileNameChanger;
 
-        public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler) {
+        public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
+            vJpgFileNameChanger = jpgFileNameChanger;
         }
 
         public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight) {
@@ -26,10 +30,21 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             await Task.Run(() => { }); // TODO: replace or remove
         }
 
+        public string FileName() {
+            return vModel.JpgFile.SelectedIndex >= 0 ? new Folder(vModel.Folder.Text).FullName + @"\" + vModel.JpgFile.SelectedItem.Name : "";
+        }
+
         public async Task LoadFromFile(string fileName) {
             if (fileName == "") {
                 vModel.Picture.BitmapImage = new BitmapImage();
             } else {
+                if (vModel.SourceSizeLg.IsChecked) {
+                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg);
+                } else if (vModel.SourceSizeMd.IsChecked) {
+                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md);
+                } else if (vModel.SourceSizeSm.IsChecked) {
+                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm);
+                }
                 var image = new BitmapImage();
                 image.BeginInit();
                 image.CacheOption = BitmapCacheOption.OnLoad;
