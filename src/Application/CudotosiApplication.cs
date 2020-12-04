@@ -11,13 +11,16 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         public ICudotosiHandlers Handlers { get; private set; }
         public ICudotosiCommands Commands { get; private set; }
         private readonly IFolderDialog vFolderDialog;
+        private readonly IJpgFileNameChanger vJpgFileNameChanger;
 
         public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper,
                 IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
                 ICudotosiApplicationModel model,
-                IFolderDialog folderDialog)
+                IFolderDialog folderDialog,
+                IJpgFileNameChanger jpgFileNameChanger)
             : base(buttonNameToCommandMapper, guiAndApplicationSynchronizer, model) {
             vFolderDialog = folderDialog;
+            vJpgFileNameChanger = jpgFileNameChanger;
         }
 
         protected override async Task EnableOrDisableButtonsAsync() {
@@ -28,7 +31,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         protected override void CreateCommandsAndHandlers() {
             var pictureHandler = new PictureHandler(Model, this);
             var sourceSizeXlHandler = new SourceSizeXlHandler(Model);
-            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler);
+            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, vJpgFileNameChanger);
             var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
             Handlers = new CudotosiHandlers {
                 FolderTextHandler = folderTextHandler,

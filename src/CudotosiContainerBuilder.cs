@@ -1,4 +1,5 @@
 ﻿using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
@@ -16,6 +17,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             builder.RegisterType<CudotosiApplicationModel>().As<CudotosiApplicationModel>().As<ICudotosiApplicationModel>().As<IApplicationModel>().As<IBusy>().SingleInstance();
             builder.RegisterType<CudotosiGuiAndApplicationSynchronizer>().WithParameter((p, c) => p.ParameterType == typeof(CudotosiWindow), (p, c) => cudotosiWindow).As<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>>();
             builder.RegisterType<CudotosiGuiToApplicationGate>().As<IGuiToApplicationGate>().SingleInstance();
+            builder.RegisterType<JpgFileNameChanger>().As<IJpgFileNameChanger>().SingleInstance();
 
             return builder;
         }

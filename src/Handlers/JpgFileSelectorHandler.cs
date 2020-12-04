@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;
@@ -14,12 +15,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
         private readonly IImageHandler vImageHandler;
         private readonly ISimpleToggleButtonHandler vSourceSizeXlHandler;
+        private readonly IJpgFileNameChanger vJpgFileNameChanger;
 
-        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IImageHandler imageHandler, ISimpleToggleButtonHandler sourceSizeXlHandler) {
+        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IImageHandler imageHandler, ISimpleToggleButtonHandler sourceSizeXlHandler, IJpgFileNameChanger jpgFileNameChanger) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
             vImageHandler = imageHandler;
             vSourceSizeXlHandler = sourceSizeXlHandler;
+            vJpgFileNameChanger = jpgFileNameChanger;
         }
 
         public async Task UpdateSelectableValuesAsync() {
@@ -38,7 +41,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             if (selectedIndex >= 0 && vModel.JpgFile.SelectedIndex == selectedIndex) { return; }
 
             vModel.JpgFile.SelectedIndex = selectedIndex;
-            await vImageHandler.LoadFromFile(selectedIndex >= 0 ? new Folder(vModel.Folder.Text).FullName + @"\" + vModel.JpgFile.SelectedItem.Name : "");
+            var fileName = selectedIndex >= 0 ? new Folder(vModel.Folder.Text).FullName + @"\" + vModel.JpgFile.SelectedItem.Name : "";
+            await vImageHandler.LoadFromFile(fileName);
+            vModel.SourceSizeLg.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg));
+            vModel.SourceSizeMd.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md));
+            vModel.SourceSizeSm.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm));
             await vSourceSizeXlHandler.ToggledAsync(true);
         }
     }
