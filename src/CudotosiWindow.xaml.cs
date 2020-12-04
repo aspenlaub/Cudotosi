@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
