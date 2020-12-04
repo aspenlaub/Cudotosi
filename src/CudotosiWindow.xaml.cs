@@ -31,15 +31,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             AutomationProperties.SetName(this, Name);
         }
 
-        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-        private void RegisterTypes() {
-            vCudotosiApp = Container.Resolve<CudotosiApplication>();
-            vCudotosiApp.RegisterTypes();
-        }
-
         private async void OnLoadedAsync(object sender, RoutedEventArgs e) {
-            RegisterTypes();
-
+            vCudotosiApp = Container.Resolve<CudotosiApplication>();
             await vCudotosiApp.OnLoadedAsync();
 
             var guiToAppGate = Container.Resolve<IGuiToApplicationGate>();

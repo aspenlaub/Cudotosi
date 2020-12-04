@@ -22,7 +22,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
         private ICudotosiApplicationModel vModel;
 
         [TestInitialize]
-        public void Initialize() {
+        public async Task Initialize() {
             vContainer = new ContainerBuilder()
                 .UseCudotosiVishizhukelNetAndPegh()
                 .Build();
@@ -30,8 +30,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
             Assert.IsNotNull(vApplication);
             vModel = vContainer.Resolve<ICudotosiApplicationModel>();
             Assert.IsNotNull(vModel);
-            vApplication.RegisterTypes();
-            vApplication.EnableOrDisableButtonsThenSyncGuiAndAppAsync().Wait();
+            await vApplication.OnLoadedAsync();
             vTestFolder = new Folder(Path.GetTempPath()).SubFolder(nameof(CudotosiApplicationTest));
             vTestFolder.CreateIfNecessary();
             Properties.Resources.SamplePicture_XL.Save(vTestFolder.FullName + @"\" + nameof(Properties.Resources.SamplePicture_XL) + ".jpg");

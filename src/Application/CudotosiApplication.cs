@@ -25,7 +25,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
             Model.Save.Enabled = await Commands.SaveCommand.ShouldBeEnabledAsync();
         }
 
-        public override void RegisterTypes() {
+        protected override void CreateCommandsAndHandlers() {
             var pictureHandler = new PictureHandler(Model, this);
             var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler);
             var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
@@ -49,8 +49,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         }
 
         public override async Task OnLoadedAsync() {
-            await Handlers.FolderTextHandler.TextChangedAsync(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
             await base.OnLoadedAsync();
+            await Handlers.FolderTextHandler.TextChangedAsync(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
         }
     }
 }
