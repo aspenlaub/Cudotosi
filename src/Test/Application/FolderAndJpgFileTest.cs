@@ -1,10 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
-using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Enums;
-using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
@@ -28,11 +25,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
 
         [TestMethod]
         public async Task JpgFileComboContainsAFileWhenTestFolderIsEntered() {
-            var folderDialog = Container.Resolve<IFolderDialog>() as FakeFolderDialog;
-            Assert.IsNotNull(folderDialog);
-            folderDialog.FolderToReturn = TestFolder.FullName;
-            await Application.Commands.SelectFolderCommand.ExecuteAsync();
-            Assert.AreEqual(TestFolder.FullName, Model.Folder.Text);
+            await SelectFolderAsync(TestFolder.FullName);
             var shortFileNames = Model.JpgFile.Selectables.Select(s => s.Name).ToList();
             Assert.AreEqual(1, shortFileNames.Count);
             Assert.AreEqual(nameof(Properties.Resources.SamplePicture_XL) + ".jpg", shortFileNames[0]);
@@ -40,14 +33,30 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
 
         [TestMethod]
         public async Task JpgFileComboContainsNoFileWhenEnteredFolderDoesNotExist() {
-            var folderDialog = Container.Resolve<IFolderDialog>() as FakeFolderDialog;
-            Assert.IsNotNull(folderDialog);
-            var folder = Guid.NewGuid().ToString();
-            folderDialog.FolderToReturn = folder;
-            await Application.Commands.SelectFolderCommand.ExecuteAsync();
-            Assert.AreEqual(folder, Model.Folder.Text);
+            await SelectFolderAsync(Guid.NewGuid().ToString());
             Assert.AreEqual(StatusType.Error, Model.Folder.Type);
             Assert.IsFalse(Model.JpgFile.Selectables.Any());
+        }
+
+        [TestMethod]
+        public async Task PictureIsUpdatedWhenFileIsChanged() {
+            await SelectFolderAsync(TestFolder.FullName);
+            Assert.IsFalse(HasBitmapBeenLoaded());
+            await Application.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(0);
+            Assert.IsTrue(HasBitmapBeenLoaded());
+        }
+
+        private bool HasBitmapBeenLoaded() {
+            double height;
+
+            try {
+                height = Model.Picture.BitmapImage.Height;
+            } catch (Exception e) {
+                Assert.IsTrue(e.Message.Contains("not been initialized"));
+                return false;
+            }
+
+            return height > 0;
         }
     }
 }

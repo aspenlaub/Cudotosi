@@ -27,12 +27,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
 
         protected override void CreateCommandsAndHandlers() {
             var pictureHandler = new PictureHandler(Model, this);
-            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler);
+            var sourceSizeXlHandler = new SourceSizeXlHandler(Model);
+            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler);
             var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
             Handlers = new CudotosiHandlers {
                 FolderTextHandler = folderTextHandler,
                 JpgFileSelectorHandler = jpgFileSelectorHandler,
-                SourceSizeXlHandler = new SourceSizeXlHandler(Model),
+                SourceSizeXlHandler = sourceSizeXlHandler,
                 SourceSizeLgHandler = new SourceSizeLgHandler(Model),
                 SourceSizeMdHandler = new SourceSizeMdHandler(Model),
                 SourceSizeSmHandler = new SourceSizeSmHandler(Model),

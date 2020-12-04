@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Components;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Extensions;
@@ -31,8 +32,18 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
         }
 
         public virtual void Cleanup() {
+            Assert.IsTrue(TestFolder.Exists());
             var deleter = new FolderDeleter();
+            Assert.IsTrue(deleter.CanDeleteFolder(TestFolder));
             deleter.DeleteFolder(TestFolder);
+        }
+
+        protected async Task SelectFolderAsync(string folder) {
+            var folderDialog = Container.Resolve<IFolderDialog>() as FakeFolderDialog;
+            Assert.IsNotNull(folderDialog);
+            folderDialog.FolderToReturn = folder;
+            await Application.Commands.SelectFolderCommand.ExecuteAsync();
+            Assert.AreEqual(folder, Model.Folder.Text);
         }
     }
 }

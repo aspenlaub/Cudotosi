@@ -13,11 +13,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         private readonly ICudotosiApplicationModel vModel;
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
         private readonly IImageHandler vImageHandler;
+        private readonly ISimpleToggleButtonHandler vSourceSizeXlHandler;
 
-        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IImageHandler imageHandler) {
+        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IImageHandler imageHandler, ISimpleToggleButtonHandler sourceSizeXlHandler) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
             vImageHandler = imageHandler;
+            vSourceSizeXlHandler = sourceSizeXlHandler;
         }
 
         public async Task UpdateSelectableValuesAsync() {
@@ -37,6 +39,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
 
             vModel.JpgFile.SelectedIndex = selectedIndex;
             await vImageHandler.LoadFromFile(selectedIndex >= 0 ? new Folder(vModel.Folder.Text).FullName + @"\" + vModel.JpgFile.SelectedItem.Name : "");
+            await vSourceSizeXlHandler.ToggledAsync(true);
         }
     }
 }

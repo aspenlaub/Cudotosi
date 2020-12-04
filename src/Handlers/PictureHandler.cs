@@ -27,7 +27,16 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         }
 
         public async Task LoadFromFile(string fileName) {
-            vModel.Picture.BitmapImage = fileName == "" ? new BitmapImage() : new BitmapImage(new Uri(fileName));
+            if (fileName == "") {
+                vModel.Picture.BitmapImage = new BitmapImage();
+            } else {
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = new Uri(fileName);
+                image.EndInit();
+                vModel.Picture.BitmapImage = image;
+            }
             await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }
     }
