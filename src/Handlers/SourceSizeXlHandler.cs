@@ -12,6 +12,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             if (Unchanged(isChecked)) { return; }
 
             SetChecked(isChecked);
+            if (isChecked) {
+                Model.TargetSizeLg.Enabled = true;
+                Model.TargetSizeMd.Enabled = true;
+                Model.TargetSizeSm.Enabled = true;
+                Model.TargetSizeXs.Enabled = true;
+            }
+
             await Task.Run(() => { });
         }
     }

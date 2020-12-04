@@ -9,15 +9,15 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
         public ITextBox Folder { get; } = new TextBox();
         public ISelector JpgFile { get; } = new ComboBox();
 
-        public ToggleButton SourceSizeXl { get; } = new ToggleButton("SourceSize") { IsChecked = true, Enabled = false };
+        public ToggleButton SourceSizeXl { get; } = new ToggleButton("SourceSize") { IsChecked = true, Enabled = true };
         public ToggleButton SourceSizeLg { get; } = new ToggleButton("SourceSize") { Enabled = false };
         public ToggleButton SourceSizeMd { get; } = new ToggleButton("SourceSize") { Enabled = false };
         public ToggleButton SourceSizeSm { get; } = new ToggleButton("SourceSize") { Enabled = false };
 
-        public ToggleButton TargetSizeLg { get; } = new ToggleButton("SourceSize") { IsChecked = true, Enabled = false };
-        public ToggleButton TargetSizeMd { get; } = new ToggleButton("SourceSize") { Enabled = false };
-        public ToggleButton TargetSizeSm { get; } = new ToggleButton("SourceSize") { Enabled = false };
-        public ToggleButton TargetSizeXs { get; } = new ToggleButton("SourceSize") { Enabled = false };
+        public ToggleButton TargetSizeLg { get; } = new ToggleButton("TargetSize") { IsChecked = true, Enabled = false };
+        public ToggleButton TargetSizeMd { get; } = new ToggleButton("TargetSize") { Enabled = false };
+        public ToggleButton TargetSizeSm { get; } = new ToggleButton("TargetSize") { Enabled = false };
+        public ToggleButton TargetSizeXs { get; } = new ToggleButton("TargetSize") { Enabled = false };
 
         public Button SelectFolder { get; } = new Button();
         public Button Save { get; } = new Button();

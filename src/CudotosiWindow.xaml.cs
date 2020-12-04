@@ -43,6 +43,16 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
 
             guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => vCudotosiApp.Handlers.FolderTextHandler.TextChangedAsync(t));
             guiToAppGate.RegisterAsyncSelectorCallback(JpgFile, t => vCudotosiApp.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(t));
+
+            guiToAppGate.RegisterAsyncToggleButtonCallback(SourceSizeXl, b => vCudotosiApp.Handlers.SourceSizeXlHandler.ToggledAsync(b));
+            guiToAppGate.RegisterAsyncToggleButtonCallback(SourceSizeLg, b => vCudotosiApp.Handlers.SourceSizeLgHandler.ToggledAsync(b));
+            guiToAppGate.RegisterAsyncToggleButtonCallback(SourceSizeMd, b => vCudotosiApp.Handlers.SourceSizeMdHandler.ToggledAsync(b));
+            guiToAppGate.RegisterAsyncToggleButtonCallback(SourceSizeSm, b => vCudotosiApp.Handlers.SourceSizeSmHandler.ToggledAsync(b));
+
+            guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeLg, b => vCudotosiApp.Handlers.TargetSizeLgHandler.ToggledAsync(b));
+            guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeMd, b => vCudotosiApp.Handlers.TargetSizeMdHandler.ToggledAsync(b));
+            guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeSm, b => vCudotosiApp.Handlers.TargetSizeSmHandler.ToggledAsync(b));
+            guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeXs, b => vCudotosiApp.Handlers.TargetSizeXsHandler.ToggledAsync(b));
         }
 
         public string PromptForFolder(string folder) {

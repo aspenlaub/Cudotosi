@@ -45,7 +45,7 @@
   <ItemGroup>
     <PackageReference Include="Ookii.Dialogs.Wpf.NETCore" Version="2.2.1" />
     <PackageReference Include="Vishizhukel" Version="2.0.479.1051" />
-    <PackageReference Include="VishizhukelNet" Version="2.0.499.436" />
+    <PackageReference Include="VishizhukelNet" Version="2.0.499.1017" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
