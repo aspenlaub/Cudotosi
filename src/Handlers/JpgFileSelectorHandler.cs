@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,9 +38,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         }
 
         public async Task SelectedIndexChangedAsync(int selectedIndex) {
-            if (selectedIndex >= 0 && vModel.JpgFile.SelectedIndex == selectedIndex) { return; }
+            var haveSelectedIndex = (selectedIndex >= 0);
+            if (haveSelectedIndex && vModel.JpgFile.SelectedIndex == selectedIndex) { return; }
 
             vModel.JpgFile.SelectedIndex = selectedIndex;
+            vModel.DestinationShapeAsIs.Enabled = haveSelectedIndex;
+            vModel.DestinationShapeSquare.Enabled = haveSelectedIndex;
+            vModel.TransformHowManyPercent100.Enabled = haveSelectedIndex;
+            vModel.TransformHowManyPercent50.Enabled = haveSelectedIndex;
             var fileName = vImageHandler.FileName();
             await vImageHandler.LoadFromFile(fileName);
             vModel.SourceSizeLg.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg));

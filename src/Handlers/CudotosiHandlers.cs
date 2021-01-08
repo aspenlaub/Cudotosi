@@ -16,6 +16,12 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         public ISimpleToggleButtonHandler TargetSizeSmHandler { get; set; }
         public ISimpleToggleButtonHandler TargetSizeXsHandler { get; set; }
 
+        public ISimpleToggleButtonHandler DestinationShapeAsIsHandler { get; set; }
+        public ISimpleToggleButtonHandler DestinationShapeSquareHandler { get; set; }
+
+        public ISimpleToggleButtonHandler TransformHowManyPercent100Handler { get; set; }
+        public ISimpleToggleButtonHandler TransformHowManyPercent50Handler { get; set; }
+
         public IImageHandler PictureHandler { get; set; }
     }
 }

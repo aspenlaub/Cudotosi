@@ -19,6 +19,12 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
         public ToggleButton TargetSizeSm { get; } = new ToggleButton("TargetSize") { Enabled = false };
         public ToggleButton TargetSizeXs { get; } = new ToggleButton("TargetSize") { Enabled = false };
 
+        public ToggleButton DestinationShapeAsIs { get; } = new ToggleButton("DestinationShape") { IsChecked = true, Enabled = false };
+        public ToggleButton DestinationShapeSquare { get; } = new ToggleButton("DestinationShape") { Enabled = false };
+
+        public ToggleButton TransformHowManyPercent100 { get; } = new ToggleButton("TransformHowManyPercent") { IsChecked = true, Enabled = false };
+        public ToggleButton TransformHowManyPercent50 { get; } = new ToggleButton("TransformHowManyPercent") { Enabled = false };
+
         public Button SelectFolder { get; } = new Button();
         public Button Save { get; } = new Button();
 

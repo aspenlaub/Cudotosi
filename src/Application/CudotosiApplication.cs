@@ -47,7 +47,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 TargetSizeMdHandler = targetSizeMdHandler,
                 TargetSizeSmHandler = targetSizeSmHandler,
                 TargetSizeXsHandler = targetSizeXsHandler,
-                PictureHandler = pictureHandler
+                PictureHandler = pictureHandler,
+                DestinationShapeAsIsHandler = new DestinationShapeAsIsHandler(Model),
+                DestinationShapeSquareHandler = new DestinationShapeSquareHandler(Model),
+                TransformHowManyPercent100Handler = new TransformHowManyPercentHandler(Model, Model.TransformHowManyPercent100, 100),
+                TransformHowManyPercent50Handler = new TransformHowManyPercentHandler(Model, Model.TransformHowManyPercent50, 50)
             };
             Commands = new CudotosiCommands {
                 SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, folderTextHandler),

@@ -53,6 +53,12 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeMd, b => vCudotosiApp.Handlers.TargetSizeMdHandler.ToggledAsync(b));
             guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeSm, b => vCudotosiApp.Handlers.TargetSizeSmHandler.ToggledAsync(b));
             guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeXs, b => vCudotosiApp.Handlers.TargetSizeXsHandler.ToggledAsync(b));
+
+            guiToAppGate.RegisterAsyncToggleButtonCallback(DestinationShapeAsIs, b => vCudotosiApp.Handlers.DestinationShapeAsIsHandler.ToggledAsync(b));
+            guiToAppGate.RegisterAsyncToggleButtonCallback(DestinationShapeSquare, b => vCudotosiApp.Handlers.DestinationShapeSquareHandler.ToggledAsync(b));
+
+            guiToAppGate.RegisterAsyncToggleButtonCallback(TransformHowManyPercent100, b => vCudotosiApp.Handlers.TransformHowManyPercent100Handler.ToggledAsync(b));
+            guiToAppGate.RegisterAsyncToggleButtonCallback(TransformHowManyPercent50, b => vCudotosiApp.Handlers.TransformHowManyPercent50Handler.ToggledAsync(b));
         }
 
         public string PromptForFolder(string folder) {
