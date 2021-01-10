@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.TashClient.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Vishizhukel.Interfaces.Application;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Application;
+using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;
+using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
@@ -12,15 +17,19 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         public ICudotosiCommands Commands { get; private set; }
         private readonly IFolderDialog vFolderDialog;
         private readonly IJpgFileNameChanger vJpgFileNameChanger;
+        public ITashHandler<ICudotosiApplicationModel> TashHandler { get; private set; }
+        private readonly ITashAccessor vTashAccessor;
+        private readonly IApplicationLogger vApplicationLogger;
 
         public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper,
                 IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
-                ICudotosiApplicationModel model,
-                IFolderDialog folderDialog,
-                IJpgFileNameChanger jpgFileNameChanger)
+                ICudotosiApplicationModel model, IFolderDialog folderDialog, IJpgFileNameChanger jpgFileNameChanger,
+                ITashAccessor tashAccessor, IApplicationLogger applicationLogger)
             : base(buttonNameToCommandMapper, guiAndApplicationSynchronizer, model) {
             vFolderDialog = folderDialog;
             vJpgFileNameChanger = jpgFileNameChanger;
+            vTashAccessor = tashAccessor;
+            vApplicationLogger = applicationLogger;
         }
 
         protected override async Task EnableOrDisableButtonsAsync() {
@@ -57,11 +66,17 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, folderTextHandler),
                 SaveCommand = new SaveCommand(Model)
             };
+            var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(vTashAccessor, vApplicationLogger);
+            TashHandler = new TashHandler(vTashAccessor, vApplicationLogger, ButtonNameToCommandMapper, null, null, communicator);
         }
 
         public override async Task OnLoadedAsync() {
             await base.OnLoadedAsync();
             await Handlers.FolderTextHandler.TextChangedAsync(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
+        }
+
+        public ITashTaskHandlingStatus<ICudotosiApplicationModel> CreateTashTaskHandlingStatus() {
+            return new TashTaskHandlingStatus<ICudotosiApplicationModel>(Model, Process.GetCurrentProcess().Id);
         }
     }
 }

@@ -1,8 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.TashClient.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.GUI;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 using Autofac;
 using Ookii.Dialogs.Wpf;
@@ -13,10 +17,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     /// Interaction logic for CudotosiWindow.xaml
     /// </summary>
     // ReSharper disable once UnusedMember.Global
-    public partial class CudotosiWindow : IFolderDialog {
+    public partial class CudotosiWindow : IFolderDialog, IDisposable {
         private static IContainer Container { get; set; }
 
         private CudotosiApplication vCudotosiApp;
+        private ITashTimer<ICudotosiApplicationModel> vTashTimer;
 
         public CudotosiWindow() {
             InitializeComponent();
@@ -59,6 +64,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
 
             guiToAppGate.RegisterAsyncToggleButtonCallback(TransformHowManyPercent100, b => vCudotosiApp.Handlers.TransformHowManyPercent100Handler.ToggledAsync(b));
             guiToAppGate.RegisterAsyncToggleButtonCallback(TransformHowManyPercent50, b => vCudotosiApp.Handlers.TransformHowManyPercent50Handler.ToggledAsync(b));
+
+            vTashTimer = new TashTimer<ICudotosiApplicationModel>(Container.Resolve<ITashAccessor>(), vCudotosiApp.TashHandler, guiToAppGate);
+            if (!await vTashTimer.ConnectAndMakeTashRegistrationReturnSuccessAsync(Properties.Resources.CudotosiWindowTitle)) {
+                Close();
+            }
+
+            vTashTimer.CreateAndStartTimer(vCudotosiApp.CreateTashTaskHandlingStatus());
         }
 
         public string PromptForFolder(string folder) {
@@ -76,6 +88,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             var x = (int)(Picture.Source.Width * p.X / width);
             var y = (int)(Picture.Source.Height * p.Y / height);
             await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync(x, y, width, height);
+        }
+
+        public void Dispose() {
+            vTashTimer?.StopTimerAndConfirmDead(false);
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e) {
+            vTashTimer?.StopTimerAndConfirmDead(false);
         }
     }
 }

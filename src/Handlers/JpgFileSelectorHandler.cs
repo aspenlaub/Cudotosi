@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +37,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         }
 
         public async Task SelectedIndexChangedAsync(int selectedIndex) {
-            var haveSelectedIndex = (selectedIndex >= 0);
+            var haveSelectedIndex = selectedIndex >= 0;
             if (haveSelectedIndex && vModel.JpgFile.SelectedIndex == selectedIndex) { return; }
 
             vModel.JpgFile.SelectedIndex = selectedIndex;

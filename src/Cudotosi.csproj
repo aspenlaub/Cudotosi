@@ -26,9 +26,13 @@
     <NuspecFile>Cudotosi.nuspec</NuspecFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Integration\**" />
     <Compile Remove="Test\**" />
+    <EmbeddedResource Remove="Integration\**" />
     <EmbeddedResource Remove="Test\**" />
+    <None Remove="Integration\**" />
     <None Remove="Test\**" />
+    <Page Remove="Integration\**" />
     <Page Remove="Test\**" />
   </ItemGroup>
   <ItemGroup>
@@ -44,8 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Ookii.Dialogs.Wpf.NETCore" Version="2.2.1" />
-    <PackageReference Include="Vishizhukel" Version="2.0.479.1051" />
-    <PackageReference Include="VishizhukelNet" Version="2.0.499.1017" />
+    <PackageReference Include="VishizhukelNet" Version="2.0.536.552" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
