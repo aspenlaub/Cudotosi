@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Interfaces;
-using Aspenlaub.Net.GitHub.CSharp.Vishizhukel.Interfaces.Application;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Application;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
@@ -19,17 +19,19 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         private readonly IJpgFileNameChanger vJpgFileNameChanger;
         public ITashHandler<ICudotosiApplicationModel> TashHandler { get; private set; }
         private readonly ITashAccessor vTashAccessor;
-        private readonly IApplicationLogger vApplicationLogger;
+        private readonly ISimpleLogger vSimpleLogger;
+        private readonly ILogConfiguration vLogConfiguration;
 
         public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper,
                 IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
                 ICudotosiApplicationModel model, IFolderDialog folderDialog, IJpgFileNameChanger jpgFileNameChanger,
-                ITashAccessor tashAccessor, IApplicationLogger applicationLogger)
+                ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration)
             : base(buttonNameToCommandMapper, guiAndApplicationSynchronizer, model) {
             vFolderDialog = folderDialog;
             vJpgFileNameChanger = jpgFileNameChanger;
             vTashAccessor = tashAccessor;
-            vApplicationLogger = applicationLogger;
+            vSimpleLogger = simpleLogger;
+            vLogConfiguration = logConfiguration;
         }
 
         protected override async Task EnableOrDisableButtonsAsync() {
@@ -66,8 +68,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, folderTextHandler),
                 SaveCommand = new SaveCommand(Model)
             };
-            var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(vTashAccessor, vApplicationLogger);
-            TashHandler = new TashHandler(vTashAccessor, vApplicationLogger, ButtonNameToCommandMapper, null, null, communicator);
+            var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(vTashAccessor, vSimpleLogger, vLogConfiguration);
+            TashHandler = new TashHandler(vTashAccessor, vSimpleLogger, vLogConfiguration, ButtonNameToCommandMapper, null, null, communicator);
         }
 
         public override async Task OnLoadedAsync() {
