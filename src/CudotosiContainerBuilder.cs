@@ -2,6 +2,7 @@
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Helpers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Components;
 using Aspenlaub.Net.GitHub.CSharp.Vishizhukel.Interfaces.Application;
@@ -12,7 +13,7 @@ using Autofac;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     public static class CudotosiContainerBuilder {
         public static ContainerBuilder UseCudotosiVishizhukelNetAndPegh(this ContainerBuilder builder, CudotosiWindow cudotosiWindow) {
-            builder.UseVishizhukelNetDvinAndPegh(new DummyCsArgumentPrompter());
+            builder.UseVishizhukelNetDvinAndPegh(new DummyCsArgumentPrompter(), new LogConfiguration());
             builder.RegisterInstance(cudotosiWindow).As<IFolderDialog>();
             builder.RegisterType<ApplicationLogger>().As<ApplicationLogger>().As<IApplicationLogger>().SingleInstance();
             builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler>().SingleInstance();
