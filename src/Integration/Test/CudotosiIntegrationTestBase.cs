@@ -16,7 +16,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
             await sut.InitializeAsync();
             var process = await sut.FindIdleProcessAsync();
             var tasks = new List<ControllableProcessTask> {
-                sut.CreateResetTask(process)
+                sut.CreateResetTask(process),
+                sut.CreateMaximizeTask(process)
             };
             await sut.RemotelyProcessTaskListAsync(process, tasks);
             return sut;

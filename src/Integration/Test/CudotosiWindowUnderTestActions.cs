@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Helpers;
 using Aspenlaub.Net.GitHub.CSharp.Tash;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Interfaces;
-using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -46,11 +46,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
         }
 
         public ControllableProcessTask CreateResetTask(ControllableProcess process) {
-            return CreateControllableProcessTask(process, ControllableProcessTaskType.Reset, "", "");
+            return CreateControllableProcessTask(process, CudotosiControllableProcessTaskType.Reset, "", "");
         }
 
         public async Task RemotelyProcessTaskListAsync(ControllableProcess process, List<ControllableProcessTask> tasks) {
-            var task = CreateControllableProcessTask(process, ControllableProcessTaskType.ProcessTaskList, "", JsonConvert.SerializeObject(tasks));
+            var task = CreateControllableProcessTask(process, CudotosiControllableProcessTaskType.ProcessTaskList, "", JsonConvert.SerializeObject(tasks));
             await SubmitNewTaskAndAwaitCompletionAsync(task);
         }
 
@@ -84,6 +84,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
                 Assert.AreEqual(ControllableProcessTaskStatus.Failed, result.Status, errorMessage);
                 return result.ErrorMessage;
             }
+        }
+
+        public ControllableProcessTask CreateMaximizeTask(ControllableProcess process) {
+            return CreateControllableProcessTask(process, CudotosiControllableProcessTaskType.Maximize, "", "");
         }
     }
 }

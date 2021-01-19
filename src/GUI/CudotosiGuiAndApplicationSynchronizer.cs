@@ -1,9 +1,9 @@
-﻿using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+﻿using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.GUI;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
-    public class CudotosiGuiAndApplicationSynchronizer : GuiAndApplicationSynchronizerBase<ICudotosiApplicationModel, CudotosiWindow> {
-        public CudotosiGuiAndApplicationSynchronizer(ICudotosiApplicationModel model, CudotosiWindow window) : base(model, window) {
+    public class CudotosiGuiAndApplicationSynchronizer : GuiAndApplicationSynchronizerBase<CudotosiApplicationModel, CudotosiWindow> {
+        public CudotosiGuiAndApplicationSynchronizer(CudotosiApplicationModel model, CudotosiWindow window) : base(model, window) {
         }
     }
 }

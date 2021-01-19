@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
@@ -69,7 +70,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 SaveCommand = new SaveCommand(Model)
             };
             var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(vTashAccessor, vSimpleLogger, vLogConfiguration);
-            TashHandler = new TashHandler(vTashAccessor, vSimpleLogger, vLogConfiguration, ButtonNameToCommandMapper, null, null, communicator);
+            TashHandler = new TashHandler(vTashAccessor, vSimpleLogger, vLogConfiguration, ButtonNameToCommandMapper, this, null, null, communicator);
         }
 
         public override async Task OnLoadedAsync() {

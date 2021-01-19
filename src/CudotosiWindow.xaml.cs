@@ -97,5 +97,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
         private void OnClosing(object sender, CancelEventArgs e) {
             vTashTimer?.StopTimerAndConfirmDead(false);
         }
+
+        private void OnStateChanged(object sender, EventArgs e) {
+            vCudotosiApp.OnWindowStateChanged(WindowState);
+        }
     }
 }
