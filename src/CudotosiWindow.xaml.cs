@@ -85,9 +85,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             var width = (int) Picture.ActualWidth;
             var height = (int) Picture.ActualHeight;
             var p = e.GetPosition(Picture);
-            var x = (int)(Picture.Source.Width * p.X / width);
-            var y = (int)(Picture.Source.Height * p.Y / height);
-            await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync(x, y, width, height);
+            var pictureSourceWidth = (int) Picture.Source.Width;
+            var pictureSourceHeight = (int) Picture.Source.Height;
+            var x = (int)(pictureSourceWidth * p.X / width);
+            var y = (int)(pictureSourceHeight * p.Y / height);
+            await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync(x, y, pictureSourceWidth, pictureSourceHeight);
         }
 
         public void Dispose() {

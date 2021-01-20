@@ -27,7 +27,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             vModel.MousePosY = mousePosY;
             vModel.PictureWidth = pictureWidth;
             vModel.PictureHeight = pictureHeight;
-            await Task.Run(() => { }); // TODO: replace or remove
+            var xPercent = (int) (100.0 * vModel.MousePosX / vModel.PictureWidth);
+            var yPercent = (int) (100.0 * vModel.MousePosY / vModel.PictureHeight);
+            vModel.Status.Text = $"X: {xPercent}%, Y: {yPercent}%";
+            await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }
 
         public string FileName() {

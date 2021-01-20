@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
