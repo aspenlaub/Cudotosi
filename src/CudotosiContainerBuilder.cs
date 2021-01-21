@@ -19,6 +19,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             builder.RegisterType<CudotosiGuiAndApplicationSynchronizer>().WithParameter((p, c) => p.ParameterType == typeof(CudotosiWindow), (p, c) => cudotosiWindow).As<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>>();
             builder.RegisterType<CudotosiGuiToApplicationGate>().As<IGuiToApplicationGate>().SingleInstance();
             builder.RegisterType<JpgFileNameChanger>().As<IJpgFileNameChanger>().SingleInstance();
+            builder.RegisterType<MousePositionAdjuster>().As<IMousePositionAdjuster>();
 
             return builder;
         }

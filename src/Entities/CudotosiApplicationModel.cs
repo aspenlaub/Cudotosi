@@ -31,6 +31,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
         public IImage Picture { get; } = new Image { BitmapImage = new BitmapImage() };
         public int MousePosX { get; set; }
         public int MousePosY { get; set; }
+        public int SourceAreaWidth { get; set; }
+        public int SourceAreaHeight { get; set; }
         public int PictureWidth { get; set; }
         public int PictureHeight { get; set; }
 

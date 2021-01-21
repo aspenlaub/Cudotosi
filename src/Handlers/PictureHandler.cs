@@ -7,15 +7,17 @@ using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
-    public class PictureHandler : IImageHandler {
+    public class PictureHandler : IPictureHandler {
         private readonly ICudotosiApplicationModel vModel;
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
         private readonly IJpgFileNameChanger vJpgFileNameChanger;
+        private readonly ISourceAreaHandler vSourceAreaHandler;
 
-        public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger) {
+        public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger, ISourceAreaHandler sourceAreaHandler) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
             vJpgFileNameChanger = jpgFileNameChanger;
+            vSourceAreaHandler = sourceAreaHandler;
         }
 
         public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight) {
@@ -27,10 +29,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             vModel.MousePosY = mousePosY;
             vModel.PictureWidth = pictureWidth;
             vModel.PictureHeight = pictureHeight;
-            var xPercent = (int) (100.0 * vModel.MousePosX / vModel.PictureWidth);
-            var yPercent = (int) (100.0 * vModel.MousePosY / vModel.PictureHeight);
-            vModel.Status.Text = $"X: {xPercent}%, Y: {yPercent}%";
-            await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
+            await vSourceAreaHandler.OnMousePositionChangedAsync();
         }
 
         public string FileName() {
@@ -55,6 +54,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
                 image.EndInit();
                 vModel.Picture.BitmapImage = image;
             }
+
+            vModel.MousePosX = 0;
+            vModel.MousePosY = 0;
+            vModel.Status.Text = "";
             await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }
     }

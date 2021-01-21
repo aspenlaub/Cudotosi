@@ -12,14 +12,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class JpgFileSelectorHandler : ISimpleSelectorHandler {
         private readonly ICudotosiApplicationModel vModel;
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
-        private readonly IImageHandler vImageHandler;
+        private readonly IPictureHandler vPictureHandler;
         private readonly ISimpleToggleButtonHandler vSourceSizeXlHandler;
         private readonly IJpgFileNameChanger vJpgFileNameChanger;
 
-        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IImageHandler imageHandler, ISimpleToggleButtonHandler sourceSizeXlHandler, IJpgFileNameChanger jpgFileNameChanger) {
+        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IPictureHandler pictureHandler, ISimpleToggleButtonHandler sourceSizeXlHandler, IJpgFileNameChanger jpgFileNameChanger) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
-            vImageHandler = imageHandler;
+            vPictureHandler = pictureHandler;
             vSourceSizeXlHandler = sourceSizeXlHandler;
             vJpgFileNameChanger = jpgFileNameChanger;
         }
@@ -45,8 +45,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             vModel.DestinationShapeSquare.Enabled = haveSelectedIndex;
             vModel.TransformHowManyPercent100.Enabled = haveSelectedIndex;
             vModel.TransformHowManyPercent50.Enabled = haveSelectedIndex;
-            var fileName = vImageHandler.FileName();
-            await vImageHandler.LoadFromFile(fileName);
+            var fileName = vPictureHandler.FileName();
+            await vPictureHandler.LoadFromFile(fileName);
             vModel.SourceSizeLg.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg));
             vModel.SourceSizeMd.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md));
             vModel.SourceSizeSm.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm));

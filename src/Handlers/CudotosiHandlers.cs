@@ -22,6 +22,6 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         public ISimpleToggleButtonHandler TransformHowManyPercent100Handler { get; set; }
         public ISimpleToggleButtonHandler TransformHowManyPercent50Handler { get; set; }
 
-        public IImageHandler PictureHandler { get; set; }
+        public IPictureHandler PictureHandler { get; set; }
     }
 }

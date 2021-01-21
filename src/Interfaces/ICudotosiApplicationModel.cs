@@ -28,6 +28,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
         IImage Picture { get; }
         int MousePosX { get; set; }
         int MousePosY { get; set; }
+        int SourceAreaWidth { get; set; }
+        int SourceAreaHeight { get; set; }
         int PictureWidth { get; set; }
         int PictureHeight { get; set; }
 

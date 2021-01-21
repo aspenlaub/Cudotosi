@@ -21,17 +21,20 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         private readonly ITashAccessor vTashAccessor;
         private readonly ISimpleLogger vSimpleLogger;
         private readonly ILogConfiguration vLogConfiguration;
+        private readonly IMousePositionAdjuster vMousePositionAdjuster;
 
         public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper,
                 IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
                 ICudotosiApplicationModel model, IFolderDialog folderDialog, IJpgFileNameChanger jpgFileNameChanger,
-                ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration)
+                ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration,
+                IMousePositionAdjuster mousePositionAdjuster)
             : base(buttonNameToCommandMapper, guiAndApplicationSynchronizer, model) {
             vFolderDialog = folderDialog;
             vJpgFileNameChanger = jpgFileNameChanger;
             vTashAccessor = tashAccessor;
             vSimpleLogger = simpleLogger;
             vLogConfiguration = logConfiguration;
+            vMousePositionAdjuster = mousePositionAdjuster;
         }
 
         protected override async Task EnableOrDisableButtonsAsync() {
@@ -40,7 +43,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         }
 
         protected override void CreateCommandsAndHandlers() {
-            var pictureHandler = new PictureHandler(Model, this, vJpgFileNameChanger);
+            var mousePositionHandler = new SourceAreaHandler(Model, this, vMousePositionAdjuster);
+            var pictureHandler = new PictureHandler(Model, this, vJpgFileNameChanger, mousePositionHandler);
             var sourceSizeXlHandler = new SourceSizeXlHandler(Model, pictureHandler);
             var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, vJpgFileNameChanger);
             var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
@@ -59,10 +63,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 TargetSizeSmHandler = targetSizeSmHandler,
                 TargetSizeXsHandler = targetSizeXsHandler,
                 PictureHandler = pictureHandler,
-                DestinationShapeAsIsHandler = new DestinationShapeAsIsHandler(Model),
-                DestinationShapeSquareHandler = new DestinationShapeSquareHandler(Model),
-                TransformHowManyPercent100Handler = new TransformHowManyPercentHandler(Model, Model.TransformHowManyPercent100, 100),
-                TransformHowManyPercent50Handler = new TransformHowManyPercentHandler(Model, Model.TransformHowManyPercent50, 50)
+                DestinationShapeAsIsHandler = new DestinationShapeAsIsHandler(Model, mousePositionHandler),
+                DestinationShapeSquareHandler = new DestinationShapeSquareHandler(Model, mousePositionHandler),
+                TransformHowManyPercent100Handler = new TransformHowManyPercentHandler(Model, mousePositionHandler, Model.TransformHowManyPercent100, 100),
+                TransformHowManyPercent50Handler = new TransformHowManyPercentHandler(Model, mousePositionHandler, Model.TransformHowManyPercent50, 50)
             };
             Commands = new CudotosiCommands {
                 SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, folderTextHandler),
