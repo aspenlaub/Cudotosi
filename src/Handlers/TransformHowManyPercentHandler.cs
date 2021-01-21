@@ -16,6 +16,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         }
 
         public async Task ToggledAsync(bool isChecked) {
+            if (Unchanged(isChecked)) { return; }
+
+            SetChecked(isChecked);
+
             await vSourceAreaHandler.OnTransformHowManyPercentChangedAsync();
         }
     }
