@@ -32,7 +32,5 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
         int SourceAreaHeight { get; set; }
         int PictureWidth { get; set; }
         int PictureHeight { get; set; }
-
-        ITextBox Status { get; }
     }
 }

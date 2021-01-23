@@ -35,7 +35,5 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
         public int SourceAreaHeight { get; set; }
         public int PictureWidth { get; set; }
         public int PictureHeight { get; set; }
-
-        public ITextBox Status { get; set; } = new TextBox { Enabled = false };
     }
 }
