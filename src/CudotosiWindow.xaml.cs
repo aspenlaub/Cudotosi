@@ -71,6 +71,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             }
 
             vTashTimer.CreateAndStartTimer(vCudotosiApp.CreateTashTaskHandlingStatus());
+
+            AdjustCanvasAndImage();
         }
 
         public string PromptForFolder(string folder) {
@@ -102,6 +104,15 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
 
         private void OnStateChanged(object sender, EventArgs e) {
             vCudotosiApp.OnWindowStateChanged(WindowState);
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e) {
+            AdjustCanvasAndImage();
+        }
+
+        public void AdjustCanvasAndImage() {
+            var adjuster = Container.Resolve<ICanvasAndImageSizeAdjuster>();
+            adjuster.AdjustCanvasAndImage(CanvasContainer, Canvas, Picture);
         }
     }
 }
