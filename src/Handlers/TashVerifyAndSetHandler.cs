@@ -11,13 +11,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class TashVerifyAndSetHandler : TashVerifyAndSetHandlerBase<ICudotosiApplicationModel> {
         private readonly ICudotosiHandlers vCudotosiHandlers;
         private readonly ITashCommunicator<ICudotosiApplicationModel> vTashCommunicator;
-        private readonly Dictionary<string, ISelector> vSelectors;
 
         public TashVerifyAndSetHandler(ICudotosiHandlers cudotosiHandlers, ISimpleLogger simpleLogger, ITashSelectorHandler<ICudotosiApplicationModel> tashSelectorHandler, ITashCommunicator<ICudotosiApplicationModel> tashCommunicator,
             Dictionary<string, ISelector> selectors) : base(simpleLogger, tashSelectorHandler, tashCommunicator, selectors) {
             vCudotosiHandlers = cudotosiHandlers;
             vTashCommunicator = tashCommunicator;
-            vSelectors = selectors;
         }
 
         protected override void OnValueTaskProcessed(ITashTaskHandlingStatus<ICudotosiApplicationModel> status, bool verify, bool set, string actualValue) { }

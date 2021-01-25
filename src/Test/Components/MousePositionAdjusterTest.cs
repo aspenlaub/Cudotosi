@@ -39,6 +39,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Components {
             var transForm50Button = new ToggleButton("Shape") { IsChecked = !hundredPercent };
             modelMock.SetupGet(m => m.TransformHowManyPercent50).Returns(transForm50Button);
 
+            var textBox = new TextBox();
+            modelMock.SetupGet(m => m.Status).Returns(textBox);
+
             var sut = new MousePositionAdjuster();
             sut.AdjustMousePosition(model);
             Assert.AreEqual(expectedMousePosX, model.MousePosX);

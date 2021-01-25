@@ -23,12 +23,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         private readonly ISimpleLogger vSimpleLogger;
         private readonly ILogConfiguration vLogConfiguration;
         private readonly IMousePositionAdjuster vMousePositionAdjuster;
+        private readonly ICutCalculator vCutCalculator;
 
         public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper,
                 IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
                 ICudotosiApplicationModel model, IFolderDialog folderDialog, IJpgFileNameChanger jpgFileNameChanger,
                 ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration,
-                IMousePositionAdjuster mousePositionAdjuster)
+                IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator)
             : base(buttonNameToCommandMapper, guiAndApplicationSynchronizer, model) {
             vFolderDialog = folderDialog;
             vJpgFileNameChanger = jpgFileNameChanger;
@@ -36,6 +37,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
             vSimpleLogger = simpleLogger;
             vLogConfiguration = logConfiguration;
             vMousePositionAdjuster = mousePositionAdjuster;
+            vCutCalculator = cutCalculator;
         }
 
         protected override async Task EnableOrDisableButtonsAsync() {
@@ -44,7 +46,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         }
 
         protected override void CreateCommandsAndHandlers() {
-            var mousePositionHandler = new SourceAreaHandler(Model, this, vMousePositionAdjuster);
+            var mousePositionHandler = new SourceAreaHandler(Model, this, vMousePositionAdjuster, vCutCalculator);
             var pictureHandler = new PictureHandler(Model, this, vJpgFileNameChanger, mousePositionHandler);
             var sourceSizeXlHandler = new SourceSizeXlHandler(Model, pictureHandler);
             var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, vJpgFileNameChanger);

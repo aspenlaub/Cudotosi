@@ -20,7 +20,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             vSourceAreaHandler = sourceAreaHandler;
         }
 
-        public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight) {
+        public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight, int actualPictureWidth, int actualPictureHeight) {
             if (vModel.MousePosX == mousePosX && vModel.MousePosY == mousePosY && vModel.PictureWidth == pictureWidth && vModel.PictureHeight == pictureHeight) {
                 return;
             }
@@ -29,6 +29,18 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             vModel.MousePosY = mousePosY;
             vModel.PictureWidth = pictureWidth;
             vModel.PictureHeight = pictureHeight;
+            vModel.ActualPictureWidth = actualPictureWidth;
+            vModel.ActualPictureHeight = actualPictureHeight;
+            await vSourceAreaHandler.OnMousePositionChangedAsync();
+        }
+
+        public async Task PictureSizeChangedAsync(int actualPictureWidth, int actualPictureHeight) {
+            if (vModel.ActualPictureWidth == actualPictureWidth && vModel.ActualPictureHeight == actualPictureHeight) {
+                return;
+            }
+
+            vModel.ActualPictureWidth = actualPictureWidth;
+            vModel.ActualPictureHeight = actualPictureHeight;
             await vSourceAreaHandler.OnMousePositionChangedAsync();
         }
 
@@ -57,6 +69,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
 
             vModel.MousePosX = 0;
             vModel.MousePosY = 0;
+            vModel.SourceAreaHeight = 0;
+            vModel.SourceAreaWidth = 0;
             vModel.Status.Text = "";
             await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }

@@ -21,6 +21,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test {
             builder.RegisterType<CudotosiGuiToApplicationGate>().As<IGuiToApplicationGate>().SingleInstance();
             builder.RegisterType<JpgFileNameChanger>().As<IJpgFileNameChanger>().SingleInstance();
             builder.RegisterType<MousePositionAdjuster>().As<IMousePositionAdjuster>();
+            builder.RegisterType<CutCalculator>().As<ICutCalculator>();
 
             return builder;
         }

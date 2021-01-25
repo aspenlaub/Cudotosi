@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
@@ -72,7 +73,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
 
             vTashTimer.CreateAndStartTimer(vCudotosiApp.CreateTashTaskHandlingStatus());
 
-            AdjustCanvasAndImage();
+            AdjustCanvasAndImageSync();
         }
 
         public string PromptForFolder(string folder) {
@@ -84,14 +85,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
         }
 
         private async void Picture_OnMouseDown(object sender, MouseButtonEventArgs e) {
-            var width = (int) Picture.ActualWidth;
-            var height = (int) Picture.ActualHeight;
+            var actualPictureWidth = (int)Picture.ActualWidth;
+            var actualPictureHeight = (int)Picture.ActualHeight;
             var p = e.GetPosition(Picture);
-            var pictureSourceWidth = (int) Picture.Source.Width;
-            var pictureSourceHeight = (int) Picture.Source.Height;
-            var x = (int)(pictureSourceWidth * p.X / width);
-            var y = (int)(pictureSourceHeight * p.Y / height);
-            await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync(x, y, pictureSourceWidth, pictureSourceHeight);
+            var pictureSourceWidth = (int)Picture.Source.Width;
+            var pictureSourceHeight = (int)Picture.Source.Height;
+            var x = (int)(pictureSourceWidth * p.X / actualPictureWidth);
+            var y = (int)(pictureSourceHeight * p.Y / actualPictureHeight);
+            await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync(x, y, pictureSourceWidth, pictureSourceHeight, actualPictureWidth, actualPictureHeight);
         }
 
         public void Dispose() {
@@ -106,11 +107,20 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             vCudotosiApp.OnWindowStateChanged(WindowState);
         }
 
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e) {
-            AdjustCanvasAndImage();
+        private async void OnSizeChanged(object sender, SizeChangedEventArgs e) {
+            await AdjustCanvasAndImageAsync();
         }
 
-        public void AdjustCanvasAndImage() {
+        public async Task AdjustCanvasAndImageAsync() {
+            var adjuster = Container.Resolve<ICanvasAndImageSizeAdjuster>();
+            adjuster.AdjustCanvasAndImage(CanvasContainer, Canvas, Picture);
+            if (vCudotosiApp?.Handlers?.PictureHandler == null) { return; }
+
+            UpdateLayout();
+            await vCudotosiApp.Handlers.PictureHandler.PictureSizeChangedAsync((int)Picture.ActualWidth, (int)Picture.ActualHeight);
+        }
+
+        public void AdjustCanvasAndImageSync() {
             var adjuster = Container.Resolve<ICanvasAndImageSizeAdjuster>();
             adjuster.AdjustCanvasAndImage(CanvasContainer, Canvas, Picture);
         }

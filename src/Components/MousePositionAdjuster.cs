@@ -34,6 +34,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components {
             if (model.MousePosY < 0) {
                 model.MousePosY = 0;
             }
+
+            var xPercent = model.PictureWidth > 0 ? (int)(100.0 * model.MousePosX / model.PictureWidth) : 0;
+            var yPercent = model.PictureHeight > 0 ? (int)(100.0 * model.MousePosY / model.PictureHeight) : 0;
+            model.Status.Text = $"X: {xPercent}%, Y: {yPercent}%";
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI {
             var source = image.Source as BitmapSource;
             if (source?.ToString().Contains(".jpg") != true) { return; }
 
-            Window.AdjustCanvasAndImage();
+            Window.AdjustCanvasAndImageSync();
         }
     }
 }

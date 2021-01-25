@@ -7,18 +7,20 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         private readonly ICudotosiApplicationModel vModel;
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
         private readonly IMousePositionAdjuster vMousePositionAdjuster;
+        private readonly ICutCalculator vCutCalculator;
 
-        public SourceAreaHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IMousePositionAdjuster mousePositionAdjuster) {
+        public SourceAreaHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
             vMousePositionAdjuster = mousePositionAdjuster;
+            vCutCalculator = cutCalculator;
         }
 
         public async Task OnMousePositionChangedAsync() {
             vMousePositionAdjuster.AdjustMousePosition(vModel);
-            var xPercent = (int)(100.0 * vModel.MousePosX / vModel.PictureWidth);
-            var yPercent = (int)(100.0 * vModel.MousePosY / vModel.PictureHeight);
-            vModel.Status.Text = $"X: {xPercent}%, Y: {yPercent}%";
+
+            vCutCalculator.CutOut(vModel);
+
             await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }
 
