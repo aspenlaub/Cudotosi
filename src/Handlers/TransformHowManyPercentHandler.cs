@@ -2,10 +2,9 @@
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Controls;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
-using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
-    public class TransformHowManyPercentHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel>, ISimpleToggleButtonHandler {
+    public class TransformHowManyPercentHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel> {
         private readonly ISourceAreaHandler vSourceAreaHandler;
 
         protected int Percentage;
@@ -15,7 +14,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             Percentage = percentage;
         }
 
-        public async Task ToggledAsync(bool isChecked) {
+        public override async Task ToggledAsync(bool isChecked) {
             if (Unchanged(isChecked)) { return; }
 
             SetChecked(isChecked);

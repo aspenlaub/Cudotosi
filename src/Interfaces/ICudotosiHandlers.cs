@@ -6,21 +6,21 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
         ISimpleTextHandler FolderTextHandler { get; }
         ISimpleSelectorHandler JpgFileSelectorHandler { get; }
 
-        ISimpleToggleButtonHandler SourceSizeXlHandler { get; }
-        ISimpleToggleButtonHandler SourceSizeLgHandler { get; }
-        ISimpleToggleButtonHandler SourceSizeMdHandler { get; }
-        ISimpleToggleButtonHandler SourceSizeSmHandler { get; }
+        IToggleButtonHandler SourceSizeXlHandler { get; }
+        IToggleButtonHandler SourceSizeLgHandler { get; }
+        IToggleButtonHandler SourceSizeMdHandler { get; }
+        IToggleButtonHandler SourceSizeSmHandler { get; }
 
-        ISimpleToggleButtonHandler TargetSizeLgHandler { get; }
-        ISimpleToggleButtonHandler TargetSizeMdHandler { get; }
-        ISimpleToggleButtonHandler TargetSizeSmHandler { get; }
-        ISimpleToggleButtonHandler TargetSizeXsHandler { get; }
+        IToggleButtonHandler TargetSizeLgHandler { get; }
+        IToggleButtonHandler TargetSizeMdHandler { get; }
+        IToggleButtonHandler TargetSizeSmHandler { get; }
+        IToggleButtonHandler TargetSizeXsHandler { get; }
 
-        ISimpleToggleButtonHandler DestinationShapeAsIsHandler { get; set; }
-        ISimpleToggleButtonHandler DestinationShapeSquareHandler { get; set; }
+        IToggleButtonHandler DestinationShapeAsIsHandler { get; set; }
+        IToggleButtonHandler DestinationShapeSquareHandler { get; set; }
 
-        ISimpleToggleButtonHandler TransformHowManyPercent100Handler { get; set; }
-        ISimpleToggleButtonHandler TransformHowManyPercent50Handler { get; set; }
+        IToggleButtonHandler TransformHowManyPercent100Handler { get; set; }
+        IToggleButtonHandler TransformHowManyPercent50Handler { get; set; }
 
         IPictureHandler PictureHandler { get; }
     }

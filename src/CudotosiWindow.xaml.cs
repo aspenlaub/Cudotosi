@@ -42,6 +42,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
 
             var guiToAppGate = Container.Resolve<IGuiToApplicationGate>();
             var buttonNameToCommandMapper = Container.Resolve<IButtonNameToCommandMapper>();
+            var toggleButtonNameToHandlerMapper = Container.Resolve<IToggleButtonNameToHandlerMapper>();
 
             var commands = vCudotosiApp.Commands;
             guiToAppGate.WireButtonAndCommand(SelectFolder, commands.SelectFolderCommand, buttonNameToCommandMapper);
@@ -50,21 +51,21 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => vCudotosiApp.Handlers.FolderTextHandler.TextChangedAsync(t));
             guiToAppGate.RegisterAsyncSelectorCallback(JpgFile, t => vCudotosiApp.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(t));
 
-            guiToAppGate.RegisterAsyncToggleButtonCallback(SourceSizeXl, b => vCudotosiApp.Handlers.SourceSizeXlHandler.ToggledAsync(b));
-            guiToAppGate.RegisterAsyncToggleButtonCallback(SourceSizeLg, b => vCudotosiApp.Handlers.SourceSizeLgHandler.ToggledAsync(b));
-            guiToAppGate.RegisterAsyncToggleButtonCallback(SourceSizeMd, b => vCudotosiApp.Handlers.SourceSizeMdHandler.ToggledAsync(b));
-            guiToAppGate.RegisterAsyncToggleButtonCallback(SourceSizeSm, b => vCudotosiApp.Handlers.SourceSizeSmHandler.ToggledAsync(b));
+            guiToAppGate.WireToggleButtonAndHandler(SourceSizeXl, vCudotosiApp.Handlers.SourceSizeXlHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(SourceSizeLg, vCudotosiApp.Handlers.SourceSizeLgHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(SourceSizeMd, vCudotosiApp.Handlers.SourceSizeMdHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(SourceSizeSm, vCudotosiApp.Handlers.SourceSizeSmHandler, toggleButtonNameToHandlerMapper);
 
-            guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeLg, b => vCudotosiApp.Handlers.TargetSizeLgHandler.ToggledAsync(b));
-            guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeMd, b => vCudotosiApp.Handlers.TargetSizeMdHandler.ToggledAsync(b));
-            guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeSm, b => vCudotosiApp.Handlers.TargetSizeSmHandler.ToggledAsync(b));
-            guiToAppGate.RegisterAsyncToggleButtonCallback(TargetSizeXs, b => vCudotosiApp.Handlers.TargetSizeXsHandler.ToggledAsync(b));
+            guiToAppGate.WireToggleButtonAndHandler(TargetSizeLg, vCudotosiApp.Handlers.TargetSizeLgHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TargetSizeMd, vCudotosiApp.Handlers.TargetSizeMdHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TargetSizeSm, vCudotosiApp.Handlers.TargetSizeSmHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TargetSizeXs, vCudotosiApp.Handlers.TargetSizeXsHandler, toggleButtonNameToHandlerMapper);
 
-            guiToAppGate.RegisterAsyncToggleButtonCallback(DestinationShapeAsIs, b => vCudotosiApp.Handlers.DestinationShapeAsIsHandler.ToggledAsync(b));
-            guiToAppGate.RegisterAsyncToggleButtonCallback(DestinationShapeSquare, b => vCudotosiApp.Handlers.DestinationShapeSquareHandler.ToggledAsync(b));
+            guiToAppGate.WireToggleButtonAndHandler(DestinationShapeAsIs, vCudotosiApp.Handlers.DestinationShapeAsIsHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(DestinationShapeSquare, vCudotosiApp.Handlers.DestinationShapeSquareHandler, toggleButtonNameToHandlerMapper);
 
-            guiToAppGate.RegisterAsyncToggleButtonCallback(TransformHowManyPercent100, b => vCudotosiApp.Handlers.TransformHowManyPercent100Handler.ToggledAsync(b));
-            guiToAppGate.RegisterAsyncToggleButtonCallback(TransformHowManyPercent50, b => vCudotosiApp.Handlers.TransformHowManyPercent50Handler.ToggledAsync(b));
+            guiToAppGate.WireToggleButtonAndHandler(TransformHowManyPercent100, vCudotosiApp.Handlers.TransformHowManyPercent100Handler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TransformHowManyPercent50, vCudotosiApp.Handlers.TransformHowManyPercent50Handler, toggleButtonNameToHandlerMapper);
 
             vTashTimer = new TashTimer<ICudotosiApplicationModel>(Container.Resolve<ITashAccessor>(), vCudotosiApp.TashHandler, guiToAppGate);
             if (!await vTashTimer.ConnectAndMakeTashRegistrationReturnSuccessAsync(Properties.Resources.CudotosiWindowTitle)) {

@@ -13,10 +13,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         private readonly ICudotosiApplicationModel vModel;
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
         private readonly IPictureHandler vPictureHandler;
-        private readonly ISimpleToggleButtonHandler vSourceSizeXlHandler;
+        private readonly IToggleButtonHandler vSourceSizeXlHandler;
         private readonly IJpgFileNameChanger vJpgFileNameChanger;
 
-        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IPictureHandler pictureHandler, ISimpleToggleButtonHandler sourceSizeXlHandler, IJpgFileNameChanger jpgFileNameChanger) {
+        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IPictureHandler pictureHandler, IToggleButtonHandler sourceSizeXlHandler, IJpgFileNameChanger jpgFileNameChanger) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
             vPictureHandler = pictureHandler;

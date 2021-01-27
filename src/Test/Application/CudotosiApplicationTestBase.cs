@@ -76,8 +76,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
             };
         }
 
-        protected Dictionary<BootstrapSizes, ISimpleToggleButtonHandler> SourceSizesToHandlers() {
-            return new Dictionary<BootstrapSizes, ISimpleToggleButtonHandler> {
+        protected Dictionary<BootstrapSizes, IToggleButtonHandler> SourceSizesToHandlers() {
+            return new Dictionary<BootstrapSizes, IToggleButtonHandler> {
                 { BootstrapSizes.Xl, Application.Handlers.SourceSizeXlHandler },
                 { BootstrapSizes.Lg, Application.Handlers.SourceSizeLgHandler },
                 { BootstrapSizes.Md, Application.Handlers.SourceSizeMdHandler },

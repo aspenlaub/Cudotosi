@@ -4,16 +4,16 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
-    public class SourceSizeLgHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel>,ISimpleToggleButtonHandler {
-        private readonly ISimpleToggleButtonHandler vTargetSizeMdHandler;
+    public class SourceSizeLgHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel> {
+        private readonly IToggleButtonHandler vTargetSizeMdHandler;
         private readonly IPictureHandler vPictureHandler;
 
-        public SourceSizeLgHandler(ICudotosiApplicationModel model, ISimpleToggleButtonHandler targetSizeMdHandler, IPictureHandler pictureHandler) : base(model, model.SourceSizeLg) {
+        public SourceSizeLgHandler(ICudotosiApplicationModel model, IToggleButtonHandler targetSizeMdHandler, IPictureHandler pictureHandler) : base(model, model.SourceSizeLg) {
             vTargetSizeMdHandler = targetSizeMdHandler;
             vPictureHandler = pictureHandler;
         }
 
-        public async Task ToggledAsync(bool isChecked) {
+        public override async Task ToggledAsync(bool isChecked) {
             if (Unchanged(isChecked)) { return; }
 
             SetChecked(isChecked);

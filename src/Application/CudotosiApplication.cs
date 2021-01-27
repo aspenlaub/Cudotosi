@@ -25,12 +25,12 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         private readonly IMousePositionAdjuster vMousePositionAdjuster;
         private readonly ICutCalculator vCutCalculator;
 
-        public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper,
+        public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper, IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper,
                 IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
                 ICudotosiApplicationModel model, IFolderDialog folderDialog, IJpgFileNameChanger jpgFileNameChanger,
                 ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration,
                 IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator)
-            : base(buttonNameToCommandMapper, guiAndApplicationSynchronizer, model) {
+            : base(buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndApplicationSynchronizer, model) {
             vFolderDialog = folderDialog;
             vJpgFileNameChanger = jpgFileNameChanger;
             vTashAccessor = tashAccessor;
@@ -84,7 +84,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
             var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(vTashAccessor, vSimpleLogger, vLogConfiguration);
             var selectorHandler = new TashSelectorHandler(Handlers, vSimpleLogger, communicator, selectors);
             var verifyAndSetHandler = new TashVerifyAndSetHandler(Handlers, vSimpleLogger, selectorHandler, communicator, selectors);
-            TashHandler = new TashHandler(vTashAccessor, vSimpleLogger, vLogConfiguration, ButtonNameToCommandMapper, this, verifyAndSetHandler, selectorHandler, communicator);
+            TashHandler = new TashHandler(vTashAccessor, vSimpleLogger, vLogConfiguration, ButtonNameToCommandMapper, ToggleButtonNameToHandlerMapper, this, verifyAndSetHandler, selectorHandler, communicator);
         }
 
         public override async Task OnLoadedAsync() {
