@@ -24,5 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Cudotosi.csproj" />
+    <ProjectReference Include="..\..\Test\Cudotosi.Test.csproj" />
   </ItemGroup>
 </Project>
