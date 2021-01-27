@@ -18,12 +18,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
 
         [TestMethod]
         public async Task CanCutOutAnAreaFromPicture() {
-            using (var sut = await CreateCudotosiWindowUnderTestAsync()) {
-                await sut.InitializeAsync();
-                var process = await sut.FindIdleProcessAsync();
-                var tasks = new List<ControllableProcessTask>();
-                await sut.RemotelyProcessTaskListAsync(process, tasks);
-            }
+            using var sut = await CreateCudotosiWindowUnderTestAsync();
+            await sut.InitializeAsync();
+            var process = await sut.FindIdleProcessAsync();
+            var tasks = new List<ControllableProcessTask>();
+            await sut.RemotelyProcessTaskListAsync(process, tasks);
         }
     }
 }
