@@ -74,7 +74,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
 
             Commands = new CudotosiCommands {
                 SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, folderTextHandler),
-                SaveCommand = new SaveCommand(Model)
+                SaveCommand = new SaveCommand(Model, vCutCalculator, jpgFileSelectorHandler)
             };
 
             var selectors = new Dictionary<string, ISelector> {

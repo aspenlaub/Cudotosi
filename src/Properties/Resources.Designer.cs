@@ -77,5 +77,32 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Properties {
                 return ResourceManager.GetString("CudotosiWindowTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please click on the top left position of the area that will be cut out.
+        /// </summary>
+        internal static string PleaseClickTopLeft {
+            get {
+                return ResourceManager.GetString("PleaseClickTopLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target file could not be saved.
+        /// </summary>
+        internal static string TargetFileNotSaved {
+            get {
+                return ResourceManager.GetString("TargetFileNotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target file was saved.
+        /// </summary>
+        internal static string TargetFileSaved {
+            get {
+                return ResourceManager.GetString("TargetFileSaved", resourceCulture);
+            }
+        }
     }
 }

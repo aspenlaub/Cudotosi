@@ -112,15 +112,24 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CudotosiWindowName" xml:space="preserve">
     <value>Cudotosi</value>
   </data>
   <data name="CudotosiWindowTitle" xml:space="preserve">
     <value>Cudotosi</value>
+  </data>
+  <data name="PleaseClickTopLeft" xml:space="preserve">
+    <value>Please click on the top left position of the area that will be cut out</value>
+  </data>
+  <data name="TargetFileNotSaved" xml:space="preserve">
+    <value>The target file could not be saved</value>
+  </data>
+  <data name="TargetFileSaved" xml:space="preserve">
+    <value>The target file was saved</value>
   </data>
 </root>
