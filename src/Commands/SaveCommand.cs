@@ -2,6 +2,7 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Enums;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
@@ -11,11 +12,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
         private readonly ICudotosiApplicationModel vModel;
         private readonly ICutCalculator vCutCalculator;
         private readonly ISimpleSelectorHandler vJpgFileSelectorHandler;
+        private readonly IJpgFileNameChanger vJpgFileNameChanger;
 
-        public SaveCommand(ICudotosiApplicationModel model, ICutCalculator cutCalculator, ISimpleSelectorHandler jpgFileSelectorHandler) {
+        public SaveCommand(ICudotosiApplicationModel model, ICutCalculator cutCalculator, ISimpleSelectorHandler jpgFileSelectorHandler, IJpgFileNameChanger jpgFileNameChanger) {
             vModel = model;
             vCutCalculator = cutCalculator;
             vJpgFileSelectorHandler = jpgFileSelectorHandler;
+            vJpgFileNameChanger = jpgFileNameChanger;
         }
 
         public async Task ExecuteAsync() {
@@ -55,13 +58,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
 
             var targetFileName = vModel.JpgFile.SelectedItem.Name;
             if (vModel.TargetSizeLg.IsChecked) {
-                targetFileName = targetFileName.Replace("_XL.", "_LG.");
+                targetFileName = vJpgFileNameChanger.ChangeFileName(targetFileName, BootstrapSizes.Lg);
             } else if (vModel.TargetSizeMd.IsChecked) {
-                targetFileName = targetFileName.Replace("_XL.", "_MD.");
+                targetFileName = vJpgFileNameChanger.ChangeFileName(targetFileName, BootstrapSizes.Md);
             } else if (vModel.TargetSizeSm.IsChecked) {
-                targetFileName = targetFileName.Replace("_XL.", "_SM.");
+                targetFileName = vJpgFileNameChanger.ChangeFileName(targetFileName, BootstrapSizes.Sm);
             } else if (vModel.TargetSizeXs.IsChecked) {
-                targetFileName = targetFileName.Replace("_XL.", "_XS.");
+                targetFileName = vJpgFileNameChanger.ChangeFileName(targetFileName, BootstrapSizes.Xs);
             } else {
                 return false;
             }
