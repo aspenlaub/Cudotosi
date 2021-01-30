@@ -123,13 +123,19 @@
   <data name="CudotosiWindowTitle" xml:space="preserve">
     <value>Cudotosi</value>
   </data>
+  <data name="NoTargetFileWasSaved" xml:space="preserve">
+    <value>No target file was saved</value>
+  </data>
   <data name="PleaseClickTopLeft" xml:space="preserve">
     <value>Please click on the top left position of the area that will be cut out</value>
   </data>
-  <data name="TargetFileNotSaved" xml:space="preserve">
+  <data name="TargetFileCouldNotBeSaved" xml:space="preserve">
     <value>The target file could not be saved</value>
   </data>
+  <data name="TargetFileExistsOverwrite" xml:space="preserve">
+    <value>The target file "{0}" already exists. Overwrite?</value>
+  </data>
   <data name="TargetFileSaved" xml:space="preserve">
-    <value>The target file was saved</value>
+    <value>The target file "{0}" was saved</value>
   </data>
 </root>

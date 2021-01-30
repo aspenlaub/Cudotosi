@@ -79,6 +79,15 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No target file was saved.
+        /// </summary>
+        internal static string NoTargetFileWasSaved {
+            get {
+                return ResourceManager.GetString("NoTargetFileWasSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please click on the top left position of the area that will be cut out.
         /// </summary>
         internal static string PleaseClickTopLeft {
@@ -90,14 +99,23 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The target file could not be saved.
         /// </summary>
-        internal static string TargetFileNotSaved {
+        internal static string TargetFileCouldNotBeSaved {
             get {
-                return ResourceManager.GetString("TargetFileNotSaved", resourceCulture);
+                return ResourceManager.GetString("TargetFileCouldNotBeSaved", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The target file was saved.
+        ///   Looks up a localized string similar to The target file &quot;{0}&quot; already exists. Overwrite?.
+        /// </summary>
+        internal static string TargetFileExistsOverwrite {
+            get {
+                return ResourceManager.GetString("TargetFileExistsOverwrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target file &quot;{0}&quot; was saved.
         /// </summary>
         internal static string TargetFileSaved {
             get {
