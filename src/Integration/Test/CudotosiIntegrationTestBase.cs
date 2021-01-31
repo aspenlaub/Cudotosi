@@ -14,28 +14,45 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
     public class CudotosiIntegrationTestBase {
         protected IFolder TestFolder;
         protected readonly IContainer Container;
+        protected ControllableProcess ControllableProcess;
 
         public CudotosiIntegrationTestBase() {
             Container = new ContainerBuilder().RegisterForCudotosiIntegrationTest().Build();
             TestFolder = new Folder(Path.GetTempPath()).SubFolder(GetType().Name);
             TestFolder.CreateIfNecessary();
             CudotosiTestResources.SamplePicture_XL.Save(SamplePictureXlFileName());
+            CudotosiTestResources.SamplePicture_LG.Save(SampleExpectedPictureLgFileName());
         }
 
         protected async Task<CudotosiWindowUnderTest> CreateCudotosiWindowUnderTestAsync() {
             var sut = Container.Resolve<CudotosiWindowUnderTest>();
             await sut.InitializeAsync();
-            var process = await sut.FindIdleProcessAsync();
+            await EnsureControllableProcessAsync(sut);
+
+            var process = ControllableProcess;
             var tasks = new List<ControllableProcessTask> {
-                sut.CreateResetTask(process),
-                sut.CreateMaximizeTask(process)
+                sut.CreateResetTask(process)
             };
             await sut.RemotelyProcessTaskListAsync(process, tasks);
             return sut;
         }
 
-        private string SamplePictureXlFileName() {
+        protected async Task EnsureControllableProcessAsync(CudotosiWindowUnderTest sut) {
+            if (ControllableProcess != null) { return; }
+
+            ControllableProcess = await sut.FindIdleProcessAsync();
+        }
+
+        protected string SamplePictureXlFileName() {
             return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL) + ".jpg";
+        }
+
+        protected string SamplePictureLgFileName() {
+            return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL).Replace("XL", "LG") + ".jpg";
+        }
+
+        protected string SampleExpectedPictureLgFileName() {
+            return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL).Replace("XL", "XLG") + ".jpg";
         }
 
         public virtual void Cleanup() {

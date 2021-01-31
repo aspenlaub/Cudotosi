@@ -16,7 +16,6 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
     public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>, ICudotosiApplicationModel> {
         public ICudotosiHandlers Handlers { get; private set; }
         public ICudotosiCommands Commands { get; private set; }
-        private readonly IFolderDialog vFolderDialog;
         private readonly IJpgFileNameChanger vJpgFileNameChanger;
         public ITashHandler<ICudotosiApplicationModel> TashHandler { get; private set; }
         private readonly ITashAccessor vTashAccessor;
@@ -24,30 +23,35 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         private readonly ILogConfiguration vLogConfiguration;
         private readonly IMousePositionAdjuster vMousePositionAdjuster;
         private readonly ICutCalculator vCutCalculator;
+        private readonly IMouseOwner vMouseOwner;
+        private readonly IUserInteraction vUserInteraction;
 
         public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper, IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper,
                 IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
-                ICudotosiApplicationModel model, IFolderDialog folderDialog, IJpgFileNameChanger jpgFileNameChanger,
+                ICudotosiApplicationModel model, IJpgFileNameChanger jpgFileNameChanger,
                 ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration,
-                IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator)
+                IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator, IMouseOwner mouseOwner,
+                IUserInteraction userInteraction)
             : base(buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndApplicationSynchronizer, model) {
-            vFolderDialog = folderDialog;
             vJpgFileNameChanger = jpgFileNameChanger;
             vTashAccessor = tashAccessor;
             vSimpleLogger = simpleLogger;
             vLogConfiguration = logConfiguration;
             vMousePositionAdjuster = mousePositionAdjuster;
             vCutCalculator = cutCalculator;
+            vMouseOwner = mouseOwner;
+            vUserInteraction = userInteraction;
         }
 
         protected override async Task EnableOrDisableButtonsAsync() {
             Model.SelectFolder.Enabled = await Commands.SelectFolderCommand.ShouldBeEnabledAsync();
             Model.Save.Enabled = await Commands.SaveCommand.ShouldBeEnabledAsync();
+            Model.Default.Enabled = await Commands.DefaultCommand.ShouldBeEnabledAsync();
         }
 
         protected override void CreateCommandsAndHandlers() {
             var mousePositionHandler = new SourceAreaHandler(Model, this, vMousePositionAdjuster, vCutCalculator);
-            var pictureHandler = new PictureHandler(Model, this, vJpgFileNameChanger, mousePositionHandler);
+            var pictureHandler = new PictureHandler(Model, this, vJpgFileNameChanger, mousePositionHandler, vSimpleLogger, vLogConfiguration);
             var sourceSizeXlHandler = new SourceSizeXlHandler(Model, pictureHandler);
             var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, vJpgFileNameChanger);
             var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
@@ -73,8 +77,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
             };
 
             Commands = new CudotosiCommands {
-                SelectFolderCommand = new SelectFolderCommand(Model, vFolderDialog, folderTextHandler),
-                SaveCommand = new SaveCommand(Model, vCutCalculator, jpgFileSelectorHandler, vJpgFileNameChanger)
+                SelectFolderCommand = new SelectFolderCommand(Model, vUserInteraction, folderTextHandler),
+                SaveCommand = new SaveCommand(Model, vCutCalculator, jpgFileSelectorHandler, vJpgFileNameChanger, vUserInteraction, vSimpleLogger, vLogConfiguration),
+                DefaultCommand = new DefaultCommand(Model, vMouseOwner, vSimpleLogger, vLogConfiguration)
             };
 
             var selectors = new Dictionary<string, ISelector> {

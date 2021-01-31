@@ -4,7 +4,11 @@ using System.Windows.Media.Imaging;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.TashClient.Components;
+using Aspenlaub.Net.GitHub.CSharp.TashClient.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class PictureHandler : IPictureHandler {
@@ -12,26 +16,35 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         private readonly IGuiAndAppHandler vGuiAndAppHandler;
         private readonly IJpgFileNameChanger vJpgFileNameChanger;
         private readonly ISourceAreaHandler vSourceAreaHandler;
+        private readonly ISimpleLogger vSimpleLogger;
+        private readonly ILogConfiguration vLogConfiguration;
 
-        public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger, ISourceAreaHandler sourceAreaHandler) {
+        public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger,
+                ISourceAreaHandler sourceAreaHandler, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration) {
             vModel = model;
             vGuiAndAppHandler = guiAndAppHandler;
             vJpgFileNameChanger = jpgFileNameChanger;
             vSourceAreaHandler = sourceAreaHandler;
+            vSimpleLogger = simpleLogger;
+            vLogConfiguration = logConfiguration;
         }
 
         public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight, int actualPictureWidth, int actualPictureHeight) {
-            if (vModel.MousePosX == mousePosX && vModel.MousePosY == mousePosY && vModel.PictureWidth == pictureWidth && vModel.PictureHeight == pictureHeight) {
-                return;
-            }
+            using (vSimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), vLogConfiguration.LogId))) {
+                vSimpleLogger.LogInformation($"Mouse is down at {mousePosX}, {mousePosY}");
+                if (vModel.MousePosX == mousePosX && vModel.MousePosY == mousePosY && vModel.PictureWidth == pictureWidth && vModel.PictureHeight == pictureHeight) {
+                    vSimpleLogger.LogInformation("Same as previous position");
+                    return;
+                }
 
-            vModel.MousePosX = mousePosX;
-            vModel.MousePosY = mousePosY;
-            vModel.PictureWidth = pictureWidth;
-            vModel.PictureHeight = pictureHeight;
-            vModel.ActualPictureWidth = actualPictureWidth;
-            vModel.ActualPictureHeight = actualPictureHeight;
-            await vSourceAreaHandler.OnMousePositionChangedAsync();
+                vModel.MousePosX = mousePosX;
+                vModel.MousePosY = mousePosY;
+                vModel.PictureWidth = pictureWidth;
+                vModel.PictureHeight = pictureHeight;
+                vModel.ActualPictureWidth = actualPictureWidth;
+                vModel.ActualPictureHeight = actualPictureHeight;
+                await vSourceAreaHandler.OnMousePositionChangedAsync();
+            }
         }
 
         public async Task PictureSizeChangedAsync(int actualPictureWidth, int actualPictureHeight) {

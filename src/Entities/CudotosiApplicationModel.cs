@@ -29,6 +29,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
 
         public Button SelectFolder { get; } = new Button();
         public Button Save { get; } = new Button();
+        public Button Default { get; } = new Button();
 
         public IImage Picture { get; } = new Image { BitmapImage = new BitmapImage() };
 

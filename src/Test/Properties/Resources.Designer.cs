@@ -63,6 +63,16 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SamplePicture_LG {
+            get {
+                object obj = ResourceManager.GetObject("SamplePicture_LG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SamplePicture_XL {
             get {
                 object obj = ResourceManager.GetObject("SamplePicture_XL", resourceCulture);

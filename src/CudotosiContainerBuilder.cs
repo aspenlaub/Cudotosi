@@ -13,14 +13,20 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     public static class CudotosiContainerBuilder {
         public static ContainerBuilder UseCudotosiVishizhukelNetAndPegh(this ContainerBuilder builder, CudotosiWindow cudotosiWindow) {
             builder.UseVishizhukelNetDvinAndPegh(new DummyCsArgumentPrompter(), new LogConfiguration());
-            builder.RegisterInstance(cudotosiWindow).As<IFolderDialog>();
+            if (CudotosiApp.IsIntegrationTest) {
+                builder.RegisterInstance(cudotosiWindow).As<IMouseOwner>();
+                builder.RegisterType<FakeUserInteraction>().As<IUserInteraction>().SingleInstance();
+
+            } else {
+                builder.RegisterInstance(cudotosiWindow).As<IMouseOwner>().As<IUserInteraction>();
+            }
             builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler>().SingleInstance();
             builder.RegisterType<CudotosiApplicationModel>().As<CudotosiApplicationModel>().As<ICudotosiApplicationModel>().As<IApplicationModel>().As<IBusy>().SingleInstance();
             builder.RegisterType<CudotosiGuiAndApplicationSynchronizer>().WithParameter((p, c) => p.ParameterType == typeof(CudotosiWindow), (p, c) => cudotosiWindow).As<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>>();
             builder.RegisterType<CudotosiGuiToApplicationGate>().As<IGuiToApplicationGate>().SingleInstance();
+            builder.RegisterType<CutCalculator>().As<ICutCalculator>();
             builder.RegisterType<JpgFileNameChanger>().As<IJpgFileNameChanger>().SingleInstance();
             builder.RegisterType<MousePositionAdjuster>().As<IMousePositionAdjuster>();
-            builder.RegisterType<CutCalculator>().As<ICutCalculator>();
 
             return builder;
         }

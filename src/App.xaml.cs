@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Helpers;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
@@ -6,8 +7,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     /// Interaction logic for CudotosiApp.xaml
     /// </summary>
     public partial class CudotosiApp {
+        public static bool IsIntegrationTest { get; private set; }
+
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
+            IsIntegrationTest = e.Args.Any(a => a == "/UnitTest");
             ExceptionHandlerUpSetter.SetUp(this);
         }
     }

@@ -3,8 +3,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Helpers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
-using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Components;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Extensions;
@@ -60,9 +60,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
         }
 
         protected async Task SelectFolderAsync(string folder) {
-            var folderDialog = Container.Resolve<IFolderDialog>() as FakeFolderDialog;
-            Assert.IsNotNull(folderDialog);
-            folderDialog.FolderToReturn = folder;
+            var fakeUserInteraction = Container.Resolve<IUserInteraction>() as FakeUserInteraction;
+            Assert.IsNotNull(fakeUserInteraction);
+            fakeUserInteraction.FolderToReturn = folder;
             await Application.Commands.SelectFolderCommand.ExecuteAsync();
             Assert.AreEqual(folder, Model.Folder.Text);
         }

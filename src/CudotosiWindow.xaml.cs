@@ -12,13 +12,14 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 using Autofac;
 using Ookii.Dialogs.Wpf;
 using IContainer = Autofac.IContainer;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     /// <summary>
     /// Interaction logic for CudotosiWindow.xaml
     /// </summary>
     // ReSharper disable once UnusedMember.Global
-    public partial class CudotosiWindow : IFolderDialog, IDisposable {
+    public partial class CudotosiWindow : IMouseOwner, IUserInteraction, IDisposable {
         private static IContainer Container { get; set; }
 
         private CudotosiApplication vCudotosiApp;
@@ -47,6 +48,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             var commands = vCudotosiApp.Commands;
             guiToAppGate.WireButtonAndCommand(SelectFolder, commands.SelectFolderCommand, buttonNameToCommandMapper);
             guiToAppGate.WireButtonAndCommand(Save, commands.SaveCommand, buttonNameToCommandMapper);
+            guiToAppGate.WireButtonAndCommand(Default, commands.DefaultCommand, buttonNameToCommandMapper);
 
             guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => vCudotosiApp.Handlers.FolderTextHandler.TextChangedAsync(t));
             guiToAppGate.RegisterAsyncSelectorCallback(JpgFile, t => vCudotosiApp.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(t));
@@ -86,14 +88,19 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
         }
 
         private async void Picture_OnMouseDown(object sender, MouseButtonEventArgs e) {
+            var p = e.GetPosition(Picture);
+            await OnMouseDownAsync(p.X, p.Y);
+
+        }
+
+        public async Task OnMouseDownAsync(double x, double y) {
             var actualPictureWidth = (int)Picture.ActualWidth;
             var actualPictureHeight = (int)Picture.ActualHeight;
-            var p = e.GetPosition(Picture);
             var pictureSourceWidth = (int)Picture.Source.Width;
             var pictureSourceHeight = (int)Picture.Source.Height;
-            var x = (int)(pictureSourceWidth * p.X / actualPictureWidth);
-            var y = (int)(pictureSourceHeight * p.Y / actualPictureHeight);
-            await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync(x, y, pictureSourceWidth, pictureSourceHeight, actualPictureWidth, actualPictureHeight);
+            x = pictureSourceWidth * x / actualPictureWidth;
+            y = pictureSourceHeight * y / actualPictureHeight;
+            await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync((int)x, (int)y, pictureSourceWidth, pictureSourceHeight, actualPictureWidth, actualPictureHeight);
         }
 
         public void Dispose() {
@@ -124,6 +131,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
         public void AdjustCanvasAndImageSync() {
             var adjuster = Container.Resolve<ICanvasAndImageSizeAdjuster>();
             adjuster.AdjustCanvasAndImage(CanvasContainer, Canvas, Picture);
+        }
+
+        public MessageBoxResult ShowMessageBox(string text, MessageBoxButton button, MessageBoxImage icon) {
+            return MessageBox.Show(text, Properties.Resources.CudotosiWindowTitle, button, icon);
         }
     }
 }

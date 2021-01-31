@@ -23,6 +23,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
             var process = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = executableFile,
+                    Arguments = "/UnitTest",
                     WindowStyle = ProcessWindowStyle.Normal,
                     UseShellExecute = true,
                     WorkingDirectory = Path.GetDirectoryName(executableFile) ?? ""

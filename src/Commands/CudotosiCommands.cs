@@ -5,5 +5,6 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
     public class CudotosiCommands : ICudotosiCommands {
         public ICommand SelectFolderCommand { get; set; }
         public ICommand SaveCommand { get; set; }
+        public ICommand DefaultCommand { get; set; }
     }
 }

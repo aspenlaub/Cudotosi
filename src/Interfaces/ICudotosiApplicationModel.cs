@@ -24,6 +24,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
 
         Button SelectFolder { get; }
         Button Save { get; }
+        Button Default { get; }
 
         IImage Picture { get; }
 

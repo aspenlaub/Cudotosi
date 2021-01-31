@@ -46,6 +46,7 @@
             <RadioButton GroupName="DestinationShape" Name="DestinationShapeAsIs" Width="100" Margin="0,5,0,0">As Is</RadioButton>
             <RadioButton GroupName="DestinationShape" Name="DestinationShapeSquare" Width="100" Margin="0,5,0,0">Square</RadioButton>
         </StackPanel>
+        <Button Name="Default" Grid.Row="6" Grid.Column="2" Margin="5" VerticalAlignment="Top">_Default</Button>
         <Label Name="TransformHowManyPercentLabel" Grid.Row="5" Grid.Column="0" Margin="5">Transform</Label>
         <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" Margin="5">
             <RadioButton GroupName="TransformHowManyPercent" Name="TransformHowManyPercent100" Width="100" Margin="0,5,0,0">100%</RadioButton>

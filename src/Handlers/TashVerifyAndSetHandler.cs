@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Tash;
+using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Enums;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -34,9 +35,33 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         }
 
         public override async Task ProcessVerifyWhetherEnabledTaskAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
-            const string errorMessage = "Not implemented yet";
-            SimpleLogger.LogInformation($"Communicating 'BadRequest' to remote controlling process ({errorMessage})");
-            await vTashCommunicator.ChangeCommunicateAndShowProcessTaskStatusAsync(status, ControllableProcessTaskStatus.BadRequest, false, "", errorMessage);
+            bool actualEnabled;
+            switch (status.TaskBeingProcessed.ControlName) {
+                case nameof(status.Model.Default):
+                    actualEnabled = status.Model.Default.Enabled;
+                    break;
+                case nameof(status.Model.Save):
+                    actualEnabled = status.Model.Save.Enabled;
+                    break;
+                default:
+                    var errorMessage = $"Unknown enabled/disabled control {status.TaskBeingProcessed.ControlName}";
+                    SimpleLogger.LogInformation($"Communicating 'BadRequest' to remote controlling process ({errorMessage})");
+                    await TashCommunicator.ChangeCommunicateAndShowProcessTaskStatusAsync(status, ControllableProcessTaskStatus.BadRequest, false, "", errorMessage);
+                    return;
+            }
+
+            status.Model.Status.Type = StatusType.Success;
+            if (status.TaskBeingProcessed.Text == "true") {
+                if (!actualEnabled) {
+                    status.Model.Status.Type = StatusType.Error;
+                    status.Model.Status.Text = $"Expected {status.TaskBeingProcessed.ControlName} to be enabled";
+                }
+            } else if (actualEnabled) {
+                status.Model.Status.Type = StatusType.Error;
+                status.Model.Status.Text = $"Expected {status.TaskBeingProcessed.ControlName} to be disabled";
+            }
+
+            await TashCommunicator.CommunicateAndShowCompletedOrFailedAsync(status, false, "");
         }
 
         public override async Task ProcessVerifyNumberOfItemsTaskAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {

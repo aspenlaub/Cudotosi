@@ -14,14 +14,15 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test {
     public static class CudotosiTestContainerBuilder {
         public static ContainerBuilder UseCudotosiVishizhukelNetAndPegh(this ContainerBuilder builder) {
             builder.UseVishizhukelNetDvinAndPegh(new DummyCsArgumentPrompter(), new LogConfiguration());
-            builder.RegisterType<FakeFolderDialog>().As<IFolderDialog>().SingleInstance();
             builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler>().SingleInstance();
             builder.RegisterType<CudotosiApplicationModel>().As<CudotosiApplicationModel>().As<ICudotosiApplicationModel>().As<IApplicationModel>().As<IBusy>().SingleInstance();
-            builder.RegisterType<FakeGuiAndApplicationSynchronizer>().As<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>>();
             builder.RegisterType<CudotosiGuiToApplicationGate>().As<IGuiToApplicationGate>().SingleInstance();
+            builder.RegisterType<CutCalculator>().As<ICutCalculator>();
+            builder.RegisterType<FakeGuiAndApplicationSynchronizer>().As<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>>();
+            builder.RegisterType<FakeMouseOwner>().As<IMouseOwner>().SingleInstance();
+            builder.RegisterType<FakeUserInteraction>().As<IUserInteraction>().SingleInstance();
             builder.RegisterType<JpgFileNameChanger>().As<IJpgFileNameChanger>().SingleInstance();
             builder.RegisterType<MousePositionAdjuster>().As<IMousePositionAdjuster>();
-            builder.RegisterType<CutCalculator>().As<ICutCalculator>();
 
             return builder;
         }

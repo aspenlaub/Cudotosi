@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Ookii.Dialogs.Wpf.NETCore" Version="2.2.1" />
-    <PackageReference Include="VishizhukelNet" Version="2.0.553.789" />
+    <PackageReference Include="VishizhukelNet" Version="2.0.557.609" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -62,8 +62,5 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>

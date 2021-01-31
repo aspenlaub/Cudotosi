@@ -18,7 +18,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
 
         protected override async Task ProcessSingleTaskAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
             using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogId))) {
-                SimpleLogger.LogInformation($"Processing a task of type {status.TaskBeingProcessed.Type} in {nameof(TashHandler)}");
+                var s = string.IsNullOrEmpty(status.TaskBeingProcessed.ControlName)
+                    ? $"Processing a task of type {status.TaskBeingProcessed.Type} in {nameof(TashHandler)}"
+                    : $"Processing a task of type {status.TaskBeingProcessed.Type} on {status.TaskBeingProcessed.ControlName} in {nameof(TashHandler)}";
+                SimpleLogger.LogInformation(s);
 
                 switch (status.TaskBeingProcessed.Type) {
                     case ControllableProcessTaskType.Reset:

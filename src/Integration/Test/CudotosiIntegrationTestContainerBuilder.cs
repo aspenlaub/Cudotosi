@@ -10,9 +10,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
     public static class CudotosiIntegrationTestContainerBuilder {
         public static ContainerBuilder RegisterForCudotosiIntegrationTest(this ContainerBuilder builder) {
             builder.UseDvinAndPegh(new DummyCsArgumentPrompter());
-            builder.RegisterType<LogConfiguration>().As<ILogConfiguration>();
             builder.RegisterType<CudotosiStarterAndStopper>().As<IStarterAndStopper>();
             builder.RegisterType<CudotosiWindowUnderTest>();
+            builder.RegisterType<LogConfiguration>().As<ILogConfiguration>();
             builder.RegisterType<TashAccessor>().As<ITashAccessor>();
             return builder;
         }

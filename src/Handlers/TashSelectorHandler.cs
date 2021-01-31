@@ -17,11 +17,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         }
 
         public override async Task ProcessSelectComboOrResetTaskAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
-            SimpleLogger.LogInformation($"{status.TaskBeingProcessed.ControlName} is a valid selector");
-            var selector = Selectors[status.TaskBeingProcessed.ControlName];
-
             var controlName = status.TaskBeingProcessed.ControlName;
-            await SelectedIndexChangedAsync(status, controlName, 0, false);
+            SimpleLogger.LogInformation($"{controlName} is a valid selector");
+            var selector = Selectors[controlName];
+
+            await SelectedIndexChangedAsync(status, controlName, -1, false);
             if (status.TaskBeingProcessed.Status == ControllableProcessTaskStatus.BadRequest) { return; }
 
             var itemToSelect = status.TaskBeingProcessed.Text;
