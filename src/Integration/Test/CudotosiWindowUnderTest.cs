@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Interfaces;
-using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.VishnetIntegrationTestTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
