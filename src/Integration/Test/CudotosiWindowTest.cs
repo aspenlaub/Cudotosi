@@ -38,8 +38,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
             };
             await sut.RemotelyProcessTaskListAsync(process, tasks);
             Assert.IsTrue(File.Exists(targetFileName));
-            var targetFileBytes = File.ReadAllBytes(targetFileName).ToList();
-            var expectedTargetFileBytes = File.ReadAllBytes(SampleExpectedPictureLgFileName()).ToList();
+            var targetFileBytes = (await File.ReadAllBytesAsync(targetFileName)).ToList();
+            var expectedTargetFileBytes = (await File.ReadAllBytesAsync(SampleExpectedPictureLgFileName())).ToList();
             Assert.AreEqual(expectedTargetFileBytes.Count, targetFileBytes.Count);
             Assert.IsTrue(expectedTargetFileBytes.Select((b, i) => b == targetFileBytes[i]).All(b => b));
         }
