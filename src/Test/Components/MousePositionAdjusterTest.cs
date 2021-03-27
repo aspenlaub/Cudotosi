@@ -33,6 +33,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Components {
             modelMock.SetupGet(m => m.DestinationShapeAsIs).Returns(shapeAsIsButton);
             var shapeSquareButton = new ToggleButton("Shape") { IsChecked = !asIs };
             modelMock.SetupGet(m => m.DestinationShapeSquare).Returns(shapeSquareButton);
+            var shapePreviewButton = new ToggleButton("Shape") { IsChecked = false };
+            modelMock.SetupGet(m => m.DestinationShapePreview).Returns(shapePreviewButton);
 
             var transForm100Button = new ToggleButton("Shape") { IsChecked = hundredPercent };
             modelMock.SetupGet(m => m.TransformHowManyPercent100).Returns(transForm100Button);
@@ -42,7 +44,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Components {
             var textBox = new TextBox();
             modelMock.SetupGet(m => m.Status).Returns(textBox);
 
-            var sut = new MousePositionAdjuster();
+            var sut = new MousePositionAdjuster(new CutCalculator());
             sut.AdjustMousePosition(model);
             Assert.AreEqual(expectedMousePosX, model.MousePosX);
             Assert.AreEqual(expectedMousePosY, model.MousePosY);

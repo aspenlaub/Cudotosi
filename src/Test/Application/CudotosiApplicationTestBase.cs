@@ -42,11 +42,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
         }
 
         protected void CreateSamplePictureFile(BootstrapSizes size) {
-            File.Copy(SamplePictureXlFileName(), JpgFileNameChanger.ChangeFileName(SamplePictureXlFileName(), size));
+            File.Copy(SamplePictureXlFileName(), JpgFileNameChanger.ChangeFileName(SamplePictureXlFileName(), size, false));
         }
 
         protected void DeleteSamplePictureFile(BootstrapSizes size) {
-            var fileName = JpgFileNameChanger.ChangeFileName(SamplePictureXlFileName(), size);
+            var fileName = JpgFileNameChanger.ChangeFileName(SamplePictureXlFileName(), size, false);
             if (!File.Exists(fileName)) { return; }
 
             File.Delete(fileName);
@@ -68,7 +68,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
         }
 
         protected Dictionary<BootstrapSizes, ToggleButton> SourceSizesToButtons() {
-            return new Dictionary<BootstrapSizes, ToggleButton> {
+            return new() {
                 { BootstrapSizes.Xl, Model.SourceSizeXl },
                 { BootstrapSizes.Lg, Model.SourceSizeLg },
                 { BootstrapSizes.Md, Model.SourceSizeMd },
@@ -77,7 +77,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
         }
 
         protected Dictionary<BootstrapSizes, IToggleButtonHandler> SourceSizesToHandlers() {
-            return new Dictionary<BootstrapSizes, IToggleButtonHandler> {
+            return new() {
                 { BootstrapSizes.Xl, Application.Handlers.SourceSizeXlHandler },
                 { BootstrapSizes.Lg, Application.Handlers.SourceSizeLgHandler },
                 { BootstrapSizes.Md, Application.Handlers.SourceSizeMdHandler },
@@ -86,7 +86,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
         }
 
         protected Dictionary<BootstrapSizes, ToggleButton> TargetSizesToButtons() {
-            return new Dictionary<BootstrapSizes, ToggleButton> {
+            return new() {
                 { BootstrapSizes.Lg, Model.TargetSizeLg },
                 { BootstrapSizes.Md, Model.TargetSizeMd },
                 { BootstrapSizes.Sm, Model.TargetSizeSm },

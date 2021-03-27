@@ -82,13 +82,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
 
             vTargetFileName = vModel.JpgFile.SelectedItem.Name;
             if (vModel.TargetSizeLg.IsChecked) {
-                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Lg);
+                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Lg, vModel.DestinationShapePreview.IsChecked);
             } else if (vModel.TargetSizeMd.IsChecked) {
-                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Md);
+                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Md, vModel.DestinationShapePreview.IsChecked);
             } else if (vModel.TargetSizeSm.IsChecked) {
-                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Sm);
+                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Sm, vModel.DestinationShapePreview.IsChecked);
             } else if (vModel.TargetSizeXs.IsChecked) {
-                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Xs);
+                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Xs, vModel.DestinationShapePreview.IsChecked);
             } else {
                 return result;
             }

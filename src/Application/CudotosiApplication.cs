@@ -72,6 +72,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 PictureHandler = pictureHandler,
                 DestinationShapeAsIsHandler = new DestinationShapeAsIsHandler(Model, mousePositionHandler),
                 DestinationShapeSquareHandler = new DestinationShapeSquareHandler(Model, mousePositionHandler),
+                DestinationShapePreviewHandler = new DestinationShapePreviewHandler(Model, mousePositionHandler),
                 TransformHowManyPercent100Handler = new TransformHowManyPercentHandler(Model, mousePositionHandler, Model.TransformHowManyPercent100, 100),
                 TransformHowManyPercent50Handler = new TransformHowManyPercentHandler(Model, mousePositionHandler, Model.TransformHowManyPercent50, 50)
             };

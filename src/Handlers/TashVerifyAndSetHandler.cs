@@ -16,14 +16,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         protected override void OnValueTaskProcessed(ITashTaskHandlingStatus<ICudotosiApplicationModel> status, bool verify, bool set, string actualValue) { }
 
         protected override Dictionary<string, ITextBox> TextBoxNamesToTextBoxDictionary(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
-            return new Dictionary<string, ITextBox> {
+            return new() {
                 { nameof(status.Model.Folder), status.Model.Folder },
                 { nameof(status.Model.Status), status.Model.Status }
             };
         }
 
         protected override Dictionary<string, ISimpleTextHandler> TextBoxNamesToTextHandlerDictionary(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
-            return new Dictionary<string, ISimpleTextHandler> {
+            return new() {
                 { nameof(status.Model.Folder), vCudotosiHandlers.FolderTextHandler }
             };
         }

@@ -18,6 +18,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
 
         ToggleButton DestinationShapeAsIs { get; }
         ToggleButton DestinationShapeSquare { get; }
+        ToggleButton DestinationShapePreview { get; }
 
         ToggleButton TransformHowManyPercent100 { get; }
         ToggleButton TransformHowManyPercent50 { get; }

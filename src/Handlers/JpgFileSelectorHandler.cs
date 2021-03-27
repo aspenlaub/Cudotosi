@@ -43,13 +43,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             vModel.JpgFile.SelectedIndex = selectedIndex;
             vModel.DestinationShapeAsIs.Enabled = haveSelectedIndex;
             vModel.DestinationShapeSquare.Enabled = haveSelectedIndex;
+            vModel.DestinationShapePreview.Enabled = haveSelectedIndex;
             vModel.TransformHowManyPercent100.Enabled = haveSelectedIndex;
             vModel.TransformHowManyPercent50.Enabled = haveSelectedIndex;
             var fileName = vPictureHandler.FileName();
             await vPictureHandler.LoadFromFile(fileName);
-            vModel.SourceSizeLg.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg));
-            vModel.SourceSizeMd.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md));
-            vModel.SourceSizeSm.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm));
+            vModel.SourceSizeLg.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false));
+            vModel.SourceSizeMd.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false));
+            vModel.SourceSizeSm.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false));
             vSourceSizeXlHandler.SetChecked(false);
             await vSourceSizeXlHandler.ToggledAsync(true);
             vModel.Status.Type = StatusType.None;

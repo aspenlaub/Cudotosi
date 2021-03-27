@@ -65,6 +65,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
 
             guiToAppGate.WireToggleButtonAndHandler(DestinationShapeAsIs, vCudotosiApp.Handlers.DestinationShapeAsIsHandler, toggleButtonNameToHandlerMapper);
             guiToAppGate.WireToggleButtonAndHandler(DestinationShapeSquare, vCudotosiApp.Handlers.DestinationShapeSquareHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(DestinationShapePreview, vCudotosiApp.Handlers.DestinationShapePreviewHandler, toggleButtonNameToHandlerMapper);
 
             guiToAppGate.WireToggleButtonAndHandler(TransformHowManyPercent100, vCudotosiApp.Handlers.TransformHowManyPercent100Handler, toggleButtonNameToHandlerMapper);
             guiToAppGate.WireToggleButtonAndHandler(TransformHowManyPercent50, vCudotosiApp.Handlers.TransformHowManyPercent50Handler, toggleButtonNameToHandlerMapper);

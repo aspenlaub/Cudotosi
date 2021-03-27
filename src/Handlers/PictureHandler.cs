@@ -66,11 +66,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
                 vModel.Picture.BitmapImage = new BitmapImage();
             } else {
                 if (vModel.SourceSizeLg.IsChecked) {
-                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg);
+                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false);
                 } else if (vModel.SourceSizeMd.IsChecked) {
-                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md);
+                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false);
                 } else if (vModel.SourceSizeSm.IsChecked) {
-                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm);
+                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false);
                 }
                 var image = new BitmapImage();
                 image.BeginInit();

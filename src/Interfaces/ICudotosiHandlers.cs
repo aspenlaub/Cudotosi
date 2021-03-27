@@ -18,6 +18,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
 
         IToggleButtonHandler DestinationShapeAsIsHandler { get; set; }
         IToggleButtonHandler DestinationShapeSquareHandler { get; set; }
+        IToggleButtonHandler DestinationShapePreviewHandler { get; set; }
 
         IToggleButtonHandler TransformHowManyPercent100Handler { get; set; }
         IToggleButtonHandler TransformHowManyPercent50Handler { get; set; }

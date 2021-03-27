@@ -17,19 +17,39 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components {
         }
 
         public void TargetSize(ICudotosiApplicationModel model, int imageWidth, int imageHeight, out int targetWidth, out int targetHeight) {
-            if (model.TargetSizeLg.IsChecked) {
-                targetWidth = 1140;
-            } else if (model.TargetSizeMd.IsChecked) {
-                targetWidth = 960;
-            } else if (model.TargetSizeSm.IsChecked) {
-                targetWidth = 768;
-            } else if (model.TargetSizeXs.IsChecked) {
-                targetWidth = 576;
-            } else {
+            if (imageHeight == 0 || imageWidth == 0) {
+                targetHeight = 0;
                 targetWidth = 0;
+                return;
             }
 
-            targetHeight = model.DestinationShapeSquare.IsChecked ? targetWidth : targetWidth * imageHeight / imageWidth;
+            if (model.DestinationShapePreview.IsChecked) {
+                targetHeight = 128;
+
+                if (model.TargetSizeLg.IsChecked || model.TargetSizeMd.IsChecked) {
+                    targetWidth = targetHeight * imageWidth / imageHeight;
+                } else if (model.TargetSizeSm.IsChecked) {
+                    targetWidth = 600;
+                } else if (model.TargetSizeXs.IsChecked) {
+                    targetWidth = 400;
+                } else {
+                    targetWidth = 0;
+                }
+            } else {
+                if (model.TargetSizeLg.IsChecked) {
+                    targetWidth = 1140;
+                } else if (model.TargetSizeMd.IsChecked) {
+                    targetWidth = 960;
+                } else if (model.TargetSizeSm.IsChecked) {
+                    targetWidth = 768;
+                } else if (model.TargetSizeXs.IsChecked) {
+                    targetWidth = 576;
+                } else {
+                    targetWidth = 0;
+                }
+
+                targetHeight = model.DestinationShapeSquare.IsChecked ? targetWidth : targetWidth * imageHeight / imageWidth;
+            }
         }
     }
 }

@@ -11,25 +11,26 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
         public ITextBox Folder { get; } = new TextBox();
         public ISelector JpgFile { get; } = new ComboBox();
 
-        public ToggleButton SourceSizeXl { get; } = new ToggleButton("SourceSize") { IsChecked = true, Enabled = true };
-        public ToggleButton SourceSizeLg { get; } = new ToggleButton("SourceSize") { Enabled = false };
-        public ToggleButton SourceSizeMd { get; } = new ToggleButton("SourceSize") { Enabled = false };
-        public ToggleButton SourceSizeSm { get; } = new ToggleButton("SourceSize") { Enabled = false };
+        public ToggleButton SourceSizeXl { get; } = new("SourceSize") { IsChecked = true, Enabled = true };
+        public ToggleButton SourceSizeLg { get; } = new("SourceSize") { Enabled = false };
+        public ToggleButton SourceSizeMd { get; } = new("SourceSize") { Enabled = false };
+        public ToggleButton SourceSizeSm { get; } = new("SourceSize") { Enabled = false };
 
-        public ToggleButton TargetSizeLg { get; } = new ToggleButton("TargetSize") { IsChecked = true, Enabled = false };
-        public ToggleButton TargetSizeMd { get; } = new ToggleButton("TargetSize") { Enabled = false };
-        public ToggleButton TargetSizeSm { get; } = new ToggleButton("TargetSize") { Enabled = false };
-        public ToggleButton TargetSizeXs { get; } = new ToggleButton("TargetSize") { Enabled = false };
+        public ToggleButton TargetSizeLg { get; } = new("TargetSize") { IsChecked = true, Enabled = false };
+        public ToggleButton TargetSizeMd { get; } = new("TargetSize") { Enabled = false };
+        public ToggleButton TargetSizeSm { get; } = new("TargetSize") { Enabled = false };
+        public ToggleButton TargetSizeXs { get; } = new("TargetSize") { Enabled = false };
 
-        public ToggleButton DestinationShapeAsIs { get; } = new ToggleButton("DestinationShape") { IsChecked = true, Enabled = false };
-        public ToggleButton DestinationShapeSquare { get; } = new ToggleButton("DestinationShape") { Enabled = false };
+        public ToggleButton DestinationShapeAsIs { get; } = new("DestinationShape") { IsChecked = true, Enabled = false };
+        public ToggleButton DestinationShapeSquare { get; } = new("DestinationShape") { Enabled = false };
+        public ToggleButton DestinationShapePreview { get; } = new("DestinationShape") { Enabled = false };
 
-        public ToggleButton TransformHowManyPercent100 { get; } = new ToggleButton("TransformHowManyPercent") { IsChecked = true, Enabled = false };
-        public ToggleButton TransformHowManyPercent50 { get; } = new ToggleButton("TransformHowManyPercent") { Enabled = false };
+        public ToggleButton TransformHowManyPercent100 { get; } = new("TransformHowManyPercent") { IsChecked = true, Enabled = false };
+        public ToggleButton TransformHowManyPercent50 { get; } = new("TransformHowManyPercent") { Enabled = false };
 
-        public Button SelectFolder { get; } = new Button();
-        public Button Save { get; } = new Button();
-        public Button Default { get; } = new Button();
+        public Button SelectFolder { get; } = new();
+        public Button Save { get; } = new();
+        public Button Default { get; } = new();
 
         public IImage Picture { get; } = new Image { BitmapImage = new BitmapImage() };
 

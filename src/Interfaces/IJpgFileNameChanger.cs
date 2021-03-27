@@ -2,6 +2,6 @@
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
     public interface IJpgFileNameChanger {
-        string ChangeFileName(string xlFileName, BootstrapSizes size);
+        string ChangeFileName(string xlFileName, BootstrapSizes size, bool preview);
     }
 }

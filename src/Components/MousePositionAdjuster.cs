@@ -3,23 +3,35 @@ using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components {
     public class MousePositionAdjuster : IMousePositionAdjuster {
+        private readonly ICutCalculator vCutCalculator;
+
+        public MousePositionAdjuster(ICutCalculator cutCalculator) {
+            vCutCalculator = cutCalculator;
+        }
+
         public void AdjustMousePosition(ICudotosiApplicationModel model) {
             if (model.DestinationShapeAsIs.IsChecked) {
-                if (model.TransformHowManyPercent100.IsChecked) {
-                    model.SourceAreaWidth = model.PictureWidth;
-                    model.SourceAreaHeight = model.PictureHeight;
-                } else {
-                    model.SourceAreaWidth = model.PictureWidth / 2;
-                    model.SourceAreaHeight = model.PictureHeight / 2;
-                }
+                model.SourceAreaWidth = model.PictureWidth;
+                model.SourceAreaHeight = model.PictureHeight;
+            } else if (model.DestinationShapeSquare.IsChecked) {
+                model.SourceAreaWidth = Math.Min(model.PictureWidth, model.PictureHeight);
+                model.SourceAreaHeight = model.SourceAreaWidth;
             } else {
-                if (model.TransformHowManyPercent100.IsChecked) {
-                    model.SourceAreaWidth = Math.Min(model.PictureWidth, model.PictureHeight);
-                    model.SourceAreaHeight = model.SourceAreaWidth;
+                vCutCalculator.TargetSize(model, model.PictureWidth, model.PictureHeight, out var targetWidth, out var targetHeight);
+                if (targetHeight == 0 || targetWidth == 0) {
+                    model.SourceAreaHeight = 0;
+                    model.SourceAreaWidth = 0;
+                } else if (targetWidth * model.PictureHeight >= targetHeight * model.PictureWidth) {
+                    model.SourceAreaWidth = model.PictureWidth;
+                    model.SourceAreaHeight = model.PictureWidth * targetHeight / targetWidth;
                 } else {
-                    model.SourceAreaWidth = Math.Min(model.PictureWidth, model.PictureHeight) / 2;
-                    model.SourceAreaHeight = model.SourceAreaWidth;
+                    model.SourceAreaHeight = model.PictureHeight;
+                    model.SourceAreaWidth = model.PictureHeight * targetWidth / targetHeight;
                 }
+            }
+            if (!model.TransformHowManyPercent100.IsChecked) {
+                model.SourceAreaWidth /= 2;
+                model.SourceAreaHeight /= 2;
             }
 
             if (model.MousePosX + model.SourceAreaWidth > model.PictureWidth) {
