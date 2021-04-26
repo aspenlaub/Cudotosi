@@ -1,4 +1,5 @@
-﻿using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
+﻿using System.Threading.Tasks;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI;
@@ -11,8 +12,8 @@ using Autofac;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     public static class CudotosiContainerBuilder {
-        public static ContainerBuilder UseCudotosiVishizhukelNetAndPegh(this ContainerBuilder builder, CudotosiWindow cudotosiWindow) {
-            builder.UseVishizhukelNetDvinAndPegh(new DummyCsArgumentPrompter(), new LogConfiguration());
+        public static async Task<ContainerBuilder> UseCudotosiVishizhukelNetAndPeghAsync(this ContainerBuilder builder, CudotosiWindow cudotosiWindow) {
+            await builder.UseVishizhukelNetDvinAndPeghAsync(new DummyCsArgumentPrompter(), new LogConfiguration());
             if (CudotosiApp.IsIntegrationTest) {
                 builder.RegisterInstance(cudotosiWindow).As<IMouseOwner>();
                 builder.RegisterType<FakeUserInteraction>().As<IUserInteraction>().SingleInstance();

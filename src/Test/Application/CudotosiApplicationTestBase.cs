@@ -23,9 +23,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
         protected IJpgFileNameChanger JpgFileNameChanger;
 
         public virtual async Task Initialize() {
-            Container = new ContainerBuilder()
-                .UseCudotosiVishizhukelNetAndPegh()
-                .Build();
+            Container = (await new ContainerBuilder().UseCudotosiVishizhukelNetAndPeghAsync()).Build();
             Application = Container.Resolve<CudotosiApplication>();
             Assert.IsNotNull(Application);
             Model = Container.Resolve<ICudotosiApplicationModel>();

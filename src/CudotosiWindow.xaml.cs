@@ -28,7 +28,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
         public CudotosiWindow() {
             InitializeComponent();
 
-            var builder = new ContainerBuilder().UseCudotosiVishizhukelNetAndPegh(this);
+            var builder = new ContainerBuilder().UseCudotosiVishizhukelNetAndPeghAsync(this).Result;
             Container = builder.Build();
 
             Title = Properties.Resources.CudotosiWindowTitle;
