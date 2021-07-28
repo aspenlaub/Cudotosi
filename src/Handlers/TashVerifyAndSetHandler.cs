@@ -27,5 +27,13 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
                 { nameof(status.Model.Folder), vCudotosiHandlers.FolderTextHandler }
             };
         }
+
+        protected override Dictionary<string, ISimpleCollectionViewSourceHandler> CollectionViewSourceNamesToCollectionViewSourceHandlerDictionary(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
+            return new();
+        }
+
+        protected override Dictionary<string, ICollectionViewSource> CollectionViewSourceNamesToCollectionViewSourceDictionary(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
+            return new();
+        }
     }
 }
