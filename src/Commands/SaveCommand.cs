@@ -53,7 +53,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
             }
         }
 
-        private IYesNoInconclusive Execute() {
+        private YesNoInconclusive Execute() {
             var result = new YesNoInconclusive { Inconclusive = false, YesNo = false };
             if (!vModel.Save.Enabled) {
                 return result;
