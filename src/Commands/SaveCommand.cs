@@ -16,53 +16,53 @@ using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
     public class SaveCommand : ICommand {
-        private readonly ICudotosiApplicationModel vModel;
-        private readonly ICutCalculator vCutCalculator;
-        private readonly ISimpleSelectorHandler vJpgFileSelectorHandler;
-        private readonly IJpgFileNameChanger vJpgFileNameChanger;
-        private readonly IUserInteraction vUserInteraction;
-        private string vTargetFileName;
-        private readonly ISimpleLogger vSimpleLogger;
-        private readonly ILogConfiguration vLogConfiguration;
+        private readonly ICudotosiApplicationModel Model;
+        private readonly ICutCalculator CutCalculator;
+        private readonly ISimpleSelectorHandler JpgFileSelectorHandler;
+        private readonly IJpgFileNameChanger JpgFileNameChanger;
+        private readonly IUserInteraction UserInteraction;
+        private string TargetFileName;
+        private readonly ISimpleLogger SimpleLogger;
+        private readonly ILogConfiguration LogConfiguration;
 
         public SaveCommand(ICudotosiApplicationModel model, ICutCalculator cutCalculator, ISimpleSelectorHandler jpgFileSelectorHandler,
                 IJpgFileNameChanger jpgFileNameChanger, IUserInteraction userInteraction, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration) {
-            vModel = model;
-            vCutCalculator = cutCalculator;
-            vJpgFileSelectorHandler = jpgFileSelectorHandler;
-            vJpgFileNameChanger = jpgFileNameChanger;
-            vUserInteraction = userInteraction;
-            vTargetFileName = "";
-            vSimpleLogger = simpleLogger;
-            vLogConfiguration = logConfiguration;
+            Model = model;
+            CutCalculator = cutCalculator;
+            JpgFileSelectorHandler = jpgFileSelectorHandler;
+            JpgFileNameChanger = jpgFileNameChanger;
+            UserInteraction = userInteraction;
+            TargetFileName = "";
+            SimpleLogger = simpleLogger;
+            LogConfiguration = logConfiguration;
         }
 
         public async Task ExecuteAsync() {
             var executionResult  = Execute();
             var executed = executionResult.YesNo && !executionResult.Inconclusive;
-            vModel.Status.Type = executed ? StatusType.Success : executionResult.Inconclusive ? StatusType.None : StatusType.Error;
-            vModel.Status.Text = executed
-                ? string.Format(Properties.Resources.TargetFileSaved, vTargetFileName)
+            Model.Status.Type = executed ? StatusType.Success : executionResult.Inconclusive ? StatusType.None : StatusType.Error;
+            Model.Status.Text = executed
+                ? string.Format(Properties.Resources.TargetFileSaved, TargetFileName)
                 : executionResult.Inconclusive
                     ? Properties.Resources.NoTargetFileWasSaved
                     : Properties.Resources.TargetFileCouldNotBeSaved;
             if (!executionResult.Inconclusive) {
-                await vJpgFileSelectorHandler.UpdateSelectableValuesAsync();
-                var icon = vModel.Status.Type == StatusType.Error ? MessageBoxImage.Error : MessageBoxImage.Information;
-                vUserInteraction.ShowMessageBox(vModel.Status.Text, MessageBoxButton.OK, icon);
+                await JpgFileSelectorHandler.UpdateSelectableValuesAsync();
+                var icon = Model.Status.Type == StatusType.Error ? MessageBoxImage.Error : MessageBoxImage.Information;
+                UserInteraction.ShowMessageBox(Model.Status.Text, MessageBoxButton.OK, icon);
             }
         }
 
         private YesNoInconclusive Execute() {
             var result = new YesNoInconclusive { Inconclusive = false, YesNo = false };
-            if (!vModel.Save.Enabled) {
+            if (!Model.Save.Enabled) {
                 return result;
             }
 
-            using var image = Image.FromFile(vModel.Folder.Text + @"\" + vModel.JpgFile.SelectedItem.Name);
+            using var image = Image.FromFile(Model.Folder.Text + @"\" + Model.JpgFile.SelectedItem.Name);
 
-            vCutCalculator.CutOut(vModel, image.Width, image.Height, out var cutOutLeft, out var cutOutTop, out var cutOutWidth, out var cutOutHeight);
-            vCutCalculator.TargetSize(vModel, image.Width, image.Height, out var targetWidth, out var targetHeight);
+            CutCalculator.CutOut(Model, image.Width, image.Height, out var cutOutLeft, out var cutOutTop, out var cutOutWidth, out var cutOutHeight);
+            CutCalculator.TargetSize(Model, image.Width, image.Height, out var targetWidth, out var targetHeight);
 
             var targetRectangle = new Rectangle(0, 0, targetWidth, targetHeight);
             var targetImage = new Bitmap(targetWidth, targetHeight);
@@ -80,26 +80,26 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
 
             graphics.DrawImage(image, targetRectangle, cutOutLeft, cutOutTop, cutOutWidth, cutOutHeight, GraphicsUnit.Pixel, mode);
 
-            vTargetFileName = vModel.JpgFile.SelectedItem.Name;
-            if (vModel.TargetSizeLg.IsChecked) {
-                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Lg, vModel.DestinationShapePreview.IsChecked);
-            } else if (vModel.TargetSizeMd.IsChecked) {
-                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Md, vModel.DestinationShapePreview.IsChecked);
-            } else if (vModel.TargetSizeSm.IsChecked) {
-                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Sm, vModel.DestinationShapePreview.IsChecked);
-            } else if (vModel.TargetSizeXs.IsChecked) {
-                vTargetFileName = vJpgFileNameChanger.ChangeFileName(vTargetFileName, BootstrapSizes.Xs, vModel.DestinationShapePreview.IsChecked);
+            TargetFileName = Model.JpgFile.SelectedItem.Name;
+            if (Model.TargetSizeLg.IsChecked) {
+                TargetFileName = JpgFileNameChanger.ChangeFileName(TargetFileName, BootstrapSizes.Lg, Model.DestinationShapePreview.IsChecked);
+            } else if (Model.TargetSizeMd.IsChecked) {
+                TargetFileName = JpgFileNameChanger.ChangeFileName(TargetFileName, BootstrapSizes.Md, Model.DestinationShapePreview.IsChecked);
+            } else if (Model.TargetSizeSm.IsChecked) {
+                TargetFileName = JpgFileNameChanger.ChangeFileName(TargetFileName, BootstrapSizes.Sm, Model.DestinationShapePreview.IsChecked);
+            } else if (Model.TargetSizeXs.IsChecked) {
+                TargetFileName = JpgFileNameChanger.ChangeFileName(TargetFileName, BootstrapSizes.Xs, Model.DestinationShapePreview.IsChecked);
             } else {
                 return result;
             }
 
-            if (vTargetFileName == vModel.JpgFile.SelectedItem.Name) {
+            if (TargetFileName == Model.JpgFile.SelectedItem.Name) {
                 return result;
             }
 
-            var targetFileFullName = vModel.Folder.Text + @"\" + vTargetFileName;
+            var targetFileFullName = Model.Folder.Text + @"\" + TargetFileName;
             if (File.Exists(targetFileFullName)) {
-                var mbResult = vUserInteraction.ShowMessageBox(string.Format(Properties.Resources.TargetFileExistsOverwrite, vTargetFileName),
+                var mbResult = UserInteraction.ShowMessageBox(string.Format(Properties.Resources.TargetFileExistsOverwrite, TargetFileName),
                     MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
                 if (mbResult != MessageBoxResult.Yes) {
                     result.Inconclusive = true;
@@ -112,9 +112,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
         }
 
         public async Task<bool> ShouldBeEnabledAsync() {
-            using (vSimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), vLogConfiguration.LogId))) {
-                vSimpleLogger.LogInformation("Checking if save command should be enabled");
-                return await Task.FromResult(vModel.PictureHeight > 0 && vModel.PictureWidth > 0);
+            using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
+                SimpleLogger.LogInformation("Checking if save command should be enabled");
+                return await Task.FromResult(Model.JpgFile.SelectedIndex >= 0 && Model.PictureHeight > 0 && Model.PictureWidth > 0);
             }
         }
     }

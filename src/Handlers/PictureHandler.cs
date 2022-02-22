@@ -12,53 +12,53 @@ using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class PictureHandler : IPictureHandler {
-        private readonly ICudotosiApplicationModel vModel;
-        private readonly IGuiAndAppHandler vGuiAndAppHandler;
-        private readonly IJpgFileNameChanger vJpgFileNameChanger;
-        private readonly ISourceAreaHandler vSourceAreaHandler;
-        private readonly ISimpleLogger vSimpleLogger;
-        private readonly ILogConfiguration vLogConfiguration;
+        private readonly ICudotosiApplicationModel Model;
+        private readonly IGuiAndAppHandler GuiAndAppHandler;
+        private readonly IJpgFileNameChanger JpgFileNameChanger;
+        private readonly ISourceAreaHandler SourceAreaHandler;
+        private readonly ISimpleLogger SimpleLogger;
+        private readonly ILogConfiguration LogConfiguration;
 
         public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger,
                 ISourceAreaHandler sourceAreaHandler, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration) {
-            vModel = model;
-            vGuiAndAppHandler = guiAndAppHandler;
-            vJpgFileNameChanger = jpgFileNameChanger;
-            vSourceAreaHandler = sourceAreaHandler;
-            vSimpleLogger = simpleLogger;
-            vLogConfiguration = logConfiguration;
+            Model = model;
+            GuiAndAppHandler = guiAndAppHandler;
+            JpgFileNameChanger = jpgFileNameChanger;
+            SourceAreaHandler = sourceAreaHandler;
+            SimpleLogger = simpleLogger;
+            LogConfiguration = logConfiguration;
         }
 
         public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight, int actualPictureWidth, int actualPictureHeight) {
-            using (vSimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), vLogConfiguration.LogId))) {
-                vSimpleLogger.LogInformation($"Mouse is down at {mousePosX}, {mousePosY}");
-                if (vModel.MousePosX == mousePosX && vModel.MousePosY == mousePosY && vModel.PictureWidth == pictureWidth && vModel.PictureHeight == pictureHeight) {
-                    vSimpleLogger.LogInformation("Same as previous position");
+            using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
+                SimpleLogger.LogInformation($"Mouse is down at {mousePosX}, {mousePosY}");
+                if (Model.MousePosX == mousePosX && Model.MousePosY == mousePosY && Model.PictureWidth == pictureWidth && Model.PictureHeight == pictureHeight) {
+                    SimpleLogger.LogInformation("Same as previous position");
                     return;
                 }
 
-                vModel.MousePosX = mousePosX;
-                vModel.MousePosY = mousePosY;
-                vModel.PictureWidth = pictureWidth;
-                vModel.PictureHeight = pictureHeight;
-                vModel.ActualPictureWidth = actualPictureWidth;
-                vModel.ActualPictureHeight = actualPictureHeight;
-                await vSourceAreaHandler.OnMousePositionChangedAsync();
+                Model.MousePosX = mousePosX;
+                Model.MousePosY = mousePosY;
+                Model.PictureWidth = pictureWidth;
+                Model.PictureHeight = pictureHeight;
+                Model.ActualPictureWidth = actualPictureWidth;
+                Model.ActualPictureHeight = actualPictureHeight;
+                await SourceAreaHandler.OnMousePositionChangedAsync();
             }
         }
 
         public async Task PictureSizeChangedAsync(int actualPictureWidth, int actualPictureHeight) {
-            if (vModel.ActualPictureWidth == actualPictureWidth && vModel.ActualPictureHeight == actualPictureHeight) {
+            if (Model.ActualPictureWidth == actualPictureWidth && Model.ActualPictureHeight == actualPictureHeight) {
                 return;
             }
 
-            vModel.ActualPictureWidth = actualPictureWidth;
-            vModel.ActualPictureHeight = actualPictureHeight;
-            await vSourceAreaHandler.OnMousePositionChangedAsync();
+            Model.ActualPictureWidth = actualPictureWidth;
+            Model.ActualPictureHeight = actualPictureHeight;
+            await SourceAreaHandler.OnMousePositionChangedAsync();
         }
 
         public string FileName() {
-            return vModel.JpgFile.SelectedIndex >= 0 ? new Folder(vModel.Folder.Text).FullName + @"\" + vModel.JpgFile.SelectedItem.Name : "";
+            return Model.JpgFile.SelectedIndex >= 0 ? new Folder(Model.Folder.Text).FullName + @"\" + Model.JpgFile.SelectedItem.Name : "";
         }
 
         public async Task LoadFromFile(string fileName) {
@@ -67,12 +67,12 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             if (fileName == "") {
                 image = new BitmapImage();
             } else {
-                if (vModel.SourceSizeLg.IsChecked) {
-                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false);
-                } else if (vModel.SourceSizeMd.IsChecked) {
-                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false);
-                } else if (vModel.SourceSizeSm.IsChecked) {
-                    fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false);
+                if (Model.SourceSizeLg.IsChecked) {
+                    fileName = JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false);
+                } else if (Model.SourceSizeMd.IsChecked) {
+                    fileName = JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false);
+                } else if (Model.SourceSizeSm.IsChecked) {
+                    fileName = JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false);
                 }
                 image = new BitmapImage();
             }
@@ -81,14 +81,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             image.CacheOption = BitmapCacheOption.OnLoad;
             image.UriSource = fileName != "" ? new Uri(fileName) : new Uri(@"Images\blank.jpg", UriKind.Relative);
             image.EndInit();
-            vModel.Picture.BitmapImage = image;
+            Model.Picture.BitmapImage = image;
 
-            vModel.MousePosX = 0;
-            vModel.MousePosY = 0;
-            vModel.SourceAreaHeight = 0;
-            vModel.SourceAreaWidth = 0;
-            vModel.Status.Text = "";
-            await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
+            Model.MousePosX = 0;
+            Model.MousePosY = 0;
+            Model.SourceAreaHeight = 0;
+            Model.SourceAreaWidth = 0;
+            Model.Status.Text = "";
+            await GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }
     }
 }

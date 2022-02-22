@@ -16,15 +16,15 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
     public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>, ICudotosiApplicationModel> {
         public ICudotosiHandlers Handlers { get; private set; }
         public ICudotosiCommands Commands { get; private set; }
-        private readonly IJpgFileNameChanger vJpgFileNameChanger;
+        private readonly IJpgFileNameChanger JpgFileNameChanger;
         public ITashHandler<ICudotosiApplicationModel> TashHandler { get; private set; }
-        private readonly ITashAccessor vTashAccessor;
-        private readonly ISimpleLogger vSimpleLogger;
-        private readonly ILogConfiguration vLogConfiguration;
-        private readonly IMousePositionAdjuster vMousePositionAdjuster;
-        private readonly ICutCalculator vCutCalculator;
-        private readonly IMouseOwner vMouseOwner;
-        private readonly IUserInteraction vUserInteraction;
+        private readonly ITashAccessor TashAccessor;
+        private readonly ISimpleLogger SimpleLogger;
+        private readonly ILogConfiguration LogConfiguration;
+        private readonly IMousePositionAdjuster MousePositionAdjuster;
+        private readonly ICutCalculator CutCalculator;
+        private readonly IMouseOwner MouseOwner;
+        private readonly IUserInteraction UserInteraction;
 
         public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper, IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper,
                 IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
@@ -33,14 +33,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator, IMouseOwner mouseOwner,
                 IUserInteraction userInteraction)
             : base(buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndApplicationSynchronizer, model) {
-            vJpgFileNameChanger = jpgFileNameChanger;
-            vTashAccessor = tashAccessor;
-            vSimpleLogger = simpleLogger;
-            vLogConfiguration = logConfiguration;
-            vMousePositionAdjuster = mousePositionAdjuster;
-            vCutCalculator = cutCalculator;
-            vMouseOwner = mouseOwner;
-            vUserInteraction = userInteraction;
+            JpgFileNameChanger = jpgFileNameChanger;
+            TashAccessor = tashAccessor;
+            SimpleLogger = simpleLogger;
+            LogConfiguration = logConfiguration;
+            MousePositionAdjuster = mousePositionAdjuster;
+            CutCalculator = cutCalculator;
+            MouseOwner = mouseOwner;
+            UserInteraction = userInteraction;
         }
 
         protected override async Task EnableOrDisableButtonsAsync() {
@@ -50,10 +50,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         }
 
         protected override void CreateCommandsAndHandlers() {
-            var mousePositionHandler = new SourceAreaHandler(Model, this, vMousePositionAdjuster, vCutCalculator);
-            var pictureHandler = new PictureHandler(Model, this, vJpgFileNameChanger, mousePositionHandler, vSimpleLogger, vLogConfiguration);
+            var mousePositionHandler = new SourceAreaHandler(Model, this, MousePositionAdjuster, CutCalculator);
+            var pictureHandler = new PictureHandler(Model, this, JpgFileNameChanger, mousePositionHandler, SimpleLogger, LogConfiguration);
             var sourceSizeXlHandler = new SourceSizeXlHandler(Model, pictureHandler);
-            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, vJpgFileNameChanger);
+            var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, JpgFileNameChanger);
             var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
             var targetSizeMdHandler = new TargetSizeMdHandler(Model);
             var targetSizeSmHandler = new TargetSizeSmHandler(Model);
@@ -78,19 +78,19 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
             };
 
             Commands = new CudotosiCommands {
-                SelectFolderCommand = new SelectFolderCommand(Model, vUserInteraction, folderTextHandler),
-                SaveCommand = new SaveCommand(Model, vCutCalculator, jpgFileSelectorHandler, vJpgFileNameChanger, vUserInteraction, vSimpleLogger, vLogConfiguration),
-                DefaultCommand = new DefaultCommand(Model, vMouseOwner, vSimpleLogger, vLogConfiguration)
+                SelectFolderCommand = new SelectFolderCommand(Model, UserInteraction, folderTextHandler),
+                SaveCommand = new SaveCommand(Model, CutCalculator, jpgFileSelectorHandler, JpgFileNameChanger, UserInteraction, SimpleLogger, LogConfiguration),
+                DefaultCommand = new DefaultCommand(Model, MouseOwner, SimpleLogger, LogConfiguration)
             };
 
             var selectors = new Dictionary<string, ISelector> {
                 { nameof(ICudotosiApplicationModel.JpgFile), Model.JpgFile }
             };
 
-            var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(vTashAccessor, vSimpleLogger, vLogConfiguration);
-            var selectorHandler = new TashSelectorHandler(Handlers, vSimpleLogger, communicator, selectors);
-            var verifyAndSetHandler = new TashVerifyAndSetHandler(Handlers, vSimpleLogger, selectorHandler, communicator, selectors);
-            TashHandler = new TashHandler(vTashAccessor, vSimpleLogger, vLogConfiguration, ButtonNameToCommandMapper, ToggleButtonNameToHandlerMapper, this, verifyAndSetHandler, selectorHandler, communicator);
+            var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(TashAccessor, SimpleLogger, LogConfiguration);
+            var selectorHandler = new TashSelectorHandler(Handlers, SimpleLogger, communicator, selectors);
+            var verifyAndSetHandler = new TashVerifyAndSetHandler(Handlers, SimpleLogger, selectorHandler, communicator, selectors);
+            TashHandler = new TashHandler(TashAccessor, SimpleLogger, LogConfiguration, ButtonNameToCommandMapper, ToggleButtonNameToHandlerMapper, this, verifyAndSetHandler, selectorHandler, communicator);
         }
 
         public override async Task OnLoadedAsync() {
