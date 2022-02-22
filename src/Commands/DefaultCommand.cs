@@ -9,35 +9,35 @@ using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
     public class DefaultCommand : ICommand {
-        private readonly ICudotosiApplicationModel vModel;
-        private readonly IMouseOwner vMouseOwner;
-        private readonly ISimpleLogger vSimpleLogger;
-        private readonly ILogConfiguration vLogConfiguration;
+        private readonly ICudotosiApplicationModel Model;
+        private readonly IMouseOwner MouseOwner;
+        private readonly ISimpleLogger SimpleLogger;
+        private readonly ILogConfiguration LogConfiguration;
 
         public DefaultCommand(ICudotosiApplicationModel model, IMouseOwner mouseOwner, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration) {
-            vModel = model;
-            vMouseOwner = mouseOwner;
-            vSimpleLogger = simpleLogger;
-            vLogConfiguration = logConfiguration;
+            Model = model;
+            MouseOwner = mouseOwner;
+            SimpleLogger = simpleLogger;
+            LogConfiguration = logConfiguration;
         }
 
         public async Task ExecuteAsync() {
-            using (vSimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), vLogConfiguration.LogId))) {
-                vSimpleLogger.LogInformation("Executing default command");
-                if (!vModel.Default.Enabled) {
-                    vSimpleLogger.LogInformation("Default command is not enabled");
+            using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
+                SimpleLogger.LogInformation("Executing default command");
+                if (!Model.Default.Enabled) {
+                    SimpleLogger.LogInformation("Default command is not enabled");
                     return;
                 }
 
-                await vMouseOwner.OnMouseDownAsync(0, 0);
+                await MouseOwner.OnMouseDownAsync(0, 0);
             }
         }
 
         public async Task<bool> ShouldBeEnabledAsync() {
-            using (vSimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), vLogConfiguration.LogId))) {
-                vSimpleLogger.LogInformation("Checking if default command should be enabled");
+            using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
+                SimpleLogger.LogInformation("Checking if default command should be enabled");
                 try {
-                    return await Task.FromResult(vModel.Picture.BitmapImage.Width > 0 && vModel.Picture.BitmapImage.Height > 0);
+                    return await Task.FromResult(Model.Picture.BitmapImage.Width > 0 && Model.Picture.BitmapImage.Height > 1);
                 }
                 catch {
                     return false;

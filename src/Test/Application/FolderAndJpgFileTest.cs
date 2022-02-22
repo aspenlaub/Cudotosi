@@ -56,7 +56,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Application {
                 return false;
             }
 
-            return height > 0;
+            return height > 1;
         }
     }
 }

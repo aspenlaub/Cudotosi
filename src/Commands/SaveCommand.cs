@@ -114,7 +114,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
         public async Task<bool> ShouldBeEnabledAsync() {
             using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
                 SimpleLogger.LogInformation("Checking if save command should be enabled");
-                return await Task.FromResult(Model.JpgFile.SelectedIndex >= 0 && Model.PictureHeight > 0 && Model.PictureWidth > 0);
+                return await Task.FromResult(Model.JpgFile.SelectedIndex >= 0 && Model.PictureHeight > 1 && Model.PictureWidth > 1);
             }
         }
     }

@@ -10,8 +10,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components {
         }
 
         public void CutOut(ICudotosiApplicationModel model, int imageWidth, int imageHeight, out int x, out int y, out int width, out int height) {
-            x = model.PictureWidth > 0 ? model.MousePosX * imageWidth / model.PictureWidth : 0;
-            y = model.PictureHeight > 0 ? model.MousePosY * imageHeight / model.PictureHeight : 0;
+            x = model.PictureWidth > 1 ? model.MousePosX * imageWidth / model.PictureWidth : 0;
+            y = model.PictureHeight > 1 ? model.MousePosY * imageHeight / model.PictureHeight : 0;
             width = model.SourceAreaWidth * imageWidth / model.PictureWidth;
             height = model.SourceAreaHeight * imageHeight / model.PictureHeight;
         }

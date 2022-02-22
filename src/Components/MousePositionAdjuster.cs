@@ -3,10 +3,10 @@ using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components {
     public class MousePositionAdjuster : IMousePositionAdjuster {
-        private readonly ICutCalculator vCutCalculator;
+        private readonly ICutCalculator CutCalculator;
 
         public MousePositionAdjuster(ICutCalculator cutCalculator) {
-            vCutCalculator = cutCalculator;
+            CutCalculator = cutCalculator;
         }
 
         public void AdjustMousePosition(ICudotosiApplicationModel model) {
@@ -17,7 +17,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components {
                 model.SourceAreaWidth = Math.Min(model.PictureWidth, model.PictureHeight);
                 model.SourceAreaHeight = model.SourceAreaWidth;
             } else {
-                vCutCalculator.TargetSize(model, model.PictureWidth, model.PictureHeight, out var targetWidth, out var targetHeight);
+                CutCalculator.TargetSize(model, model.PictureWidth, model.PictureHeight, out var targetWidth, out var targetHeight);
                 if (targetHeight == 0 || targetWidth == 0) {
                     model.SourceAreaHeight = 0;
                     model.SourceAreaWidth = 0;
@@ -47,8 +47,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components {
                 model.MousePosY = 0;
             }
 
-            var xPercent = model.PictureWidth > 0 ? (int)(100.0 * model.MousePosX / model.PictureWidth) : 0;
-            var yPercent = model.PictureHeight > 0 ? (int)(100.0 * model.MousePosY / model.PictureHeight) : 0;
+            var xPercent = model.PictureWidth > 1 ? (int)(100.0 * model.MousePosX / model.PictureWidth) : 0;
+            var yPercent = model.PictureHeight > 1 ? (int)(100.0 * model.MousePosY / model.PictureHeight) : 0;
             model.Status.Text = $"X: {xPercent}%, Y: {yPercent}%";
         }
     }
