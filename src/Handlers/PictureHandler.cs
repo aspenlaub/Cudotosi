@@ -62,8 +62,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
         }
 
         public async Task LoadFromFile(string fileName) {
+            BitmapImage image;
+
             if (fileName == "") {
-                vModel.Picture.BitmapImage = new BitmapImage();
+                image = new BitmapImage();
             } else {
                 if (vModel.SourceSizeLg.IsChecked) {
                     fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false);
@@ -72,13 +74,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
                 } else if (vModel.SourceSizeSm.IsChecked) {
                     fileName = vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false);
                 }
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = new Uri(fileName);
-                image.EndInit();
-                vModel.Picture.BitmapImage = image;
+                image = new BitmapImage();
             }
+
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.UriSource = fileName != "" ? new Uri(fileName) : new Uri(@"Images\blank.jpg", UriKind.Relative);
+            image.EndInit();
+            vModel.Picture.BitmapImage = image;
 
             vModel.MousePosX = 0;
             vModel.MousePosY = 0;

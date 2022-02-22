@@ -22,14 +22,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     public partial class CudotosiWindow : IMouseOwner, IUserInteraction, IDisposable {
         private static IContainer Container { get; set; }
 
-        private CudotosiApplication vCudotosiApp;
-        private ITashTimer<ICudotosiApplicationModel> vTashTimer;
+        private CudotosiApplication CudotosiApp;
+        private ITashTimer<ICudotosiApplicationModel> TashTimer;
 
         public CudotosiWindow() {
             InitializeComponent();
-
-            var builder = new ContainerBuilder().UseCudotosiVishizhukelNetAndPeghAsync(this).Result;
-            Container = builder.Build();
 
             Title = Properties.Resources.CudotosiWindowTitle;
             Name = Properties.Resources.CudotosiWindowName;
@@ -38,46 +35,53 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
         }
 
         private async void OnLoadedAsync(object sender, RoutedEventArgs e) {
-            vCudotosiApp = Container.Resolve<CudotosiApplication>();
-            await vCudotosiApp.OnLoadedAsync();
+            await BuildContainerIfNecessaryAsync();
+
+            CudotosiApp = Container.Resolve<CudotosiApplication>();
+            await CudotosiApp.OnLoadedAsync();
 
             var guiToAppGate = Container.Resolve<IGuiToApplicationGate>();
             var buttonNameToCommandMapper = Container.Resolve<IButtonNameToCommandMapper>();
             var toggleButtonNameToHandlerMapper = Container.Resolve<IToggleButtonNameToHandlerMapper>();
 
-            var commands = vCudotosiApp.Commands;
+            var commands = CudotosiApp.Commands;
             guiToAppGate.WireButtonAndCommand(SelectFolder, commands.SelectFolderCommand, buttonNameToCommandMapper);
             guiToAppGate.WireButtonAndCommand(Save, commands.SaveCommand, buttonNameToCommandMapper);
             guiToAppGate.WireButtonAndCommand(Default, commands.DefaultCommand, buttonNameToCommandMapper);
 
-            guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => vCudotosiApp.Handlers.FolderTextHandler.TextChangedAsync(t));
-            guiToAppGate.RegisterAsyncSelectorCallback(JpgFile, t => vCudotosiApp.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(t));
+            guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => CudotosiApp.Handlers.FolderTextHandler.TextChangedAsync(t));
+            guiToAppGate.RegisterAsyncSelectorCallback(JpgFile, t => CudotosiApp.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(t));
 
-            guiToAppGate.WireToggleButtonAndHandler(SourceSizeXl, vCudotosiApp.Handlers.SourceSizeXlHandler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(SourceSizeLg, vCudotosiApp.Handlers.SourceSizeLgHandler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(SourceSizeMd, vCudotosiApp.Handlers.SourceSizeMdHandler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(SourceSizeSm, vCudotosiApp.Handlers.SourceSizeSmHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(SourceSizeXl, CudotosiApp.Handlers.SourceSizeXlHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(SourceSizeLg, CudotosiApp.Handlers.SourceSizeLgHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(SourceSizeMd, CudotosiApp.Handlers.SourceSizeMdHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(SourceSizeSm, CudotosiApp.Handlers.SourceSizeSmHandler, toggleButtonNameToHandlerMapper);
 
-            guiToAppGate.WireToggleButtonAndHandler(TargetSizeLg, vCudotosiApp.Handlers.TargetSizeLgHandler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(TargetSizeMd, vCudotosiApp.Handlers.TargetSizeMdHandler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(TargetSizeSm, vCudotosiApp.Handlers.TargetSizeSmHandler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(TargetSizeXs, vCudotosiApp.Handlers.TargetSizeXsHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TargetSizeLg, CudotosiApp.Handlers.TargetSizeLgHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TargetSizeMd, CudotosiApp.Handlers.TargetSizeMdHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TargetSizeSm, CudotosiApp.Handlers.TargetSizeSmHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TargetSizeXs, CudotosiApp.Handlers.TargetSizeXsHandler, toggleButtonNameToHandlerMapper);
 
-            guiToAppGate.WireToggleButtonAndHandler(DestinationShapeAsIs, vCudotosiApp.Handlers.DestinationShapeAsIsHandler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(DestinationShapeSquare, vCudotosiApp.Handlers.DestinationShapeSquareHandler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(DestinationShapePreview, vCudotosiApp.Handlers.DestinationShapePreviewHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(DestinationShapeAsIs, CudotosiApp.Handlers.DestinationShapeAsIsHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(DestinationShapeSquare, CudotosiApp.Handlers.DestinationShapeSquareHandler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(DestinationShapePreview, CudotosiApp.Handlers.DestinationShapePreviewHandler, toggleButtonNameToHandlerMapper);
 
-            guiToAppGate.WireToggleButtonAndHandler(TransformHowManyPercent100, vCudotosiApp.Handlers.TransformHowManyPercent100Handler, toggleButtonNameToHandlerMapper);
-            guiToAppGate.WireToggleButtonAndHandler(TransformHowManyPercent50, vCudotosiApp.Handlers.TransformHowManyPercent50Handler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TransformHowManyPercent100, CudotosiApp.Handlers.TransformHowManyPercent100Handler, toggleButtonNameToHandlerMapper);
+            guiToAppGate.WireToggleButtonAndHandler(TransformHowManyPercent50, CudotosiApp.Handlers.TransformHowManyPercent50Handler, toggleButtonNameToHandlerMapper);
 
-            vTashTimer = new TashTimer<ICudotosiApplicationModel>(Container.Resolve<ITashAccessor>(), vCudotosiApp.TashHandler, guiToAppGate);
-            if (!await vTashTimer.ConnectAndMakeTashRegistrationReturnSuccessAsync(Properties.Resources.CudotosiWindowTitle)) {
+            TashTimer = new TashTimer<ICudotosiApplicationModel>(Container.Resolve<ITashAccessor>(), CudotosiApp.TashHandler, guiToAppGate);
+            if (!await TashTimer.ConnectAndMakeTashRegistrationReturnSuccessAsync(Properties.Resources.CudotosiWindowTitle)) {
                 Close();
             }
 
-            vTashTimer.CreateAndStartTimer(vCudotosiApp.CreateTashTaskHandlingStatus());
+            TashTimer.CreateAndStartTimer(CudotosiApp.CreateTashTaskHandlingStatus());
 
             AdjustCanvasAndImageSync();
+        }
+
+        private async Task BuildContainerIfNecessaryAsync() {
+            var builder = await new ContainerBuilder().UseCudotosiVishizhukelNetAndPeghAsync(this);
+            Container = builder.Build();
         }
 
         public string PromptForFolder(string folder) {
@@ -101,19 +105,19 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             var pictureSourceHeight = (int)Picture.Source.Height;
             x = pictureSourceWidth * x / actualPictureWidth;
             y = pictureSourceHeight * y / actualPictureHeight;
-            await vCudotosiApp.Handlers.PictureHandler.MouseDownAsync((int)x, (int)y, pictureSourceWidth, pictureSourceHeight, actualPictureWidth, actualPictureHeight);
+            await CudotosiApp.Handlers.PictureHandler.MouseDownAsync((int)x, (int)y, pictureSourceWidth, pictureSourceHeight, actualPictureWidth, actualPictureHeight);
         }
 
         public void Dispose() {
-            vTashTimer?.StopTimerAndConfirmDead(false);
+            TashTimer?.StopTimerAndConfirmDead(false);
         }
 
         private void OnClosing(object sender, CancelEventArgs e) {
-            vTashTimer?.StopTimerAndConfirmDead(false);
+            TashTimer?.StopTimerAndConfirmDead(false);
         }
 
         private void OnStateChanged(object sender, EventArgs e) {
-            vCudotosiApp.OnWindowStateChanged(WindowState);
+            CudotosiApp.OnWindowStateChanged(WindowState);
         }
 
         private async void OnSizeChanged(object sender, SizeChangedEventArgs e) {
@@ -121,12 +125,14 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
         }
 
         public async Task AdjustCanvasAndImageAsync() {
+            await BuildContainerIfNecessaryAsync();
+
             var adjuster = Container.Resolve<ICanvasAndImageSizeAdjuster>();
             adjuster.AdjustCanvasAndImage(CanvasContainer, Canvas, Picture);
-            if (vCudotosiApp?.Handlers?.PictureHandler == null) { return; }
+            if (CudotosiApp?.Handlers?.PictureHandler == null) { return; }
 
             UpdateLayout();
-            await vCudotosiApp.Handlers.PictureHandler.PictureSizeChangedAsync((int)Picture.ActualWidth, (int)Picture.ActualHeight);
+            await CudotosiApp.Handlers.PictureHandler.PictureSizeChangedAsync((int)Picture.ActualWidth, (int)Picture.ActualHeight);
         }
 
         public void AdjustCanvasAndImageSync() {
