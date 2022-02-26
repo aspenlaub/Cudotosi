@@ -1,4 +1,5 @@
-﻿using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+﻿using System.Threading.Tasks;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers {
@@ -9,7 +10,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers {
             Model = model;
         }
 
-        public void OnModelDataChanged() {
+        public async Task OnModelDataChangedAsync() {
+            await Task.CompletedTask;
         }
 
         public void IndicateBusy(bool force) {
