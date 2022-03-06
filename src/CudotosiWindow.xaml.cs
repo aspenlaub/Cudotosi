@@ -13,13 +13,14 @@ using Autofac;
 using Ookii.Dialogs.Wpf;
 using IContainer = Autofac.IContainer;
 using MessageBox = System.Windows.MessageBox;
+using WindowsApplication = System.Windows.Application;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
     /// <summary>
     /// Interaction logic for CudotosiWindow.xaml
     /// </summary>
     // ReSharper disable once UnusedMember.Global
-    public partial class CudotosiWindow : IMouseOwner, IUserInteraction, IDisposable {
+    public partial class CudotosiWindow : IMouseOwner, IUserInteraction, IAsyncDisposable {
         private static IContainer Container { get; set; }
 
         private CudotosiApplication CudotosiApp;
@@ -108,12 +109,19 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             await CudotosiApp.Handlers.PictureHandler.MouseDownAsync((int)x, (int)y, pictureSourceWidth, pictureSourceHeight, actualPictureWidth, actualPictureHeight);
         }
 
-        public void Dispose() {
-            TashTimer?.StopTimerAndConfirmDead(false);
+        public async ValueTask DisposeAsync() {
+            if (TashTimer == null) { return; }
+
+            await TashTimer.StopTimerAndConfirmDeadAsync(false);
         }
 
-        private void OnClosing(object sender, CancelEventArgs e) {
-            TashTimer?.StopTimerAndConfirmDead(false);
+        private async void OnClosing(object sender, CancelEventArgs e) {
+            e.Cancel = true;
+
+            if (TashTimer == null) { return; }
+
+            await TashTimer.StopTimerAndConfirmDeadAsync(false);
+            WindowsApplication.Current.Shutdown();
         }
 
         private void OnStateChanged(object sender, EventArgs e) {
