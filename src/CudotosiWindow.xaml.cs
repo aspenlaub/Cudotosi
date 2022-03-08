@@ -8,6 +8,7 @@ using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.GUI;
+using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Helpers;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 using Autofac;
 using Ookii.Dialogs.Wpf;
@@ -78,6 +79,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             TashTimer.CreateAndStartTimer(CudotosiApp.CreateTashTaskHandlingStatus());
 
             AdjustCanvasAndImageSync();
+
+            await ExceptionHandler.RunAsync(WindowsApplication.Current, TimeSpan.FromSeconds(7));
         }
 
         private async Task BuildContainerIfNecessaryAsync() {
