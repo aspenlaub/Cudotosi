@@ -7,6 +7,7 @@ using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Vishizhukel.Interfaces.Application;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Application;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
@@ -31,8 +32,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 ICudotosiApplicationModel model, IJpgFileNameChanger jpgFileNameChanger,
                 ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration,
                 IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator, IMouseOwner mouseOwner,
-                IUserInteraction userInteraction)
-            : base(buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndApplicationSynchronizer, model) {
+                IUserInteraction userInteraction, IBasicHtmlHelper basicHtmlHelper, IApplicationLogger applicationLogger)
+            : base(buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndApplicationSynchronizer, model, basicHtmlHelper, applicationLogger) {
             JpgFileNameChanger = jpgFileNameChanger;
             TashAccessor = tashAccessor;
             SimpleLogger = simpleLogger;

@@ -2,7 +2,7 @@
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
-    public interface ICudotosiApplicationModel : IApplicationModel {
+    public interface ICudotosiApplicationModel : IApplicationModelBase {
         ITextBox Folder { get; }
         ISelector JpgFile { get; }
 

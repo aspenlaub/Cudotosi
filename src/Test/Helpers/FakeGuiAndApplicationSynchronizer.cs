@@ -16,5 +16,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers {
 
         public void IndicateBusy(bool force) {
         }
+
+        public void OnWebBrowserLoadCompleted() {
+        }
     }
 }
