@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers {
@@ -18,6 +19,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers {
         }
 
         public void OnWebBrowserLoadCompleted() {
+        }
+
+        public async Task<TResult> RunScriptAsync<TResult>(IScriptStatement scriptStatement) where TResult : IScriptCallResponse, new() {
+            return await Task.FromResult(new TResult { Success = new YesNoInconclusive { Inconclusive = true, YesNo = false } });
         }
     }
 }
