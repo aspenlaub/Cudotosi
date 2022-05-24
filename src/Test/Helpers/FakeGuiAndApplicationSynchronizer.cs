@@ -24,5 +24,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers {
         public async Task<TResult> RunScriptAsync<TResult>(IScriptStatement scriptStatement) where TResult : IScriptCallResponse, new() {
             return await Task.FromResult(new TResult { Success = new YesNoInconclusive { Inconclusive = true, YesNo = false } });
         }
+
+        public async Task WaitUntilNotNavigatingAnymoreAsync() {
+            await Task.CompletedTask;
+        }
     }
 }

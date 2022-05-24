@@ -32,8 +32,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
                 ICudotosiApplicationModel model, IJpgFileNameChanger jpgFileNameChanger,
                 ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration,
                 IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator, IMouseOwner mouseOwner,
-                IUserInteraction userInteraction, IBasicHtmlHelper basicHtmlHelper, IApplicationLogger applicationLogger)
-            : base(buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndApplicationSynchronizer, model, basicHtmlHelper, applicationLogger) {
+                IUserInteraction userInteraction, IApplicationLogger applicationLogger)
+            : base(buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndApplicationSynchronizer, model, applicationLogger) {
             JpgFileNameChanger = jpgFileNameChanger;
             TashAccessor = tashAccessor;
             SimpleLogger = simpleLogger;
