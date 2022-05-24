@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Controls;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;
+using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Extensions;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
@@ -32,7 +34,9 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities {
         public Button Save { get; } = new();
         public Button Default { get; } = new();
 
-        public IImage Picture { get; } = new Image { BitmapImage = new BitmapImage() };
+        public IImage Picture { get; } = new Image {
+            BitmapImage = new MemoryStream(Properties.Resources.DefaultImage).ToBitmapImage()
+        };
 
         public IRectangle CutOut { get; } = new Rectangle { Stroke = new LinearGradientBrush(Colors.DarkGray, Colors.White, new Point(0.5, 1), new Point(0.5, 0)) };
 
