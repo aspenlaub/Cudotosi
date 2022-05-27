@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Controls;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Entities;

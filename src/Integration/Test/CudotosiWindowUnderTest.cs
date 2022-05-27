@@ -6,23 +6,23 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
     public class CudotosiWindowUnderTest : CudotosiWindowUnderTestActions, IDisposable {
-        private readonly IStarterAndStopper vCudotosiStarterAndStopper;
-        private bool vInitialized;
+        private readonly IStarterAndStopper CudotosiStarterAndStopper;
+        private bool WindowUnderTestInitialized;
 
         public CudotosiWindowUnderTest(ITashAccessor tashAccessor, IStarterAndStopper roustStarterAndStopper) : base(tashAccessor) {
-            vCudotosiStarterAndStopper = roustStarterAndStopper;
-            vInitialized = false;
+            CudotosiStarterAndStopper = roustStarterAndStopper;
+            WindowUnderTestInitialized = false;
         }
 
         public override async Task InitializeAsync() {
-            Assert.IsFalse(vInitialized, "Window already has been initialized");
+            Assert.IsFalse(WindowUnderTestInitialized, "Window already has been initialized");
             await base.InitializeAsync();
-            vCudotosiStarterAndStopper.Start();
-            vInitialized = true;
+            CudotosiStarterAndStopper.Start();
+            WindowUnderTestInitialized = true;
         }
 
         public void Dispose() {
-            vCudotosiStarterAndStopper.Stop();
+            CudotosiStarterAndStopper.Stop();
         }
     }
 }

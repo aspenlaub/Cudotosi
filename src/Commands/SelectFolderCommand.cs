@@ -4,22 +4,22 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands {
     public class SelectFolderCommand : ICommand {
-        private readonly ICudotosiApplicationModel vModel;
-        private readonly IUserInteraction vUserInteraction;
-        private readonly ISimpleTextHandler vFolderTextHandler;
+        private readonly ICudotosiApplicationModel Model;
+        private readonly IUserInteraction UserInteraction;
+        private readonly ISimpleTextHandler FolderTextHandler;
 
         public SelectFolderCommand(ICudotosiApplicationModel model, IUserInteraction userInteraction, ISimpleTextHandler folderTextHandler) {
-            vModel = model;
-            vUserInteraction = userInteraction;
-            vFolderTextHandler = folderTextHandler;
+            Model = model;
+            UserInteraction = userInteraction;
+            FolderTextHandler = folderTextHandler;
         }
 
         public async Task ExecuteAsync() {
-            if (!vModel.SelectFolder.Enabled) {
+            if (!Model.SelectFolder.Enabled) {
                 return;
             }
 
-            await vFolderTextHandler.TextChangedAsync(vUserInteraction.PromptForFolder(vModel.Folder.Text));
+            await FolderTextHandler.TextChangedAsync(UserInteraction.PromptForFolder(Model.Folder.Text));
         }
 
         public async Task<bool> ShouldBeEnabledAsync() {

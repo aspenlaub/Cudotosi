@@ -1,27 +1,28 @@
 ﻿using System.Threading.Tasks;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class SourceAreaHandler  : ISourceAreaHandler {
-        private readonly ICudotosiApplicationModel vModel;
-        private readonly IGuiAndAppHandler vGuiAndAppHandler;
-        private readonly IMousePositionAdjuster vMousePositionAdjuster;
-        private readonly ICutCalculator vCutCalculator;
+        private readonly ICudotosiApplicationModel Model;
+        private readonly IGuiAndAppHandler<CudotosiApplicationModel> GuiAndAppHandler;
+        private readonly IMousePositionAdjuster MousePositionAdjuster;
+        private readonly ICutCalculator CutCalculator;
 
-        public SourceAreaHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator) {
-            vModel = model;
-            vGuiAndAppHandler = guiAndAppHandler;
-            vMousePositionAdjuster = mousePositionAdjuster;
-            vCutCalculator = cutCalculator;
+        public SourceAreaHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator) {
+            Model = model;
+            GuiAndAppHandler = guiAndAppHandler;
+            MousePositionAdjuster = mousePositionAdjuster;
+            CutCalculator = cutCalculator;
         }
 
         public async Task OnMousePositionChangedAsync() {
-            vMousePositionAdjuster.AdjustMousePosition(vModel);
+            MousePositionAdjuster.AdjustMousePosition(Model);
 
-            vCutCalculator.CutOut(vModel);
+            CutCalculator.CutOut(Model);
 
-            await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
+            await GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }
 
         public async Task OnDestinationShapeChangedAsync() {

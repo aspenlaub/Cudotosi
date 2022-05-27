@@ -9,11 +9,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class TashSelectorHandler : TashSelectorHandlerBase<ICudotosiApplicationModel> {
-        private readonly ICudotosiHandlers vCudotosiHandlers;
+        private readonly ICudotosiHandlers CudotosiHandlers;
 
         public TashSelectorHandler(ICudotosiHandlers cudotosiHandlers, ISimpleLogger simpleLogger, ITashCommunicator<ICudotosiApplicationModel> tashCommunicator, Dictionary<string, ISelector> selectors)
                 : base(simpleLogger, tashCommunicator, selectors) {
-            vCudotosiHandlers = cudotosiHandlers;
+            CudotosiHandlers = cudotosiHandlers;
         }
 
         public override async Task ProcessSelectComboOrResetTaskAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
@@ -34,7 +34,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
             SimpleLogger.LogInformation($"Changing selected index for {controlName} to {selectedIndex}");
             switch (controlName) {
                 case nameof(status.Model.JpgFile):
-                    await vCudotosiHandlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(selectedIndex);
+                    await CudotosiHandlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(selectedIndex);
                     break;
                 default:
                     var errorMessage = $"Do not know how to select for {status.TaskBeingProcessed.ControlName}";

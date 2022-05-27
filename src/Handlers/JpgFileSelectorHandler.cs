@@ -10,51 +10,51 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class JpgFileSelectorHandler : ISimpleSelectorHandler {
-        private readonly ICudotosiApplicationModel vModel;
-        private readonly IGuiAndAppHandler vGuiAndAppHandler;
-        private readonly IPictureHandler vPictureHandler;
-        private readonly IToggleButtonHandler vSourceSizeXlHandler;
-        private readonly IJpgFileNameChanger vJpgFileNameChanger;
+        private readonly ICudotosiApplicationModel Model;
+        private readonly IGuiAndAppHandler<CudotosiApplicationModel> GuiAndAppHandler;
+        private readonly IPictureHandler PictureHandler;
+        private readonly IToggleButtonHandler SourceSizeXlHandler;
+        private readonly IJpgFileNameChanger JpgFileNameChanger;
 
-        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IPictureHandler pictureHandler, IToggleButtonHandler sourceSizeXlHandler, IJpgFileNameChanger jpgFileNameChanger) {
-            vModel = model;
-            vGuiAndAppHandler = guiAndAppHandler;
-            vPictureHandler = pictureHandler;
-            vSourceSizeXlHandler = sourceSizeXlHandler;
-            vJpgFileNameChanger = jpgFileNameChanger;
+        public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IPictureHandler pictureHandler, IToggleButtonHandler sourceSizeXlHandler, IJpgFileNameChanger jpgFileNameChanger) {
+            Model = model;
+            GuiAndAppHandler = guiAndAppHandler;
+            PictureHandler = pictureHandler;
+            SourceSizeXlHandler = sourceSizeXlHandler;
+            JpgFileNameChanger = jpgFileNameChanger;
         }
 
         public async Task UpdateSelectableValuesAsync() {
-            var shortFileNames = vModel.Folder.Type == StatusType.None
-                ? Directory.GetFiles(vModel.Folder.Text, "*_XL.jpg", SearchOption.TopDirectoryOnly).OrderBy(x => x).ToList()
+            var shortFileNames = Model.Folder.Type == StatusType.None
+                ? Directory.GetFiles(Model.Folder.Text, "*_XL.jpg", SearchOption.TopDirectoryOnly).OrderBy(x => x).ToList()
                 : new List<string>();
             var selectables = shortFileNames.Select(f => new Selectable { Guid = f, Name = f.Substring(f.LastIndexOf('\\') + 1) }).ToList();
-            if (vModel.JpgFile.AreSelectablesIdentical(selectables)) { return; }
+            if (Model.JpgFile.AreSelectablesIdentical(selectables)) { return; }
 
-            vModel.JpgFile.UpdateSelectables(selectables);
+            Model.JpgFile.UpdateSelectables(selectables);
             await SelectedIndexChangedAsync(-1);
-            await vGuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
+            await GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
         }
 
         public async Task SelectedIndexChangedAsync(int selectedIndex) {
             var haveSelectedIndex = selectedIndex >= 0;
-            if (haveSelectedIndex && vModel.JpgFile.SelectedIndex == selectedIndex) { return; }
+            if (haveSelectedIndex && Model.JpgFile.SelectedIndex == selectedIndex) { return; }
 
-            vModel.JpgFile.SelectedIndex = selectedIndex;
-            vModel.DestinationShapeAsIs.Enabled = haveSelectedIndex;
-            vModel.DestinationShapeSquare.Enabled = haveSelectedIndex;
-            vModel.DestinationShapePreview.Enabled = haveSelectedIndex;
-            vModel.TransformHowManyPercent100.Enabled = haveSelectedIndex;
-            vModel.TransformHowManyPercent50.Enabled = haveSelectedIndex;
-            var fileName = vPictureHandler.FileName();
-            await vPictureHandler.LoadFromFile(fileName);
-            vModel.SourceSizeLg.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false));
-            vModel.SourceSizeMd.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false));
-            vModel.SourceSizeSm.Enabled = File.Exists(vJpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false));
-            vSourceSizeXlHandler.SetChecked(false);
-            await vSourceSizeXlHandler.ToggledAsync(true);
-            vModel.Status.Type = StatusType.None;
-            vModel.Status.Text = string.IsNullOrEmpty(fileName) ? "" : Properties.Resources.PleaseClickTopLeft;
+            Model.JpgFile.SelectedIndex = selectedIndex;
+            Model.DestinationShapeAsIs.Enabled = haveSelectedIndex;
+            Model.DestinationShapeSquare.Enabled = haveSelectedIndex;
+            Model.DestinationShapePreview.Enabled = haveSelectedIndex;
+            Model.TransformHowManyPercent100.Enabled = haveSelectedIndex;
+            Model.TransformHowManyPercent50.Enabled = haveSelectedIndex;
+            var fileName = PictureHandler.FileName();
+            await PictureHandler.LoadFromFile(fileName);
+            Model.SourceSizeLg.Enabled = File.Exists(JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false));
+            Model.SourceSizeMd.Enabled = File.Exists(JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false));
+            Model.SourceSizeSm.Enabled = File.Exists(JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false));
+            SourceSizeXlHandler.SetChecked(false);
+            await SourceSizeXlHandler.ToggledAsync(true);
+            Model.Status.Type = StatusType.None;
+            Model.Status.Text = string.IsNullOrEmpty(fileName) ? "" : Properties.Resources.PleaseClickTopLeft;
         }
     }
 }

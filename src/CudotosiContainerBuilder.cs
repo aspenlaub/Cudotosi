@@ -22,9 +22,12 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi {
             } else {
                 builder.RegisterInstance(cudotosiWindow).As<IMouseOwner>().As<IUserInteraction>();
             }
-            builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler>().SingleInstance();
-            builder.RegisterType<CudotosiApplicationModel>().As<CudotosiApplicationModel>().As<ICudotosiApplicationModel>().As<IApplicationModelBase>().As<IBusy>().SingleInstance();
-            builder.RegisterType<CudotosiGuiAndApplicationSynchronizer>().WithParameter((p, _) => p.ParameterType == typeof(CudotosiWindow), (_, _) => cudotosiWindow).As<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>>();
+            builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler<CudotosiApplicationModel>>().SingleInstance();
+            builder.RegisterType<CudotosiApplicationModel>()
+                .As<CudotosiApplicationModel>().As<ICudotosiApplicationModel>().As<CudotosiApplicationModel>()
+                .As<IApplicationModelBase>().As<IBusy>().SingleInstance();
+            builder.RegisterType<CudotosiGuiAndApplicationSynchronizer>().WithParameter((p, _) => p.ParameterType == typeof(CudotosiWindow), (_, _) => cudotosiWindow)
+                .As<IGuiAndApplicationSynchronizer<CudotosiApplicationModel>>();
             builder.RegisterType<CudotosiGuiToApplicationGate>().As<IGuiToApplicationGate>().SingleInstance();
             builder.RegisterType<CutCalculator>().As<ICutCalculator>();
             builder.RegisterType<JpgFileNameChanger>().As<IJpgFileNameChanger>().SingleInstance();

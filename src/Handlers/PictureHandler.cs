@@ -13,13 +13,13 @@ using Microsoft.Extensions.Logging;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class PictureHandler : IPictureHandler {
         private readonly ICudotosiApplicationModel Model;
-        private readonly IGuiAndAppHandler GuiAndAppHandler;
+        private readonly IGuiAndAppHandler<CudotosiApplicationModel> GuiAndAppHandler;
         private readonly IJpgFileNameChanger JpgFileNameChanger;
         private readonly ISourceAreaHandler SourceAreaHandler;
         private readonly ISimpleLogger SimpleLogger;
         private readonly ILogConfiguration LogConfiguration;
 
-        public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger,
+        public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger,
                 ISourceAreaHandler sourceAreaHandler, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration) {
             Model = model;
             GuiAndAppHandler = guiAndAppHandler;

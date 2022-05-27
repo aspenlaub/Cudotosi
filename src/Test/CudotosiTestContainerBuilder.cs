@@ -16,11 +16,11 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test {
     public static class CudotosiTestContainerBuilder {
         public static async Task<ContainerBuilder> UseCudotosiVishizhukelNetAndPeghAsync(this ContainerBuilder builder) {
             await builder.UseVishizhukelNetDvinAndPeghAsync(new DummyCsArgumentPrompter(), new LogConfiguration());
-            builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler>().SingleInstance();
+            builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler<CudotosiApplicationModel>>().SingleInstance();
             builder.RegisterType<CudotosiApplicationModel>().As<CudotosiApplicationModel>().As<ICudotosiApplicationModel>().As<IApplicationModelBase>().As<IBusy>().SingleInstance();
             builder.RegisterType<CudotosiGuiToApplicationGate>().As<IGuiToApplicationGate>().SingleInstance();
             builder.RegisterType<CutCalculator>().As<ICutCalculator>();
-            builder.RegisterType<FakeGuiAndApplicationSynchronizer>().As<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>>();
+            builder.RegisterType<FakeGuiAndApplicationSynchronizer>().As<IGuiAndApplicationSynchronizer<CudotosiApplicationModel>>();
             builder.RegisterType<FakeMouseOwner>().As<IMouseOwner>().SingleInstance();
             builder.RegisterType<FakeUserInteraction>().As<IUserInteraction>().SingleInstance();
             builder.RegisterType<JpgFileNameChanger>().As<IJpgFileNameChanger>().SingleInstance();

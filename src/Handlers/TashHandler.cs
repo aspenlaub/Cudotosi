@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
     public class TashHandler : TashHandlerBase<ICudotosiApplicationModel> {
         public TashHandler(ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration,
-            IButtonNameToCommandMapper buttonNameToCommandMapper, IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper, IGuiAndAppHandler guiAndAppHandler,
+            IButtonNameToCommandMapper buttonNameToCommandMapper, IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler,
             ITashVerifyAndSetHandler<ICudotosiApplicationModel> tashVerifyAndSetHandler, ITashSelectorHandler<ICudotosiApplicationModel> tashSelectorHandler, ITashCommunicator<ICudotosiApplicationModel> tashCommunicator)
             : base(tashAccessor, simpleLogger, logConfiguration, buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndAppHandler, tashVerifyAndSetHandler, tashSelectorHandler, tashCommunicator) {
         }

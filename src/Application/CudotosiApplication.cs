@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands;
+using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
@@ -14,7 +15,7 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
-    public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronizer<ICudotosiApplicationModel>, ICudotosiApplicationModel> {
+    public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronizer<CudotosiApplicationModel>, CudotosiApplicationModel> {
         public ICudotosiHandlers Handlers { get; private set; }
         public ICudotosiCommands Commands { get; private set; }
         private readonly IJpgFileNameChanger JpgFileNameChanger;
@@ -28,8 +29,8 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Application {
         private readonly IUserInteraction UserInteraction;
 
         public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper, IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper,
-                IGuiAndApplicationSynchronizer<ICudotosiApplicationModel> guiAndApplicationSynchronizer,
-                ICudotosiApplicationModel model, IJpgFileNameChanger jpgFileNameChanger,
+                IGuiAndApplicationSynchronizer<CudotosiApplicationModel> guiAndApplicationSynchronizer,
+                CudotosiApplicationModel model, IJpgFileNameChanger jpgFileNameChanger,
                 ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration,
                 IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator, IMouseOwner mouseOwner,
                 IUserInteraction userInteraction, IApplicationLogger applicationLogger)
