@@ -1,43 +1,43 @@
 ﻿using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Controls;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
-namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces {
-    public interface ICudotosiApplicationModel : IApplicationModelBase {
-        ITextBox Folder { get; }
-        ISelector JpgFile { get; }
+namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 
-        ToggleButton SourceSizeXl { get; }
-        ToggleButton SourceSizeLg { get; }
-        ToggleButton SourceSizeMd { get; }
-        ToggleButton SourceSizeSm { get; }
+public interface ICudotosiApplicationModel : IApplicationModelBase {
+    ITextBox Folder { get; }
+    ISelector JpgFile { get; }
 
-        ToggleButton TargetSizeLg { get; }
-        ToggleButton TargetSizeMd { get; }
-        ToggleButton TargetSizeSm { get; }
-        ToggleButton TargetSizeXs { get; }
+    ToggleButton SourceSizeXl { get; }
+    ToggleButton SourceSizeLg { get; }
+    ToggleButton SourceSizeMd { get; }
+    ToggleButton SourceSizeSm { get; }
 
-        ToggleButton DestinationShapeAsIs { get; }
-        ToggleButton DestinationShapeSquare { get; }
-        ToggleButton DestinationShapePreview { get; }
+    ToggleButton TargetSizeLg { get; }
+    ToggleButton TargetSizeMd { get; }
+    ToggleButton TargetSizeSm { get; }
+    ToggleButton TargetSizeXs { get; }
 
-        ToggleButton TransformHowManyPercent100 { get; }
-        ToggleButton TransformHowManyPercent50 { get; }
+    ToggleButton DestinationShapeAsIs { get; }
+    ToggleButton DestinationShapeSquare { get; }
+    ToggleButton DestinationShapePreview { get; }
 
-        Button SelectFolder { get; }
-        Button Save { get; }
-        Button Default { get; }
+    ToggleButton TransformHowManyPercent100 { get; }
+    ToggleButton TransformHowManyPercent50 { get; }
 
-        IImage Picture { get; }
+    Button SelectFolder { get; }
+    Button Save { get; }
+    Button Default { get; }
 
-        IRectangle CutOut { get; }
+    IImage Picture { get; }
 
-        int MousePosX { get; set; }
-        int MousePosY { get; set; }
-        int SourceAreaWidth { get; set; }
-        int SourceAreaHeight { get; set; }
-        int PictureWidth { get; set; }
-        int PictureHeight { get; set; }
-        int ActualPictureWidth { get; set; }
-        int ActualPictureHeight { get; set; }
-    }
+    IRectangle CutOut { get; }
+
+    int MousePosX { get; set; }
+    int MousePosY { get; set; }
+    int SourceAreaWidth { get; set; }
+    int SourceAreaHeight { get; set; }
+    int PictureWidth { get; set; }
+    int PictureHeight { get; set; }
+    int ActualPictureWidth { get; set; }
+    int ActualPictureHeight { get; set; }
 }

@@ -2,26 +2,26 @@
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 
-namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers {
-    public class SourceSizeXlHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel> {
-        private readonly IPictureHandler PictureHandler;
+namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
-        public SourceSizeXlHandler(ICudotosiApplicationModel model, IPictureHandler pictureHandler) : base(model, model.SourceSizeXl) {
-            PictureHandler = pictureHandler;
-        }
+public class SourceSizeXlHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel> {
+    private readonly IPictureHandler PictureHandler;
 
-        public override async Task ToggledAsync(bool isChecked) {
-            if (Unchanged(isChecked)) { return; }
+    public SourceSizeXlHandler(ICudotosiApplicationModel model, IPictureHandler pictureHandler) : base(model, model.SourceSizeXl) {
+        PictureHandler = pictureHandler;
+    }
 
-            SetChecked(isChecked);
-            if (!isChecked) { return; }
+    public override async Task ToggledAsync(bool isChecked) {
+        if (Unchanged(isChecked)) { return; }
 
-            Model.TargetSizeLg.Enabled = true;
-            Model.TargetSizeMd.Enabled = true;
-            Model.TargetSizeSm.Enabled = true;
-            Model.TargetSizeXs.Enabled = true;
+        SetChecked(isChecked);
+        if (!isChecked) { return; }
 
-            await PictureHandler.LoadFromFile(PictureHandler.FileName());
-        }
+        Model.TargetSizeLg.Enabled = true;
+        Model.TargetSizeMd.Enabled = true;
+        Model.TargetSizeSm.Enabled = true;
+        Model.TargetSizeXs.Enabled = true;
+
+        await PictureHandler.LoadFromFile(PictureHandler.FileName());
     }
 }

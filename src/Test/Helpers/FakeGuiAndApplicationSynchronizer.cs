@@ -2,19 +2,19 @@
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 
-namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers {
-    public class FakeGuiAndApplicationSynchronizer : IGuiAndApplicationSynchronizer<CudotosiApplicationModel> {
-        public CudotosiApplicationModel Model { get; }
+namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers;
 
-        public FakeGuiAndApplicationSynchronizer(CudotosiApplicationModel model) {
-            Model = model;
-        }
+public class FakeGuiAndApplicationSynchronizer : IGuiAndApplicationSynchronizer<CudotosiApplicationModel> {
+    public CudotosiApplicationModel Model { get; }
 
-        public async Task OnModelDataChangedAsync() {
-            await Task.CompletedTask;
-        }
+    public FakeGuiAndApplicationSynchronizer(CudotosiApplicationModel model) {
+        Model = model;
+    }
 
-        public void IndicateBusy(bool force) {
-        }
+    public async Task OnModelDataChangedAsync() {
+        await Task.CompletedTask;
+    }
+
+    public void IndicateBusy(bool force) {
     }
 }

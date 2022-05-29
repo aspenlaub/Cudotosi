@@ -10,56 +10,56 @@ using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CudotosiTestResources = Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Properties.Resources;
 
-namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test {
-    public class CudotosiIntegrationTestBase {
-        protected IFolder TestFolder;
-        protected readonly IContainer Container;
-        protected ControllableProcess ControllableProcess;
+namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test;
 
-        public CudotosiIntegrationTestBase() {
-            Container = new ContainerBuilder().RegisterForCudotosiIntegrationTest().Build();
-            TestFolder = new Folder(Path.GetTempPath()).SubFolder(GetType().Name);
-            TestFolder.CreateIfNecessary();
-            CudotosiTestResources.SamplePicture_XL.Save(SamplePictureXlFileName());
-            CudotosiTestResources.SamplePicture_LG.Save(SampleExpectedPictureLgFileName());
-        }
+public class CudotosiIntegrationTestBase {
+    protected IFolder TestFolder;
+    protected readonly IContainer Container;
+    protected ControllableProcess ControllableProcess;
 
-        protected async Task<CudotosiWindowUnderTest> CreateCudotosiWindowUnderTestAsync() {
-            var sut = Container.Resolve<CudotosiWindowUnderTest>();
-            await sut.InitializeAsync();
-            await EnsureControllableProcessAsync(sut);
+    public CudotosiIntegrationTestBase() {
+        Container = new ContainerBuilder().RegisterForCudotosiIntegrationTest().Build();
+        TestFolder = new Folder(Path.GetTempPath()).SubFolder(GetType().Name);
+        TestFolder.CreateIfNecessary();
+        CudotosiTestResources.SamplePicture_XL.Save(SamplePictureXlFileName());
+        CudotosiTestResources.SamplePicture_LG.Save(SampleExpectedPictureLgFileName());
+    }
 
-            var process = ControllableProcess;
-            var tasks = new List<ControllableProcessTask> {
-                sut.CreateResetTask(process)
-            };
-            await sut.RemotelyProcessTaskListAsync(process, tasks);
-            return sut;
-        }
+    protected async Task<CudotosiWindowUnderTest> CreateCudotosiWindowUnderTestAsync() {
+        var sut = Container.Resolve<CudotosiWindowUnderTest>();
+        await sut.InitializeAsync();
+        await EnsureControllableProcessAsync(sut);
 
-        protected async Task EnsureControllableProcessAsync(CudotosiWindowUnderTest sut) {
-            if (ControllableProcess != null) { return; }
+        var process = ControllableProcess;
+        var tasks = new List<ControllableProcessTask> {
+            sut.CreateResetTask(process)
+        };
+        await sut.RemotelyProcessTaskListAsync(process, tasks);
+        return sut;
+    }
 
-            ControllableProcess = await sut.FindIdleProcessAsync();
-        }
+    protected async Task EnsureControllableProcessAsync(CudotosiWindowUnderTest sut) {
+        if (ControllableProcess != null) { return; }
 
-        protected string SamplePictureXlFileName() {
-            return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL) + ".jpg";
-        }
+        ControllableProcess = await sut.FindIdleProcessAsync();
+    }
 
-        protected string SamplePictureLgFileName() {
-            return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL).Replace("XL", "LG") + ".jpg";
-        }
+    protected string SamplePictureXlFileName() {
+        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL) + ".jpg";
+    }
 
-        protected string SampleExpectedPictureLgFileName() {
-            return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL).Replace("XL", "XLG") + ".jpg";
-        }
+    protected string SamplePictureLgFileName() {
+        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL).Replace("XL", "LG") + ".jpg";
+    }
 
-        public virtual void Cleanup() {
-            Assert.IsTrue(TestFolder.Exists());
-            var deleter = new FolderDeleter();
-            Assert.IsTrue(deleter.CanDeleteFolder(TestFolder));
-            deleter.DeleteFolder(TestFolder);
-        }
+    protected string SampleExpectedPictureLgFileName() {
+        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL).Replace("XL", "XLG") + ".jpg";
+    }
+
+    public virtual void Cleanup() {
+        Assert.IsTrue(TestFolder.Exists());
+        var deleter = new FolderDeleter();
+        Assert.IsTrue(deleter.CanDeleteFolder(TestFolder));
+        deleter.DeleteFolder(TestFolder);
     }
 }
