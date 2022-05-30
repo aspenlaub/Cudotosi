@@ -12,17 +12,15 @@ public class DefaultCommand : ICommand {
     private readonly ICudotosiApplicationModel Model;
     private readonly IMouseOwner MouseOwner;
     private readonly ISimpleLogger SimpleLogger;
-    private readonly ILogConfiguration LogConfiguration;
 
-    public DefaultCommand(ICudotosiApplicationModel model, IMouseOwner mouseOwner, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration) {
+    public DefaultCommand(ICudotosiApplicationModel model, IMouseOwner mouseOwner, ISimpleLogger simpleLogger) {
         Model = model;
         MouseOwner = mouseOwner;
         SimpleLogger = simpleLogger;
-        LogConfiguration = logConfiguration;
     }
 
     public async Task ExecuteAsync() {
-        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
+        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
             SimpleLogger.LogInformation("Executing default command");
             if (!Model.Default.Enabled) {
                 SimpleLogger.LogInformation("Default command is not enabled");
@@ -34,7 +32,7 @@ public class DefaultCommand : ICommand {
     }
 
     public async Task<bool> ShouldBeEnabledAsync() {
-        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
+        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
             SimpleLogger.LogInformation("Checking if default command should be enabled");
             try {
                 return await Task.FromResult(Model.Picture.BitmapImage.Width > 0 && Model.Picture.BitmapImage.Height > 1);

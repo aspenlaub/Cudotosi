@@ -12,14 +12,15 @@ using Microsoft.Extensions.Logging;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class TashHandler : TashHandlerBase<ICudotosiApplicationModel> {
-    public TashHandler(ITashAccessor tashAccessor, ISimpleLogger simpleLogger, ILogConfigurationFactory logConfigurationFactory,
-        IButtonNameToCommandMapper buttonNameToCommandMapper, IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler,
-        ITashVerifyAndSetHandler<ICudotosiApplicationModel> tashVerifyAndSetHandler, ITashSelectorHandler<ICudotosiApplicationModel> tashSelectorHandler, ITashCommunicator<ICudotosiApplicationModel> tashCommunicator)
-        : base(tashAccessor, simpleLogger, logConfigurationFactory, buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndAppHandler, tashVerifyAndSetHandler, tashSelectorHandler, tashCommunicator) {
+    public TashHandler(ITashAccessor tashAccessor, ISimpleLogger simpleLogger, IButtonNameToCommandMapper buttonNameToCommandMapper,
+            IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler,
+            ITashVerifyAndSetHandler<ICudotosiApplicationModel> tashVerifyAndSetHandler, ITashSelectorHandler<ICudotosiApplicationModel> tashSelectorHandler,
+            ITashCommunicator<ICudotosiApplicationModel> tashCommunicator)
+        : base(tashAccessor, simpleLogger, buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndAppHandler, tashVerifyAndSetHandler, tashSelectorHandler, tashCommunicator) {
     }
 
     protected override async Task ProcessSingleTaskAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
-        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogId))) {
+        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
             var s = string.IsNullOrEmpty(status.TaskBeingProcessed.ControlName)
                 ? $"Processing a task of type {status.TaskBeingProcessed.Type} in {nameof(TashHandler)}"
                 : $"Processing a task of type {status.TaskBeingProcessed.Type} on {status.TaskBeingProcessed.ControlName} in {nameof(TashHandler)}";

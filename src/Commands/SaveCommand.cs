@@ -23,10 +23,9 @@ public class SaveCommand : ICommand {
     private readonly IUserInteraction UserInteraction;
     private string TargetFileName;
     private readonly ISimpleLogger SimpleLogger;
-    private readonly ILogConfiguration LogConfiguration;
 
     public SaveCommand(ICudotosiApplicationModel model, ICutCalculator cutCalculator, ISimpleSelectorHandler jpgFileSelectorHandler,
-        IJpgFileNameChanger jpgFileNameChanger, IUserInteraction userInteraction, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration) {
+        IJpgFileNameChanger jpgFileNameChanger, IUserInteraction userInteraction, ISimpleLogger simpleLogger) {
         Model = model;
         CutCalculator = cutCalculator;
         JpgFileSelectorHandler = jpgFileSelectorHandler;
@@ -34,7 +33,6 @@ public class SaveCommand : ICommand {
         UserInteraction = userInteraction;
         TargetFileName = "";
         SimpleLogger = simpleLogger;
-        LogConfiguration = logConfiguration;
     }
 
     public async Task ExecuteAsync() {
@@ -112,7 +110,7 @@ public class SaveCommand : ICommand {
     }
 
     public async Task<bool> ShouldBeEnabledAsync() {
-        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
+        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
             SimpleLogger.LogInformation("Checking if save command should be enabled");
             return await Task.FromResult(Model.JpgFile.SelectedIndex >= 0 && Model.PictureHeight > 1 && Model.PictureWidth > 1);
         }

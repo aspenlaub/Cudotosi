@@ -17,20 +17,18 @@ public class PictureHandler : IPictureHandler {
     private readonly IJpgFileNameChanger JpgFileNameChanger;
     private readonly ISourceAreaHandler SourceAreaHandler;
     private readonly ISimpleLogger SimpleLogger;
-    private readonly ILogConfiguration LogConfiguration;
 
     public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger,
-        ISourceAreaHandler sourceAreaHandler, ISimpleLogger simpleLogger, ILogConfiguration logConfiguration) {
+        ISourceAreaHandler sourceAreaHandler, ISimpleLogger simpleLogger) {
         Model = model;
         GuiAndAppHandler = guiAndAppHandler;
         JpgFileNameChanger = jpgFileNameChanger;
         SourceAreaHandler = sourceAreaHandler;
         SimpleLogger = simpleLogger;
-        LogConfiguration = logConfiguration;
     }
 
     public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight, int actualPictureWidth, int actualPictureHeight) {
-        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), LogConfiguration.LogId))) {
+        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
             SimpleLogger.LogInformation($"Mouse is down at {mousePosX}, {mousePosY}");
             if (Model.MousePosX == mousePosX && Model.MousePosY == mousePosY && Model.PictureWidth == pictureWidth && Model.PictureHeight == pictureHeight) {
                 SimpleLogger.LogInformation("Same as previous position");
