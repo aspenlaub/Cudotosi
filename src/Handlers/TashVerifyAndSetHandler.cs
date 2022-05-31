@@ -9,8 +9,10 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 public class TashVerifyAndSetHandler : TashVerifyAndSetHandlerBase<ICudotosiApplicationModel> {
     private readonly ICudotosiHandlers CudotosiHandlers;
 
-    public TashVerifyAndSetHandler(ICudotosiHandlers cudotosiHandlers, ISimpleLogger simpleLogger, ITashSelectorHandler<ICudotosiApplicationModel> tashSelectorHandler, ITashCommunicator<ICudotosiApplicationModel> tashCommunicator,
-        Dictionary<string, ISelector> selectors) : base(simpleLogger, tashSelectorHandler, tashCommunicator, selectors) {
+    public TashVerifyAndSetHandler(ICudotosiHandlers cudotosiHandlers, ISimpleLogger simpleLogger, ITashSelectorHandler<ICudotosiApplicationModel> tashSelectorHandler,
+            ITashCommunicator<ICudotosiApplicationModel> tashCommunicator, Dictionary<string, ISelector> selectors,
+            IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor)
+                : base(simpleLogger, tashSelectorHandler, tashCommunicator, selectors, methodNamesFromStackFramesExtractor) {
         CudotosiHandlers = cudotosiHandlers;
     }
 

@@ -7,11 +7,11 @@ using System.Windows;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Extensions;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Components;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Enums;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands;
 
@@ -23,9 +23,11 @@ public class SaveCommand : ICommand {
     private readonly IUserInteraction UserInteraction;
     private string TargetFileName;
     private readonly ISimpleLogger SimpleLogger;
+    private readonly IMethodNamesFromStackFramesExtractor MethodNamesFromStackFramesExtractor;
 
     public SaveCommand(ICudotosiApplicationModel model, ICutCalculator cutCalculator, ISimpleSelectorHandler jpgFileSelectorHandler,
-        IJpgFileNameChanger jpgFileNameChanger, IUserInteraction userInteraction, ISimpleLogger simpleLogger) {
+            IJpgFileNameChanger jpgFileNameChanger, IUserInteraction userInteraction, ISimpleLogger simpleLogger,
+            IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor) {
         Model = model;
         CutCalculator = cutCalculator;
         JpgFileSelectorHandler = jpgFileSelectorHandler;
@@ -33,6 +35,7 @@ public class SaveCommand : ICommand {
         UserInteraction = userInteraction;
         TargetFileName = "";
         SimpleLogger = simpleLogger;
+        MethodNamesFromStackFramesExtractor = methodNamesFromStackFramesExtractor;
     }
 
     public async Task ExecuteAsync() {
@@ -111,7 +114,8 @@ public class SaveCommand : ICommand {
 
     public async Task<bool> ShouldBeEnabledAsync() {
         using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
-            SimpleLogger.LogInformation("Checking if save command should be enabled");
+            var methodNamesFromStack = MethodNamesFromStackFramesExtractor.ExtractMethodNamesFromStackFrames();
+            SimpleLogger.LogInformationWithCallStack("Checking if save command should be enabled", methodNamesFromStack);
             return await Task.FromResult(Model.JpgFile.SelectedIndex >= 0 && Model.PictureHeight > 1 && Model.PictureWidth > 1);
         }
     }

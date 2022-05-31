@@ -25,13 +25,14 @@ public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronize
     private readonly ICutCalculator CutCalculator;
     private readonly IMouseOwner MouseOwner;
     private readonly IUserInteraction UserInteraction;
+    private readonly IMethodNamesFromStackFramesExtractor MethodNamesFromStackFramesExtractor;
 
     public CudotosiApplication(IButtonNameToCommandMapper buttonNameToCommandMapper, IToggleButtonNameToHandlerMapper toggleButtonNameToHandlerMapper,
         IGuiAndApplicationSynchronizer<CudotosiApplicationModel> guiAndApplicationSynchronizer,
         CudotosiApplicationModel model, IJpgFileNameChanger jpgFileNameChanger,
         ITashAccessor tashAccessor, ISimpleLogger simpleLogger,
         IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator, IMouseOwner mouseOwner,
-        IUserInteraction userInteraction)
+        IUserInteraction userInteraction, IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor)
         : base(buttonNameToCommandMapper, toggleButtonNameToHandlerMapper, guiAndApplicationSynchronizer, model, simpleLogger) {
         JpgFileNameChanger = jpgFileNameChanger;
         TashAccessor = tashAccessor;
@@ -39,6 +40,7 @@ public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronize
         CutCalculator = cutCalculator;
         MouseOwner = mouseOwner;
         UserInteraction = userInteraction;
+        MethodNamesFromStackFramesExtractor = methodNamesFromStackFramesExtractor;
     }
 
     protected override async Task EnableOrDisableButtonsAsync() {
@@ -49,7 +51,7 @@ public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronize
 
     protected override void CreateCommandsAndHandlers() {
         var mousePositionHandler = new SourceAreaHandler(Model, this, MousePositionAdjuster, CutCalculator);
-        var pictureHandler = new PictureHandler(Model, this, JpgFileNameChanger, mousePositionHandler, SimpleLogger);
+        var pictureHandler = new PictureHandler(Model, this, JpgFileNameChanger, mousePositionHandler, SimpleLogger, MethodNamesFromStackFramesExtractor);
         var sourceSizeXlHandler = new SourceSizeXlHandler(Model, pictureHandler);
         var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, JpgFileNameChanger);
         var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
@@ -77,18 +79,18 @@ public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronize
 
         Commands = new CudotosiCommands {
             SelectFolderCommand = new SelectFolderCommand(Model, UserInteraction, folderTextHandler),
-            SaveCommand = new SaveCommand(Model, CutCalculator, jpgFileSelectorHandler, JpgFileNameChanger, UserInteraction, SimpleLogger),
-            DefaultCommand = new DefaultCommand(Model, MouseOwner, SimpleLogger)
+            SaveCommand = new SaveCommand(Model, CutCalculator, jpgFileSelectorHandler, JpgFileNameChanger, UserInteraction, SimpleLogger, MethodNamesFromStackFramesExtractor),
+            DefaultCommand = new DefaultCommand(Model, MouseOwner, SimpleLogger, MethodNamesFromStackFramesExtractor)
         };
 
         var selectors = new Dictionary<string, ISelector> {
             { nameof(ICudotosiApplicationModel.JpgFile), Model.JpgFile }
         };
 
-        var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(TashAccessor, SimpleLogger);
-        var selectorHandler = new TashSelectorHandler(Handlers, SimpleLogger, communicator, selectors);
-        var verifyAndSetHandler = new TashVerifyAndSetHandler(Handlers, SimpleLogger, selectorHandler, communicator, selectors);
-        TashHandler = new TashHandler(TashAccessor, SimpleLogger, ButtonNameToCommandMapper, ToggleButtonNameToHandlerMapper, this, verifyAndSetHandler, selectorHandler, communicator);
+        var communicator = new TashCommunicatorBase<ICudotosiApplicationModel>(TashAccessor, SimpleLogger, MethodNamesFromStackFramesExtractor);
+        var selectorHandler = new TashSelectorHandler(Handlers, SimpleLogger, communicator, selectors, MethodNamesFromStackFramesExtractor);
+        var verifyAndSetHandler = new TashVerifyAndSetHandler(Handlers, SimpleLogger, selectorHandler, communicator, selectors, MethodNamesFromStackFramesExtractor);
+        TashHandler = new TashHandler(TashAccessor, SimpleLogger, ButtonNameToCommandMapper, ToggleButtonNameToHandlerMapper, this, verifyAndSetHandler, selectorHandler, communicator, MethodNamesFromStackFramesExtractor);
     }
 
     public override async Task OnLoadedAsync() {

@@ -2,24 +2,26 @@
 using System.Threading.Tasks;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Extensions;
 using Aspenlaub.Net.GitHub.CSharp.Tash;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class TashSelectorHandler : TashSelectorHandlerBase<ICudotosiApplicationModel> {
     private readonly ICudotosiHandlers CudotosiHandlers;
 
-    public TashSelectorHandler(ICudotosiHandlers cudotosiHandlers, ISimpleLogger simpleLogger, ITashCommunicator<ICudotosiApplicationModel> tashCommunicator, Dictionary<string, ISelector> selectors)
-        : base(simpleLogger, tashCommunicator, selectors) {
+    public TashSelectorHandler(ICudotosiHandlers cudotosiHandlers, ISimpleLogger simpleLogger, ITashCommunicator<ICudotosiApplicationModel> tashCommunicator,
+            Dictionary<string, ISelector> selectors, IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor)
+        : base(simpleLogger, tashCommunicator, selectors, methodNamesFromStackFramesExtractor) {
         CudotosiHandlers = cudotosiHandlers;
     }
 
     public override async Task ProcessSelectComboOrResetTaskAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
         var controlName = status.TaskBeingProcessed.ControlName;
-        SimpleLogger.LogInformation($"{controlName} is a valid selector");
+        var methodNamesFromStack = MethodNamesFromStackFramesExtractor.ExtractMethodNamesFromStackFrames();
+        SimpleLogger.LogInformationWithCallStack($"{controlName} is a valid selector", methodNamesFromStack);
         var selector = Selectors[controlName];
 
         await SelectedIndexChangedAsync(status, controlName, -1, false);
@@ -32,14 +34,15 @@ public class TashSelectorHandler : TashSelectorHandlerBase<ICudotosiApplicationM
     protected override async Task SelectedIndexChangedAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status, string controlName, int selectedIndex, bool selectablesChanged) {
         if (selectedIndex < 0) { return; }
 
-        SimpleLogger.LogInformation($"Changing selected index for {controlName} to {selectedIndex}");
+        var methodNamesFromStack = MethodNamesFromStackFramesExtractor.ExtractMethodNamesFromStackFrames();
+        SimpleLogger.LogInformationWithCallStack($"Changing selected index for {controlName} to {selectedIndex}", methodNamesFromStack);
         switch (controlName) {
             case nameof(status.Model.JpgFile):
                 await CudotosiHandlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(selectedIndex);
                 break;
             default:
                 var errorMessage = $"Do not know how to select for {status.TaskBeingProcessed.ControlName}";
-                SimpleLogger.LogInformation($"Communicating 'BadRequest' to remote controlling process ({errorMessage})");
+                SimpleLogger.LogInformationWithCallStack($"Communicating 'BadRequest' to remote controlling process ({errorMessage})", methodNamesFromStack);
                 await TashCommunicator.ChangeCommunicateAndShowProcessTaskStatusAsync(status, ControllableProcessTaskStatus.BadRequest, false, "", errorMessage);
                 break;
         }

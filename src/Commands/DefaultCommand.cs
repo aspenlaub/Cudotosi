@@ -2,9 +2,9 @@
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Extensions;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Components;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Commands;
 
@@ -12,18 +12,21 @@ public class DefaultCommand : ICommand {
     private readonly ICudotosiApplicationModel Model;
     private readonly IMouseOwner MouseOwner;
     private readonly ISimpleLogger SimpleLogger;
+    private readonly IMethodNamesFromStackFramesExtractor MethodNamesFromStackFramesExtractor;
 
-    public DefaultCommand(ICudotosiApplicationModel model, IMouseOwner mouseOwner, ISimpleLogger simpleLogger) {
+    public DefaultCommand(ICudotosiApplicationModel model, IMouseOwner mouseOwner, ISimpleLogger simpleLogger, IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor) {
         Model = model;
         MouseOwner = mouseOwner;
         SimpleLogger = simpleLogger;
+        MethodNamesFromStackFramesExtractor = methodNamesFromStackFramesExtractor;
     }
 
     public async Task ExecuteAsync() {
         using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
-            SimpleLogger.LogInformation("Executing default command");
+            var methodNamesFromStack = MethodNamesFromStackFramesExtractor.ExtractMethodNamesFromStackFrames();
+            SimpleLogger.LogInformationWithCallStack("Executing default command", methodNamesFromStack);
             if (!Model.Default.Enabled) {
-                SimpleLogger.LogInformation("Default command is not enabled");
+                SimpleLogger.LogInformationWithCallStack("Default command is not enabled", methodNamesFromStack);
                 return;
             }
 
@@ -33,7 +36,8 @@ public class DefaultCommand : ICommand {
 
     public async Task<bool> ShouldBeEnabledAsync() {
         using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
-            SimpleLogger.LogInformation("Checking if default command should be enabled");
+            var methodNamesFromStack = MethodNamesFromStackFramesExtractor.ExtractMethodNamesFromStackFrames();
+            SimpleLogger.LogInformationWithCallStack("Checking if default command should be enabled", methodNamesFromStack);
             try {
                 return await Task.FromResult(Model.Picture.BitmapImage.Width > 0 && Model.Picture.BitmapImage.Height > 1);
             }

@@ -5,6 +5,7 @@ using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Entities;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
+using Aspenlaub.Net.GitHub.CSharp.Pegh.Extensions;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Components;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -17,21 +18,24 @@ public class PictureHandler : IPictureHandler {
     private readonly IJpgFileNameChanger JpgFileNameChanger;
     private readonly ISourceAreaHandler SourceAreaHandler;
     private readonly ISimpleLogger SimpleLogger;
+    private readonly IMethodNamesFromStackFramesExtractor MethodNamesFromStackFramesExtractor;
 
     public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger,
-        ISourceAreaHandler sourceAreaHandler, ISimpleLogger simpleLogger) {
+            ISourceAreaHandler sourceAreaHandler, ISimpleLogger simpleLogger, IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor) {
         Model = model;
         GuiAndAppHandler = guiAndAppHandler;
         JpgFileNameChanger = jpgFileNameChanger;
         SourceAreaHandler = sourceAreaHandler;
         SimpleLogger = simpleLogger;
+        MethodNamesFromStackFramesExtractor = methodNamesFromStackFramesExtractor;
     }
 
     public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight, int actualPictureWidth, int actualPictureHeight) {
         using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
-            SimpleLogger.LogInformation($"Mouse is down at {mousePosX}, {mousePosY}");
+            var methodNamesFromStack = MethodNamesFromStackFramesExtractor.ExtractMethodNamesFromStackFrames();
+            SimpleLogger.LogInformationWithCallStack($"Mouse is down at {mousePosX}, {mousePosY}", methodNamesFromStack);
             if (Model.MousePosX == mousePosX && Model.MousePosY == mousePosY && Model.PictureWidth == pictureWidth && Model.PictureHeight == pictureHeight) {
-                SimpleLogger.LogInformation("Same as previous position");
+                SimpleLogger.LogInformationWithCallStack("Same as previous position", methodNamesFromStack);
                 return;
             }
 
