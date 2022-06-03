@@ -7,22 +7,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test;
 
 public class CudotosiWindowUnderTest : CudotosiWindowUnderTestActions, IDisposable {
-    private readonly IStarterAndStopper CudotosiStarterAndStopper;
-    private bool WindowUnderTestInitialized;
+    private readonly IStarterAndStopper _CudotosiStarterAndStopper;
+    private bool _WindowUnderTestInitialized;
 
     public CudotosiWindowUnderTest(ITashAccessor tashAccessor, IStarterAndStopper roustStarterAndStopper) : base(tashAccessor) {
-        CudotosiStarterAndStopper = roustStarterAndStopper;
-        WindowUnderTestInitialized = false;
+        _CudotosiStarterAndStopper = roustStarterAndStopper;
+        _WindowUnderTestInitialized = false;
     }
 
     public override async Task InitializeAsync() {
-        Assert.IsFalse(WindowUnderTestInitialized, "Window already has been initialized");
+        Assert.IsFalse(_WindowUnderTestInitialized, "Window already has been initialized");
         await base.InitializeAsync();
-        CudotosiStarterAndStopper.Start();
-        WindowUnderTestInitialized = true;
+        _CudotosiStarterAndStopper.Start();
+        _WindowUnderTestInitialized = true;
     }
 
     public void Dispose() {
-        CudotosiStarterAndStopper.Stop();
+        _CudotosiStarterAndStopper.Stop();
     }
 }

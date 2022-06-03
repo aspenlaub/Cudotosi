@@ -10,12 +10,12 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class TashSelectorHandler : TashSelectorHandlerBase<ICudotosiApplicationModel> {
-    private readonly ICudotosiHandlers CudotosiHandlers;
+    private readonly ICudotosiHandlers _CudotosiHandlers;
 
     public TashSelectorHandler(ICudotosiHandlers cudotosiHandlers, ISimpleLogger simpleLogger, ITashCommunicator<ICudotosiApplicationModel> tashCommunicator,
             Dictionary<string, ISelector> selectors, IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor)
         : base(simpleLogger, tashCommunicator, selectors, methodNamesFromStackFramesExtractor) {
-        CudotosiHandlers = cudotosiHandlers;
+        _CudotosiHandlers = cudotosiHandlers;
     }
 
     public override async Task ProcessSelectComboOrResetTaskAsync(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
@@ -38,7 +38,7 @@ public class TashSelectorHandler : TashSelectorHandlerBase<ICudotosiApplicationM
         SimpleLogger.LogInformationWithCallStack($"Changing selected index for {controlName} to {selectedIndex}", methodNamesFromStack);
         switch (controlName) {
             case nameof(status.Model.JpgFile):
-                await CudotosiHandlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(selectedIndex);
+                await _CudotosiHandlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(selectedIndex);
                 break;
             default:
                 var errorMessage = $"Do not know how to select for {status.TaskBeingProcessed.ControlName}";

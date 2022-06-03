@@ -8,22 +8,22 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class FolderTextHandler : ISimpleTextHandler {
-    private readonly ICudotosiApplicationModel Model;
-    private readonly IGuiAndAppHandler<CudotosiApplicationModel> GuiAndAppHandler;
-    private readonly ISimpleSelectorHandler JpgFileSelectorHandler;
+    private readonly ICudotosiApplicationModel _Model;
+    private readonly IGuiAndAppHandler<CudotosiApplicationModel> _GuiAndAppHandler;
+    private readonly ISimpleSelectorHandler _JpgFileSelectorHandler;
 
     public FolderTextHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, ISimpleSelectorHandler jpgFileSelectorHandler) {
-        Model = model;
-        GuiAndAppHandler = guiAndAppHandler;
-        JpgFileSelectorHandler = jpgFileSelectorHandler;
+        _Model = model;
+        _GuiAndAppHandler = guiAndAppHandler;
+        _JpgFileSelectorHandler = jpgFileSelectorHandler;
     }
 
     public async Task TextChangedAsync(string text) {
-        if (Model.Folder.Text == text) { return; }
+        if (_Model.Folder.Text == text) { return; }
 
-        Model.Folder.Text = text;
-        Model.Folder.Type = Directory.Exists(text) ? StatusType.None : StatusType.Error;
-        await JpgFileSelectorHandler.UpdateSelectableValuesAsync();
-        await GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
+        _Model.Folder.Text = text;
+        _Model.Folder.Type = Directory.Exists(text) ? StatusType.None : StatusType.Error;
+        await _JpgFileSelectorHandler.UpdateSelectableValuesAsync();
+        await _GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
     }
 }

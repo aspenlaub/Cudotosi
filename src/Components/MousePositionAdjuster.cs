@@ -4,10 +4,10 @@ using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components;
 
 public class MousePositionAdjuster : IMousePositionAdjuster {
-    private readonly ICutCalculator CutCalculator;
+    private readonly ICutCalculator _CutCalculator;
 
     public MousePositionAdjuster(ICutCalculator cutCalculator) {
-        CutCalculator = cutCalculator;
+        _CutCalculator = cutCalculator;
     }
 
     public void AdjustMousePosition(ICudotosiApplicationModel model) {
@@ -18,7 +18,7 @@ public class MousePositionAdjuster : IMousePositionAdjuster {
             model.SourceAreaWidth = Math.Min(model.PictureWidth, model.PictureHeight);
             model.SourceAreaHeight = model.SourceAreaWidth;
         } else {
-            CutCalculator.TargetSize(model, model.PictureWidth, model.PictureHeight, out var targetWidth, out var targetHeight);
+            _CutCalculator.TargetSize(model, model.PictureWidth, model.PictureHeight, out var targetWidth, out var targetHeight);
             if (targetHeight == 0 || targetWidth == 0) {
                 model.SourceAreaHeight = 0;
                 model.SourceAreaWidth = 0;

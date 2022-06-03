@@ -7,13 +7,13 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class TashVerifyAndSetHandler : TashVerifyAndSetHandlerBase<ICudotosiApplicationModel> {
-    private readonly ICudotosiHandlers CudotosiHandlers;
+    private readonly ICudotosiHandlers _CudotosiHandlers;
 
     public TashVerifyAndSetHandler(ICudotosiHandlers cudotosiHandlers, ISimpleLogger simpleLogger, ITashSelectorHandler<ICudotosiApplicationModel> tashSelectorHandler,
             ITashCommunicator<ICudotosiApplicationModel> tashCommunicator, Dictionary<string, ISelector> selectors,
             IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor)
                 : base(simpleLogger, tashSelectorHandler, tashCommunicator, selectors, methodNamesFromStackFramesExtractor) {
-        CudotosiHandlers = cudotosiHandlers;
+        _CudotosiHandlers = cudotosiHandlers;
     }
 
     protected override void OnValueTaskProcessed(ITashTaskHandlingStatus<ICudotosiApplicationModel> status, bool verify, bool set, string actualValue) { }
@@ -27,7 +27,7 @@ public class TashVerifyAndSetHandler : TashVerifyAndSetHandlerBase<ICudotosiAppl
 
     protected override Dictionary<string, ISimpleTextHandler> TextBoxNamesToTextHandlerDictionary(ITashTaskHandlingStatus<ICudotosiApplicationModel> status) {
         return new() {
-            { nameof(status.Model.Folder), CudotosiHandlers.FolderTextHandler }
+            { nameof(status.Model.Folder), _CudotosiHandlers.FolderTextHandler }
         };
     }
 

@@ -5,10 +5,10 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class SourceSizeXlHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel> {
-    private readonly IPictureHandler PictureHandler;
+    private readonly IPictureHandler _PictureHandler;
 
     public SourceSizeXlHandler(ICudotosiApplicationModel model, IPictureHandler pictureHandler) : base(model, model.SourceSizeXl) {
-        PictureHandler = pictureHandler;
+        _PictureHandler = pictureHandler;
     }
 
     public override async Task ToggledAsync(bool isChecked) {
@@ -22,6 +22,6 @@ public class SourceSizeXlHandler : ToggleButtonHandlerBase<ICudotosiApplicationM
         Model.TargetSizeSm.Enabled = true;
         Model.TargetSizeXs.Enabled = true;
 
-        await PictureHandler.LoadFromFile(PictureHandler.FileName());
+        await _PictureHandler.LoadFromFile(_PictureHandler.FileName());
     }
 }

@@ -13,54 +13,54 @@ using Microsoft.Extensions.Logging;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class PictureHandler : IPictureHandler {
-    private readonly ICudotosiApplicationModel Model;
-    private readonly IGuiAndAppHandler<CudotosiApplicationModel> GuiAndAppHandler;
-    private readonly IJpgFileNameChanger JpgFileNameChanger;
-    private readonly ISourceAreaHandler SourceAreaHandler;
-    private readonly ISimpleLogger SimpleLogger;
-    private readonly IMethodNamesFromStackFramesExtractor MethodNamesFromStackFramesExtractor;
+    private readonly ICudotosiApplicationModel _Model;
+    private readonly IGuiAndAppHandler<CudotosiApplicationModel> _GuiAndAppHandler;
+    private readonly IJpgFileNameChanger _JpgFileNameChanger;
+    private readonly ISourceAreaHandler _SourceAreaHandler;
+    private readonly ISimpleLogger _SimpleLogger;
+    private readonly IMethodNamesFromStackFramesExtractor _MethodNamesFromStackFramesExtractor;
 
     public PictureHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IJpgFileNameChanger jpgFileNameChanger,
             ISourceAreaHandler sourceAreaHandler, ISimpleLogger simpleLogger, IMethodNamesFromStackFramesExtractor methodNamesFromStackFramesExtractor) {
-        Model = model;
-        GuiAndAppHandler = guiAndAppHandler;
-        JpgFileNameChanger = jpgFileNameChanger;
-        SourceAreaHandler = sourceAreaHandler;
-        SimpleLogger = simpleLogger;
-        MethodNamesFromStackFramesExtractor = methodNamesFromStackFramesExtractor;
+        _Model = model;
+        _GuiAndAppHandler = guiAndAppHandler;
+        _JpgFileNameChanger = jpgFileNameChanger;
+        _SourceAreaHandler = sourceAreaHandler;
+        _SimpleLogger = simpleLogger;
+        _MethodNamesFromStackFramesExtractor = methodNamesFromStackFramesExtractor;
     }
 
     public async Task MouseDownAsync(int mousePosX, int mousePosY, int pictureWidth, int pictureHeight, int actualPictureWidth, int actualPictureHeight) {
-        using (SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor), SimpleLogger.LogId))) {
-            var methodNamesFromStack = MethodNamesFromStackFramesExtractor.ExtractMethodNamesFromStackFrames();
-            SimpleLogger.LogInformationWithCallStack($"Mouse is down at {mousePosX}, {mousePosY}", methodNamesFromStack);
-            if (Model.MousePosX == mousePosX && Model.MousePosY == mousePosY && Model.PictureWidth == pictureWidth && Model.PictureHeight == pictureHeight) {
-                SimpleLogger.LogInformationWithCallStack("Same as previous position", methodNamesFromStack);
+        using (_SimpleLogger.BeginScope(SimpleLoggingScopeId.Create(nameof(TashAccessor)))) {
+            var methodNamesFromStack = _MethodNamesFromStackFramesExtractor.ExtractMethodNamesFromStackFrames();
+            _SimpleLogger.LogInformationWithCallStack($"Mouse is down at {mousePosX}, {mousePosY}", methodNamesFromStack);
+            if (_Model.MousePosX == mousePosX && _Model.MousePosY == mousePosY && _Model.PictureWidth == pictureWidth && _Model.PictureHeight == pictureHeight) {
+                _SimpleLogger.LogInformationWithCallStack("Same as previous position", methodNamesFromStack);
                 return;
             }
 
-            Model.MousePosX = mousePosX;
-            Model.MousePosY = mousePosY;
-            Model.PictureWidth = pictureWidth;
-            Model.PictureHeight = pictureHeight;
-            Model.ActualPictureWidth = actualPictureWidth;
-            Model.ActualPictureHeight = actualPictureHeight;
-            await SourceAreaHandler.OnMousePositionChangedAsync();
+            _Model.MousePosX = mousePosX;
+            _Model.MousePosY = mousePosY;
+            _Model.PictureWidth = pictureWidth;
+            _Model.PictureHeight = pictureHeight;
+            _Model.ActualPictureWidth = actualPictureWidth;
+            _Model.ActualPictureHeight = actualPictureHeight;
+            await _SourceAreaHandler.OnMousePositionChangedAsync();
         }
     }
 
     public async Task PictureSizeChangedAsync(int actualPictureWidth, int actualPictureHeight) {
-        if (Model.ActualPictureWidth == actualPictureWidth && Model.ActualPictureHeight == actualPictureHeight) {
+        if (_Model.ActualPictureWidth == actualPictureWidth && _Model.ActualPictureHeight == actualPictureHeight) {
             return;
         }
 
-        Model.ActualPictureWidth = actualPictureWidth;
-        Model.ActualPictureHeight = actualPictureHeight;
-        await SourceAreaHandler.OnMousePositionChangedAsync();
+        _Model.ActualPictureWidth = actualPictureWidth;
+        _Model.ActualPictureHeight = actualPictureHeight;
+        await _SourceAreaHandler.OnMousePositionChangedAsync();
     }
 
     public string FileName() {
-        return Model.JpgFile.SelectedIndex >= 0 ? new Folder(Model.Folder.Text).FullName + @"\" + Model.JpgFile.SelectedItem.Name : "";
+        return _Model.JpgFile.SelectedIndex >= 0 ? new Folder(_Model.Folder.Text).FullName + @"\" + _Model.JpgFile.SelectedItem.Name : "";
     }
 
     public async Task LoadFromFile(string fileName) {
@@ -69,12 +69,12 @@ public class PictureHandler : IPictureHandler {
         if (fileName == "") {
             image = new BitmapImage();
         } else {
-            if (Model.SourceSizeLg.IsChecked) {
-                fileName = JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false);
-            } else if (Model.SourceSizeMd.IsChecked) {
-                fileName = JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false);
-            } else if (Model.SourceSizeSm.IsChecked) {
-                fileName = JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false);
+            if (_Model.SourceSizeLg.IsChecked) {
+                fileName = _JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false);
+            } else if (_Model.SourceSizeMd.IsChecked) {
+                fileName = _JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false);
+            } else if (_Model.SourceSizeSm.IsChecked) {
+                fileName = _JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false);
             }
             image = new BitmapImage();
         }
@@ -83,13 +83,13 @@ public class PictureHandler : IPictureHandler {
         image.CacheOption = BitmapCacheOption.OnLoad;
         image.UriSource = fileName != "" ? new Uri(fileName) : new Uri(@"Images\blank.jpg", UriKind.Relative);
         image.EndInit();
-        Model.Picture.BitmapImage = image;
+        _Model.Picture.BitmapImage = image;
 
-        Model.MousePosX = 0;
-        Model.MousePosY = 0;
-        Model.SourceAreaHeight = 0;
-        Model.SourceAreaWidth = 0;
-        Model.Status.Text = "";
-        await GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
+        _Model.MousePosX = 0;
+        _Model.MousePosY = 0;
+        _Model.SourceAreaHeight = 0;
+        _Model.SourceAreaWidth = 0;
+        _Model.Status.Text = "";
+        await _GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
     }
 }

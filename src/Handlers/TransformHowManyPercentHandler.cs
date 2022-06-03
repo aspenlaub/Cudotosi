@@ -6,12 +6,12 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class TransformHowManyPercentHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel> {
-    private readonly ISourceAreaHandler SourceAreaHandler;
+    private readonly ISourceAreaHandler _SourceAreaHandler;
 
     protected int Percentage;
 
     public TransformHowManyPercentHandler(ICudotosiApplicationModel model, ISourceAreaHandler sourceAreaHandler, ToggleButton toggleButton, int percentage) : base(model, toggleButton) {
-        SourceAreaHandler = sourceAreaHandler;
+        _SourceAreaHandler = sourceAreaHandler;
         Percentage = percentage;
     }
 
@@ -20,6 +20,6 @@ public class TransformHowManyPercentHandler : ToggleButtonHandlerBase<ICudotosiA
 
         SetChecked(isChecked);
 
-        await SourceAreaHandler.OnTransformHowManyPercentChangedAsync();
+        await _SourceAreaHandler.OnTransformHowManyPercentChangedAsync();
     }
 }

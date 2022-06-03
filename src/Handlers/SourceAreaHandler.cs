@@ -6,24 +6,24 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class SourceAreaHandler  : ISourceAreaHandler {
-    private readonly ICudotosiApplicationModel Model;
-    private readonly IGuiAndAppHandler<CudotosiApplicationModel> GuiAndAppHandler;
-    private readonly IMousePositionAdjuster MousePositionAdjuster;
-    private readonly ICutCalculator CutCalculator;
+    private readonly ICudotosiApplicationModel _Model;
+    private readonly IGuiAndAppHandler<CudotosiApplicationModel> _GuiAndAppHandler;
+    private readonly IMousePositionAdjuster _MousePositionAdjuster;
+    private readonly ICutCalculator _CutCalculator;
 
     public SourceAreaHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IMousePositionAdjuster mousePositionAdjuster, ICutCalculator cutCalculator) {
-        Model = model;
-        GuiAndAppHandler = guiAndAppHandler;
-        MousePositionAdjuster = mousePositionAdjuster;
-        CutCalculator = cutCalculator;
+        _Model = model;
+        _GuiAndAppHandler = guiAndAppHandler;
+        _MousePositionAdjuster = mousePositionAdjuster;
+        _CutCalculator = cutCalculator;
     }
 
     public async Task OnMousePositionChangedAsync() {
-        MousePositionAdjuster.AdjustMousePosition(Model);
+        _MousePositionAdjuster.AdjustMousePosition(_Model);
 
-        CutCalculator.CutOut(Model);
+        _CutCalculator.CutOut(_Model);
 
-        await GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
+        await _GuiAndAppHandler.EnableOrDisableButtonsThenSyncGuiAndAppAsync();
     }
 
     public async Task OnDestinationShapeChangedAsync() {

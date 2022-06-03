@@ -5,10 +5,10 @@ using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Handlers;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
 public class DestinationShapeSquareHandler : ToggleButtonHandlerBase<ICudotosiApplicationModel> {
-    private readonly ISourceAreaHandler SourceAreaHandler;
+    private readonly ISourceAreaHandler _SourceAreaHandler;
 
     public DestinationShapeSquareHandler(ICudotosiApplicationModel model, ISourceAreaHandler sourceAreaHandler) : base(model, model.DestinationShapeSquare) {
-        SourceAreaHandler = sourceAreaHandler;
+        _SourceAreaHandler = sourceAreaHandler;
     }
 
     public override async Task ToggledAsync(bool isChecked) {
@@ -16,6 +16,6 @@ public class DestinationShapeSquareHandler : ToggleButtonHandlerBase<ICudotosiAp
 
         SetChecked(isChecked);
 
-        await SourceAreaHandler.OnDestinationShapeChangedAsync();
+        await _SourceAreaHandler.OnDestinationShapeChangedAsync();
     }
 }
