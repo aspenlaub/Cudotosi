@@ -18,18 +18,18 @@ public class SourceAndTargetSizeTest : CudotosiApplicationTestBase {
 
     [TestMethod]
     public async Task SourceIsXlWhenFileIsChanged() {
-        await Application.Handlers.SourceSizeLgHandler.ToggledAsync(true);
-        Assert.IsFalse(Model.SourceSizeXl.IsChecked);
+        await Application.Handlers.SourceSizeXlHandler.ToggledAsync(true);
+        Assert.IsFalse(Model.SourceSizeXxl.IsChecked);
         await SelectFolderAsync(TestFolder.FullName);
         await Application.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(0);
-        Assert.IsTrue(Model.SourceSizeXl.IsChecked);
+        Assert.IsTrue(Model.SourceSizeXxl.IsChecked);
     }
 
     [TestMethod]
     public async Task SourceSizeIsDisabledWhenFileDoesNotExistInThatSize() {
         foreach (var sizeToButton in SourceSizesToButtons()) {
             var size = sizeToButton.Key;
-            if (size == BootstrapSizes.Xl) { continue; }
+            if (size == BootstrapSizes.Xxl) { continue; }
 
             var button = sizeToButton.Value;
             Assert.IsFalse(button.Enabled);

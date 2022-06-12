@@ -52,20 +52,23 @@ public class CudotosiApplication : ApplicationBase<IGuiAndApplicationSynchronize
     protected override void CreateCommandsAndHandlers() {
         var mousePositionHandler = new SourceAreaHandler(Model, this, _MousePositionAdjuster, _CutCalculator);
         var pictureHandler = new PictureHandler(Model, this, _JpgFileNameChanger, mousePositionHandler, SimpleLogger, _MethodNamesFromStackFramesExtractor);
-        var sourceSizeXlHandler = new SourceSizeXlHandler(Model, pictureHandler);
-        var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXlHandler, _JpgFileNameChanger);
+        var sourceSizeXxlHandler = new SourceSizeXxlHandler(Model, pictureHandler);
+        var jpgFileSelectorHandler = new JpgFileSelectorHandler(Model, this, pictureHandler, sourceSizeXxlHandler, _JpgFileNameChanger);
         var folderTextHandler = new FolderTextHandler(Model, this, jpgFileSelectorHandler);
+        var targetSizeLgHandler = new TargetSizeLgHandler(Model);
         var targetSizeMdHandler = new TargetSizeMdHandler(Model);
         var targetSizeSmHandler = new TargetSizeSmHandler(Model);
         var targetSizeXsHandler = new TargetSizeXsHandler(Model);
         Handlers = new CudotosiHandlers {
             FolderTextHandler = folderTextHandler,
             JpgFileSelectorHandler = jpgFileSelectorHandler,
-            SourceSizeXlHandler = sourceSizeXlHandler,
+            SourceSizeXxlHandler = sourceSizeXxlHandler,
+            SourceSizeXlHandler = new SourceSizeXlHandler(Model, targetSizeLgHandler, pictureHandler),
             SourceSizeLgHandler = new SourceSizeLgHandler(Model, targetSizeMdHandler, pictureHandler),
             SourceSizeMdHandler = new SourceSizeMdHandler(Model, targetSizeSmHandler, pictureHandler),
             SourceSizeSmHandler = new SourceSizeSmHandler(Model, targetSizeXsHandler, pictureHandler),
-            TargetSizeLgHandler = new TargetSizeLgHandler(Model),
+            TargetSizeXlHandler = new TargetSizeXlHandler(Model),
+            TargetSizeLgHandler = targetSizeLgHandler,
             TargetSizeMdHandler = targetSizeMdHandler,
             TargetSizeSmHandler = targetSizeSmHandler,
             TargetSizeXsHandler = targetSizeXsHandler,

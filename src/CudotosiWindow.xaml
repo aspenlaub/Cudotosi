@@ -29,6 +29,7 @@
         <Button Name="SelectFolder" Grid.Row="0" Grid.Column="2" Margin="5">_...</Button>
         <Label Name="SourceSizeLabel" Grid.Row="2" Grid.Column="0" Margin="5">Source</Label>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Margin="5">
+            <RadioButton GroupName="SourceSize" Name="SourceSizeXxl" Width="100" Margin="0,5,0,0">XXL</RadioButton>
             <RadioButton GroupName="SourceSize" Name="SourceSizeXl" Width="100" Margin="0,5,0,0">XL</RadioButton>
             <RadioButton GroupName="SourceSize" Name="SourceSizeLg" Width="100" Margin="0,5,0,0">LG</RadioButton>
             <RadioButton GroupName="SourceSize" Name="SourceSizeMd" Width="100" Margin="0,5,0,0">MD</RadioButton>
@@ -36,6 +37,7 @@
         </StackPanel>
         <Label Name="TargetSizeLabel" Grid.Row="3" Grid.Column="0" Margin="5">Target</Label>
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Margin="5">
+            <RadioButton GroupName="TargetSize" Name="TargetSizeXl" Width="100" Margin="0,5,0,0">XL</RadioButton>
             <RadioButton GroupName="TargetSize" Name="TargetSizeLg" Width="100" Margin="0,5,0,0">LG</RadioButton>
             <RadioButton GroupName="TargetSize" Name="TargetSizeMd" Width="100" Margin="0,5,0,0">MD</RadioButton>
             <RadioButton GroupName="TargetSize" Name="TargetSizeSm" Width="100" Margin="0,5,0,0">SM</RadioButton>

@@ -20,11 +20,12 @@ public class SourceSizeSmHandler : ToggleButtonHandlerBase<ICudotosiApplicationM
         SetChecked(isChecked);
         if (!isChecked) { return; }
 
+        Model.TargetSizeXl.Enabled = false;
         Model.TargetSizeLg.Enabled = false;
         Model.TargetSizeMd.Enabled = false;
         Model.TargetSizeSm.Enabled = false;
         Model.TargetSizeXs.Enabled = true;
-        if (Model.TargetSizeLg.IsChecked || Model.TargetSizeMd.IsChecked || Model.TargetSizeSm.IsChecked) {
+        if (Model.TargetSizeXl.IsChecked || Model.TargetSizeLg.IsChecked || Model.TargetSizeMd.IsChecked || Model.TargetSizeSm.IsChecked) {
             await _TargetSizeXsHandler.ToggledAsync(true);
         }
 

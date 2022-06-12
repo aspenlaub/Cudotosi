@@ -14,20 +14,20 @@ public class JpgFileSelectorHandler : ISimpleSelectorHandler {
     private readonly ICudotosiApplicationModel _Model;
     private readonly IGuiAndAppHandler<CudotosiApplicationModel> _GuiAndAppHandler;
     private readonly IPictureHandler _PictureHandler;
-    private readonly IToggleButtonHandler _SourceSizeXlHandler;
+    private readonly IToggleButtonHandler _SourceSizeXxlHandler;
     private readonly IJpgFileNameChanger _JpgFileNameChanger;
 
-    public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IPictureHandler pictureHandler, IToggleButtonHandler sourceSizeXlHandler, IJpgFileNameChanger jpgFileNameChanger) {
+    public JpgFileSelectorHandler(ICudotosiApplicationModel model, IGuiAndAppHandler<CudotosiApplicationModel> guiAndAppHandler, IPictureHandler pictureHandler, IToggleButtonHandler sourceSizeXxlHandler, IJpgFileNameChanger jpgFileNameChanger) {
         _Model = model;
         _GuiAndAppHandler = guiAndAppHandler;
         _PictureHandler = pictureHandler;
-        _SourceSizeXlHandler = sourceSizeXlHandler;
+        _SourceSizeXxlHandler = sourceSizeXxlHandler;
         _JpgFileNameChanger = jpgFileNameChanger;
     }
 
     public async Task UpdateSelectableValuesAsync() {
         var shortFileNames = _Model.Folder.Type == StatusType.None
-            ? Directory.GetFiles(_Model.Folder.Text, "*_XL.jpg", SearchOption.TopDirectoryOnly).OrderBy(x => x).ToList()
+            ? Directory.GetFiles(_Model.Folder.Text, "*_XXL.jpg", SearchOption.TopDirectoryOnly).OrderBy(x => x).ToList()
             : new List<string>();
         var selectables = shortFileNames.Select(f => new Selectable { Guid = f, Name = f.Substring(f.LastIndexOf('\\') + 1) }).ToList();
         if (_Model.JpgFile.AreSelectablesIdentical(selectables)) { return; }
@@ -49,11 +49,12 @@ public class JpgFileSelectorHandler : ISimpleSelectorHandler {
         _Model.TransformHowManyPercent50.Enabled = haveSelectedIndex;
         var fileName = _PictureHandler.FileName();
         await _PictureHandler.LoadFromFile(fileName);
+        _Model.SourceSizeXl.Enabled = File.Exists(_JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Xl, false));
         _Model.SourceSizeLg.Enabled = File.Exists(_JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false));
         _Model.SourceSizeMd.Enabled = File.Exists(_JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false));
         _Model.SourceSizeSm.Enabled = File.Exists(_JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Sm, false));
-        _SourceSizeXlHandler.SetChecked(false);
-        await _SourceSizeXlHandler.ToggledAsync(true);
+        _SourceSizeXxlHandler.SetChecked(false);
+        await _SourceSizeXxlHandler.ToggledAsync(true);
         _Model.Status.Type = StatusType.None;
         _Model.Status.Text = string.IsNullOrEmpty(fileName) ? "" : Properties.Resources.PleaseClickTopLeft;
     }

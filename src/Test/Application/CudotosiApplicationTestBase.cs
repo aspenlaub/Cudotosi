@@ -32,20 +32,20 @@ public abstract class CudotosiApplicationTestBase {
         await Application.OnLoadedAsync();
         TestFolder = new Folder(Path.GetTempPath()).SubFolder(GetType().Name);
         TestFolder.CreateIfNecessary();
-        Properties.Resources.SamplePicture_XL.Save(SamplePictureXlFileName());
+        Properties.Resources.SamplePicture_XXL.Save(SamplePictureXxlFileName());
         JpgFileNameChanger = Container.Resolve<IJpgFileNameChanger>();
     }
 
-    private string SamplePictureXlFileName() {
-        return TestFolder.FullName + @"\" + nameof(Properties.Resources.SamplePicture_XL) + ".jpg";
+    private string SamplePictureXxlFileName() {
+        return TestFolder.FullName + @"\" + nameof(Properties.Resources.SamplePicture_XXL) + ".jpg";
     }
 
     protected void CreateSamplePictureFile(BootstrapSizes size) {
-        File.Copy(SamplePictureXlFileName(), JpgFileNameChanger.ChangeFileName(SamplePictureXlFileName(), size, false));
+        File.Copy(SamplePictureXxlFileName(), JpgFileNameChanger.ChangeFileName(SamplePictureXxlFileName(), size, false));
     }
 
     protected void DeleteSamplePictureFile(BootstrapSizes size) {
-        var fileName = JpgFileNameChanger.ChangeFileName(SamplePictureXlFileName(), size, false);
+        var fileName = JpgFileNameChanger.ChangeFileName(SamplePictureXxlFileName(), size, false);
         if (!File.Exists(fileName)) { return; }
 
         File.Delete(fileName);
@@ -68,6 +68,7 @@ public abstract class CudotosiApplicationTestBase {
 
     protected Dictionary<BootstrapSizes, ToggleButton> SourceSizesToButtons() {
         return new() {
+            { BootstrapSizes.Xxl, Model.SourceSizeXxl },
             { BootstrapSizes.Xl, Model.SourceSizeXl },
             { BootstrapSizes.Lg, Model.SourceSizeLg },
             { BootstrapSizes.Md, Model.SourceSizeMd },
@@ -77,6 +78,7 @@ public abstract class CudotosiApplicationTestBase {
 
     protected Dictionary<BootstrapSizes, IToggleButtonHandler> SourceSizesToHandlers() {
         return new() {
+            { BootstrapSizes.Xxl, Application.Handlers.SourceSizeXxlHandler },
             { BootstrapSizes.Xl, Application.Handlers.SourceSizeXlHandler },
             { BootstrapSizes.Lg, Application.Handlers.SourceSizeLgHandler },
             { BootstrapSizes.Md, Application.Handlers.SourceSizeMdHandler },
@@ -86,6 +88,7 @@ public abstract class CudotosiApplicationTestBase {
 
     protected Dictionary<BootstrapSizes, ToggleButton> TargetSizesToButtons() {
         return new() {
+            { BootstrapSizes.Xl, Model.TargetSizeXl },
             { BootstrapSizes.Lg, Model.TargetSizeLg },
             { BootstrapSizes.Md, Model.TargetSizeMd },
             { BootstrapSizes.Sm, Model.TargetSizeSm },

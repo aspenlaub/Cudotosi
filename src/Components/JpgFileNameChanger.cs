@@ -5,13 +5,13 @@ using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Components;
 
 public class JpgFileNameChanger : IJpgFileNameChanger {
-    public string ChangeFileName(string xlFileName, BootstrapSizes size, bool preview) {
-        if (string.IsNullOrEmpty(xlFileName)) { return xlFileName; }
+    public string ChangeFileName(string xxlFileName, BootstrapSizes size, bool preview) {
+        if (string.IsNullOrEmpty(xxlFileName)) { return xxlFileName; }
 
-        if (!xlFileName.Contains("_XL")) {
-            throw new ArgumentException(nameof(xlFileName));
+        if (!xxlFileName.Contains("_XXL")) {
+            throw new ArgumentException(nameof(xxlFileName));
         }
 
-        return xlFileName.Replace("_XL", "_" + (preview ? "vs_" : "") + Enum.GetName(typeof(BootstrapSizes), size)?.ToUpper());
+        return xxlFileName.Replace("_XXL", "_" + (preview ? "vs_" : "") + Enum.GetName(typeof(BootstrapSizes), size)?.ToUpper());
     }
 }

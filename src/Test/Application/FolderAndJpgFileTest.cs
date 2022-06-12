@@ -29,7 +29,7 @@ public class FolderAndJpgFileTest : CudotosiApplicationTestBase {
         await SelectFolderAsync(TestFolder.FullName);
         var shortFileNames = Model.JpgFile.Selectables.Select(s => s.Name).ToList();
         Assert.AreEqual(1, shortFileNames.Count);
-        Assert.AreEqual(nameof(Properties.Resources.SamplePicture_XL) + ".jpg", shortFileNames[0]);
+        Assert.AreEqual(nameof(Properties.Resources.SamplePicture_XXL) + ".jpg", shortFileNames[0]);
     }
 
     [TestMethod]

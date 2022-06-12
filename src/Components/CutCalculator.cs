@@ -27,7 +27,7 @@ public class CutCalculator : ICutCalculator {
         if (model.DestinationShapePreview.IsChecked) {
             targetHeight = 128;
 
-            if (model.TargetSizeLg.IsChecked || model.TargetSizeMd.IsChecked) {
+            if (model.TargetSizeXl.IsChecked || model.TargetSizeLg.IsChecked || model.TargetSizeMd.IsChecked) {
                 targetWidth = targetHeight * imageWidth / imageHeight;
             } else if (model.TargetSizeSm.IsChecked) {
                 targetWidth = 600;
@@ -37,7 +37,9 @@ public class CutCalculator : ICutCalculator {
                 targetWidth = 0;
             }
         } else {
-            if (model.TargetSizeLg.IsChecked) {
+            if (model.TargetSizeXl.IsChecked) {
+                targetWidth = 1320;
+            } else if (model.TargetSizeLg.IsChecked) {
                 targetWidth = 1140;
             } else if (model.TargetSizeMd.IsChecked) {
                 targetWidth = 960;

@@ -21,8 +21,8 @@ public class CudotosiIntegrationTestBase {
         Container = new ContainerBuilder().RegisterForCudotosiIntegrationTest().Build();
         TestFolder = new Folder(Path.GetTempPath()).SubFolder(GetType().Name);
         TestFolder.CreateIfNecessary();
-        CudotosiTestResources.SamplePicture_XL.Save(SamplePictureXlFileName());
-        CudotosiTestResources.SamplePicture_LG.Save(SampleExpectedPictureLgFileName());
+        CudotosiTestResources.SamplePicture_XXL.Save(SamplePictureXxlFileName());
+        CudotosiTestResources.SamplePicture_XL.Save(SampleExpectedPictureXlFileName());
     }
 
     protected async Task<CudotosiWindowUnderTest> CreateCudotosiWindowUnderTestAsync() {
@@ -44,16 +44,16 @@ public class CudotosiIntegrationTestBase {
         ControllableProcess = await sut.FindIdleProcessAsync();
     }
 
+    protected string SamplePictureXxlFileName() {
+        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XXL) + ".jpg";
+    }
+
     protected string SamplePictureXlFileName() {
-        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL) + ".jpg";
+        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XXL).Replace("XXL", "XL") + ".jpg";
     }
 
-    protected string SamplePictureLgFileName() {
-        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL).Replace("XL", "LG") + ".jpg";
-    }
-
-    protected string SampleExpectedPictureLgFileName() {
-        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XL).Replace("XL", "XLG") + ".jpg";
+    protected string SampleExpectedPictureXlFileName() {
+        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XXL).Replace("XXL", "PXL") + ".jpg";
     }
 
     public virtual void Cleanup() {

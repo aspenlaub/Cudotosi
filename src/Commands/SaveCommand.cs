@@ -82,7 +82,9 @@ public class SaveCommand : ICommand {
         graphics.DrawImage(image, targetRectangle, cutOutLeft, cutOutTop, cutOutWidth, cutOutHeight, GraphicsUnit.Pixel, mode);
 
         _TargetFileName = _Model.JpgFile.SelectedItem.Name;
-        if (_Model.TargetSizeLg.IsChecked) {
+        if (_Model.TargetSizeXl.IsChecked) {
+            _TargetFileName = _JpgFileNameChanger.ChangeFileName(_TargetFileName, BootstrapSizes.Xl, _Model.DestinationShapePreview.IsChecked);
+        } else if (_Model.TargetSizeLg.IsChecked) {
             _TargetFileName = _JpgFileNameChanger.ChangeFileName(_TargetFileName, BootstrapSizes.Lg, _Model.DestinationShapePreview.IsChecked);
         } else if (_Model.TargetSizeMd.IsChecked) {
             _TargetFileName = _JpgFileNameChanger.ChangeFileName(_TargetFileName, BootstrapSizes.Md, _Model.DestinationShapePreview.IsChecked);

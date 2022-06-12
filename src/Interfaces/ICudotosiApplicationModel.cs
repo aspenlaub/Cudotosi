@@ -7,11 +7,13 @@ public interface ICudotosiApplicationModel : IApplicationModelBase {
     ITextBox Folder { get; }
     ISelector JpgFile { get; }
 
+    ToggleButton SourceSizeXxl { get; }
     ToggleButton SourceSizeXl { get; }
     ToggleButton SourceSizeLg { get; }
     ToggleButton SourceSizeMd { get; }
     ToggleButton SourceSizeSm { get; }
 
+    ToggleButton TargetSizeXl { get; }
     ToggleButton TargetSizeLg { get; }
     ToggleButton TargetSizeMd { get; }
     ToggleButton TargetSizeSm { get; }

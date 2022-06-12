@@ -13,12 +13,14 @@ public class CudotosiApplicationModel : ApplicationModelBase, ICudotosiApplicati
     public ITextBox Folder { get; } = new TextBox();
     public ISelector JpgFile { get; } = new ComboBox();
 
-    public ToggleButton SourceSizeXl { get; } = new("SourceSize") { IsChecked = true, Enabled = true };
+    public ToggleButton SourceSizeXxl { get; } = new("SourceSize") { IsChecked = true, Enabled = true };
+    public ToggleButton SourceSizeXl { get; } = new("SourceSize") { Enabled = false };
     public ToggleButton SourceSizeLg { get; } = new("SourceSize") { Enabled = false };
     public ToggleButton SourceSizeMd { get; } = new("SourceSize") { Enabled = false };
     public ToggleButton SourceSizeSm { get; } = new("SourceSize") { Enabled = false };
 
-    public ToggleButton TargetSizeLg { get; } = new("TargetSize") { IsChecked = true, Enabled = false };
+    public ToggleButton TargetSizeXl { get; } = new("TargetSize") { IsChecked = true, Enabled = false };
+    public ToggleButton TargetSizeLg { get; } = new("TargetSize") { Enabled = false };
     public ToggleButton TargetSizeMd { get; } = new("TargetSize") { Enabled = false };
     public ToggleButton TargetSizeSm { get; } = new("TargetSize") { Enabled = false };
     public ToggleButton TargetSizeXs { get; } = new("TargetSize") { Enabled = false };

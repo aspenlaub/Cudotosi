@@ -7,11 +7,13 @@ public interface ICudotosiHandlers {
     ISimpleTextHandler FolderTextHandler { get; }
     ISimpleSelectorHandler JpgFileSelectorHandler { get; }
 
+    IToggleButtonHandler SourceSizeXxlHandler { get; }
     IToggleButtonHandler SourceSizeXlHandler { get; }
     IToggleButtonHandler SourceSizeLgHandler { get; }
     IToggleButtonHandler SourceSizeMdHandler { get; }
     IToggleButtonHandler SourceSizeSmHandler { get; }
 
+    IToggleButtonHandler TargetSizeXlHandler { get; }
     IToggleButtonHandler TargetSizeLgHandler { get; }
     IToggleButtonHandler TargetSizeMdHandler { get; }
     IToggleButtonHandler TargetSizeSmHandler { get; }

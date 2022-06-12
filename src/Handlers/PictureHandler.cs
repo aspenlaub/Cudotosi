@@ -8,7 +8,6 @@ using Aspenlaub.Net.GitHub.CSharp.Pegh.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Pegh.Extensions;
 using Aspenlaub.Net.GitHub.CSharp.TashClient.Components;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Handlers;
 
@@ -69,7 +68,9 @@ public class PictureHandler : IPictureHandler {
         if (fileName == "") {
             image = new BitmapImage();
         } else {
-            if (_Model.SourceSizeLg.IsChecked) {
+            if (_Model.SourceSizeXl.IsChecked) {
+                fileName = _JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Xl, false);
+            } else if (_Model.SourceSizeLg.IsChecked) {
                 fileName = _JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Lg, false);
             } else if (_Model.SourceSizeMd.IsChecked) {
                 fileName = _JpgFileNameChanger.ChangeFileName(fileName, BootstrapSizes.Md, false);

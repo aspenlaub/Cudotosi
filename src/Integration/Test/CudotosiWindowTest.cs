@@ -26,11 +26,11 @@ public class CudotosiWindowTest : CudotosiIntegrationTestBase {
         using var sut = await CreateCudotosiWindowUnderTestAsync();
         await EnsureControllableProcessAsync(sut);
         var process = ControllableProcess;
-        var targetFileName = SamplePictureLgFileName();
+        var targetFileName = SamplePictureXlFileName();
         Assert.IsFalse(File.Exists(targetFileName));
         var tasks = new List<ControllableProcessTask> {
             sut.CreateSetValueTask(process, nameof(ICudotosiApplicationModel.Folder), TestFolder.FullName),
-            sut.CreateSetValueTask(process, nameof(ICudotosiApplicationModel.JpgFile), nameof(CudotosiTestResources.SamplePicture_XL) + ".jpg"),
+            sut.CreateSetValueTask(process, nameof(ICudotosiApplicationModel.JpgFile), nameof(CudotosiTestResources.SamplePicture_XXL) + ".jpg"),
             sut.CreateVerifyWhetherEnabledTask(process, nameof(ICudotosiApplicationModel.Default), true),
             sut.CreatePressButtonTask(process, nameof(ICudotosiApplicationModel.TransformHowManyPercent50)),
             sut.CreatePressButtonTask(process, nameof(ICudotosiApplicationModel.Default)),
@@ -40,7 +40,7 @@ public class CudotosiWindowTest : CudotosiIntegrationTestBase {
         await sut.RemotelyProcessTaskListAsync(process, tasks);
         Assert.IsTrue(File.Exists(targetFileName));
         var targetFileBytes = (await File.ReadAllBytesAsync(targetFileName)).ToList();
-        var expectedTargetFileBytes = (await File.ReadAllBytesAsync(SampleExpectedPictureLgFileName())).ToList();
+        var expectedTargetFileBytes = (await File.ReadAllBytesAsync(SampleExpectedPictureXlFileName())).ToList();
         Assert.AreEqual(expectedTargetFileBytes.Count, targetFileBytes.Count);
         Assert.IsTrue(expectedTargetFileBytes.Select((b, i) => b == targetFileBytes[i]).All(b => b));
     }

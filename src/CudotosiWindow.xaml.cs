@@ -55,11 +55,13 @@ public partial class CudotosiWindow : IMouseOwner, IUserInteraction, IAsyncDispo
         guiToAppGate.RegisterAsyncTextBoxCallback(Folder, t => _CudotosiApp.Handlers.FolderTextHandler.TextChangedAsync(t));
         guiToAppGate.RegisterAsyncSelectorCallback(JpgFile, t => _CudotosiApp.Handlers.JpgFileSelectorHandler.SelectedIndexChangedAsync(t));
 
+        guiToAppGate.WireToggleButtonAndHandler(SourceSizeXxl, _CudotosiApp.Handlers.SourceSizeXxlHandler, toggleButtonNameToHandlerMapper);
         guiToAppGate.WireToggleButtonAndHandler(SourceSizeXl, _CudotosiApp.Handlers.SourceSizeXlHandler, toggleButtonNameToHandlerMapper);
         guiToAppGate.WireToggleButtonAndHandler(SourceSizeLg, _CudotosiApp.Handlers.SourceSizeLgHandler, toggleButtonNameToHandlerMapper);
         guiToAppGate.WireToggleButtonAndHandler(SourceSizeMd, _CudotosiApp.Handlers.SourceSizeMdHandler, toggleButtonNameToHandlerMapper);
         guiToAppGate.WireToggleButtonAndHandler(SourceSizeSm, _CudotosiApp.Handlers.SourceSizeSmHandler, toggleButtonNameToHandlerMapper);
 
+        guiToAppGate.WireToggleButtonAndHandler(TargetSizeXl, _CudotosiApp.Handlers.TargetSizeXlHandler, toggleButtonNameToHandlerMapper);
         guiToAppGate.WireToggleButtonAndHandler(TargetSizeLg, _CudotosiApp.Handlers.TargetSizeLgHandler, toggleButtonNameToHandlerMapper);
         guiToAppGate.WireToggleButtonAndHandler(TargetSizeMd, _CudotosiApp.Handlers.TargetSizeMdHandler, toggleButtonNameToHandlerMapper);
         guiToAppGate.WireToggleButtonAndHandler(TargetSizeSm, _CudotosiApp.Handlers.TargetSizeSmHandler, toggleButtonNameToHandlerMapper);

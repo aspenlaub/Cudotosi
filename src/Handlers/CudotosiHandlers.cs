@@ -7,11 +7,13 @@ public class CudotosiHandlers : ICudotosiHandlers {
     public ISimpleTextHandler FolderTextHandler { get; set;  }
     public ISimpleSelectorHandler JpgFileSelectorHandler { get; set; }
 
+    public IToggleButtonHandler SourceSizeXxlHandler { get; set; }
     public IToggleButtonHandler SourceSizeXlHandler { get; set; }
     public IToggleButtonHandler SourceSizeLgHandler { get; set; }
     public IToggleButtonHandler SourceSizeMdHandler { get; set; }
     public IToggleButtonHandler SourceSizeSmHandler { get; set; }
 
+    public IToggleButtonHandler TargetSizeXlHandler { get; set; }
     public IToggleButtonHandler TargetSizeLgHandler { get; set; }
     public IToggleButtonHandler TargetSizeMdHandler { get; set; }
     public IToggleButtonHandler TargetSizeSmHandler { get; set; }
