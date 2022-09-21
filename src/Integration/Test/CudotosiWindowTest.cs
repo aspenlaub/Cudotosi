@@ -37,7 +37,7 @@ public class CudotosiWindowTest : CudotosiIntegrationTestBase {
             sut.CreateVerifyWhetherEnabledTask(process, nameof(ICudotosiApplicationModel.Save), true),
             sut.CreatePressButtonTask(process, nameof(ICudotosiApplicationModel.Save))
         };
-        await sut.RemotelyProcessTaskListAsync(process, tasks);
+        await sut.RemotelyProcessTaskListAsync(process, tasks, false, (_, _) => Task.CompletedTask);
         Assert.IsTrue(File.Exists(targetFileName));
         var targetFileBytes = (await File.ReadAllBytesAsync(targetFileName)).ToList();
         var expectedTargetFileBytes = (await File.ReadAllBytesAsync(SampleExpectedPictureXlFileName())).ToList();
