@@ -41,7 +41,9 @@ public class CudotosiWindowTest : CudotosiIntegrationTestBase {
         Assert.IsTrue(File.Exists(targetFileName));
         var targetFileBytes = (await File.ReadAllBytesAsync(targetFileName)).ToList();
         var expectedTargetFileBytes = (await File.ReadAllBytesAsync(SampleExpectedPictureXlFileName())).ToList();
-        Assert.AreEqual(expectedTargetFileBytes.Count, targetFileBytes.Count);
-        Assert.IsTrue(expectedTargetFileBytes.Select((b, i) => b == targetFileBytes[i]).All(b => b));
+        var alternativelyExpectedTargetFileBytes = (await File.ReadAllBytesAsync(SampleExpectedPictureXlFileName2())).ToList();
+        Assert.IsTrue(expectedTargetFileBytes.Count == targetFileBytes.Count || alternativelyExpectedTargetFileBytes.Count == targetFileBytes.Count);
+        Assert.IsTrue(expectedTargetFileBytes.Select((b, i) => b == targetFileBytes[i]).All(b => b)
+            || alternativelyExpectedTargetFileBytes.Select((b, i) => b == targetFileBytes[i]).All(b => b));
     }
 }

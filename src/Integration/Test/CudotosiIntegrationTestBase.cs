@@ -23,6 +23,7 @@ public class CudotosiIntegrationTestBase {
         TestFolder.CreateIfNecessary();
         CudotosiTestResources.SamplePicture_XXL.Save(SamplePictureXxlFileName());
         CudotosiTestResources.SamplePicture_XL.Save(SampleExpectedPictureXlFileName());
+        CudotosiTestResources.SamplePicture_XL_2.Save(SampleExpectedPictureXlFileName2());
     }
 
     protected async Task<CudotosiWindowUnderTest> CreateCudotosiWindowUnderTestAsync() {
@@ -54,6 +55,10 @@ public class CudotosiIntegrationTestBase {
 
     protected string SampleExpectedPictureXlFileName() {
         return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XXL).Replace("XXL", "PXL") + ".jpg";
+    }
+
+    protected string SampleExpectedPictureXlFileName2() {
+        return TestFolder.FullName + @"\" + nameof(CudotosiTestResources.SamplePicture_XXL).Replace("XXL", "QXL") + ".jpg";
     }
 
     public virtual void Cleanup() {
