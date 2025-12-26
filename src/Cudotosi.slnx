@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Cudotosi.csproj" />
+  <Project Path="Integration/Test/Cudotosi.Integration.Test.csproj" />
+  <Project Path="Test/Cudotosi.Test.csproj" />
+</Solution>
