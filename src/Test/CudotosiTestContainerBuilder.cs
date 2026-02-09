@@ -6,7 +6,6 @@ using Aspenlaub.Net.GitHub.CSharp.Cudotosi.GUI;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Helpers;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Interfaces;
 using Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test.Helpers;
-using Aspenlaub.Net.GitHub.CSharp.Pegh.Components;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet;
 using Aspenlaub.Net.GitHub.CSharp.VishizhukelNet.Interfaces;
 using Autofac;
@@ -15,7 +14,7 @@ namespace Aspenlaub.Net.GitHub.CSharp.Cudotosi.Test;
 
 public static class CudotosiTestContainerBuilder {
     public static async Task<ContainerBuilder> UseCudotosiVishizhukelNetAndPeghAsync(this ContainerBuilder builder) {
-        await builder.UseVishizhukelNetDvinAndPeghAsync("Cudotosi", new DummyCsArgumentPrompter());
+        await builder.UseVishizhukelNetDvinAndPeghAsync("Cudotosi");
         builder.RegisterType<CudotosiApplication>().As<CudotosiApplication>().As<IGuiAndAppHandler<CudotosiApplicationModel>>().SingleInstance();
         builder.RegisterType<CudotosiApplicationModel>().As<CudotosiApplicationModel>().As<ICudotosiApplicationModel>().As<IApplicationModelBase>().As<IBusy>().SingleInstance();
         builder.RegisterType<CudotosiGuiToApplicationGate>().As<IGuiToApplicationGate>().SingleInstance();
