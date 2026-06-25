@@ -22,6 +22,7 @@
     <Version>2.0.$(VersionDays).$(VersionMinutes)</Version>
     <ApplicationIcon>cudotosi.ico</ApplicationIcon>
     <StartupObject>Aspenlaub.Net.GitHub.CSharp.Cudotosi.CudotosiApp</StartupObject>
+    <MSBuildEnableWorkloadResolver>false</MSBuildEnableWorkloadResolver>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">

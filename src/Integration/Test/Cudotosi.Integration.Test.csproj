@@ -12,6 +12,7 @@
     <AssemblyProduct>Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test</AssemblyProduct>
     <AssemblyName>Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test</AssemblyName>
     <RootNamespace>Aspenlaub.Net.GitHub.CSharp.Cudotosi.Integration.Test</RootNamespace>
+    <MSBuildEnableWorkloadResolver>false</MSBuildEnableWorkloadResolver>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'" />
